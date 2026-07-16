@@ -1,0 +1,50 @@
+{
+  "templateId": "public.conflict_mediation",
+  "category": "public",
+  "subType": "conflict_mediation",
+  "visibility": "semi",
+  "trigger": {
+    "method": "manual"
+  },
+  "roleSlots": [
+    {
+      "slotId": "initiator",
+      "label": "调解人",
+      "cardinality": 1,
+      "required": true,
+      "resolver": { "type": "tag_match", "tag": "community_leader", "count": 1 },
+      "occupancy": "required"
+    },
+    {
+      "slotId": "parties",
+      "label": "当事双方",
+      "cardinality": 2,
+      "required": true,
+      "resolver": { "type": "neighbor", "ofSlot": "initiator", "topK": 4 },
+      "occupancy": "required"
+    }
+  ],
+  "goalTemplates": [
+    {
+      "goalTemplateId": "attend",
+      "assignedToSlot": "parties",
+      "goalType": "attend",
+      "params": {},
+      "priority": 80,
+      "optional": false
+    },
+    {
+      "goalTemplateId": "dialogue",
+      "assignedToSlot": "initiator",
+      "goalType": "complete_dialogue",
+      "params": {},
+      "priority": 75,
+      "optional": false
+    }
+  ],
+  "dialogue": { "mode": "host", "minParticipants": 3, "maxParticipants": 4, "maxTurns": 8, "forced": true },
+  "locationType": "community",
+  "durationSlots": 1,
+  "contentSummaryTemplate": "{{initiator.name}}调解邻里冲突",
+  "basePriority": 70
+}

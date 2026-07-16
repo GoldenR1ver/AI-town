@@ -1,0 +1,55 @@
+{
+  "templateId": "private.instrumental_gift",
+  "category": "private",
+  "subType": "instrumental_gift",
+  "visibility": "private",
+  "trigger": { "method": "manual" },
+  "roleSlots": [
+    {
+      "slotId": "initiator",
+      "label": "送礼者",
+      "cardinality": 1,
+      "required": true,
+      "resolver": { "type": "self" },
+      "occupancy": "required"
+    },
+    {
+      "slotId": "receiver",
+      "label": "办事对象",
+      "cardinality": 1,
+      "required": true,
+      "resolver": { "type": "relationship", "ofSlot": "initiator", "metric": "trust", "topK": 1 },
+      "occupancy": "optional"
+    }
+  ],
+  "goalTemplates": [
+    {
+      "goalTemplateId": "give",
+      "assignedToSlot": "initiator",
+      "goalType": "give_gift",
+      "params": {
+        "expressiveScore": 0.25,
+        "value": "income*0.03",
+        "replyWindowSlots": 9
+      },
+      "priority": 80,
+      "optional": false,
+      "descriptionTemplate": "工具性送礼给{{receiver.name}}"
+    },
+    {
+      "goalTemplateId": "reply",
+      "assignedToSlot": "receiver",
+      "goalType": "reply_gift",
+      "params": { "minAdjustedValue": "from_event" },
+      "deadline": { "offsetSlots": 9 },
+      "priority": 70,
+      "optional": true
+    }
+  ],
+  "dialogue": { "mode": "dialogue", "minParticipants": 2, "maxParticipants": 2, "maxTurns": 4, "forced": true },
+  "locationType": "abstract",
+  "durationSlots": 1,
+  "contentSummaryTemplate": "{{initiator.name}}向{{receiver.name}}工具性送礼",
+  "params": { "occasion": "instrumental" },
+  "basePriority": 65
+}

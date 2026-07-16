@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>礼物的流动 · Replay</title>
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <header class="top">
+    <div>
+      <p class="brand">礼物的流动</p>
+      <h1>Replay 时间轴</h1>
+      <p class="sub" id="runMeta">加载 demo_data.json …</p>
+    </div>
+    <div class="nav">
+      <button type="button" id="prevBtn">上一 slot</button>
+      <button type="button" id="nextBtn">下一 slot</button>
+    </div>
+  </header>
+
+  <main class="layout">
+    <section class="panel timeline">
+      <h2>时间轴</h2>
+      <p class="story-line" id="storyLine">—</p>
+      <ul id="slotList"></ul>
+      <div class="metrics-box">
+        <h3>实验指标</h3>
+        <pre id="metricsBox">—</pre>
+      </div>
+    </section>
+
+    <section class="panel detail">
+      <h2 id="slotTitle">—</h2>
+      <div class="graph-wrap">
+        <h3>关系图 <span class="hint">边粗细 = trust · 透明度 = intimacy · 点击节点打开 Inspector</span></h3>
+        <svg id="relGraph" viewBox="0 0 640 360" role="img" aria-label="关系图"></svg>
+      </div>
+
+      <div class="inspector-bar">
+        <label for="agentSelect">Agent Inspector</label>
+        <select id="agentSelect"></select>
+        <button type="button" id="clearAgentBtn">清除选择</button>
+      </div>
+
+      <div class="grid inspector-grid">
+        <div>
+          <h3>选中 Agent</h3>
+          <pre id="inspectAgent">点击关系图节点或下拉选择</pre>
+        </div>
+        <div>
+          <h3>该人礼单</h3>
+          <pre id="inspectGifts">—</pre>
+        </div>
+        <div>
+          <h3>该人关系边</h3>
+          <pre id="inspectEdges">—</pre>
+        </div>
+        <div>
+          <h3>本 slot 附近日志</h3>
+          <pre id="logBox">—</pre>
+        </div>
+      </div>
+
+      <div class="grid">
+        <div>
+          <h3>礼单（全村）</h3>
+          <pre id="giftBox">—</pre>
+        </div>
+        <div>
+          <h3>Agents 一览</h3>
+          <pre id="agentBox">—</pre>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script type="module" src="./app.js"></script>
+</body>
+</html>

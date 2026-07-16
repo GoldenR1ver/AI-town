@@ -1,0 +1,74 @@
+{
+  "entries": [
+    {
+      "kid": "k01",
+      "category": "ritual",
+      "key": "wedding_attendance",
+      "content": "婚礼邀请意味着关系承认；亲友通常出席并随礼。",
+      "tags": ["wedding", "婚礼"]
+    },
+    {
+      "kid": "k02",
+      "category": "norm",
+      "key": "wedding_min_gift",
+      "content": "随礼金额应顾及当地最低规范、关系亲疏与自身经济能力。",
+      "tags": ["wedding", "gift", "婚礼"]
+    },
+    {
+      "kid": "k03",
+      "category": "norm",
+      "key": "reciprocity_window",
+      "content": "人情不要求立即等价偿还，但应在之后合适场合回礼。",
+      "tags": ["gift", "repay", "gift_repay"]
+    },
+    {
+      "kid": "k04",
+      "category": "norm",
+      "key": "gift_debt",
+      "content": "收礼形成可记忆的人情债；逾期不回应可能损伤信任。",
+      "tags": ["gift", "debt", "instrumental_gift"]
+    },
+    {
+      "kid": "k05",
+      "category": "ritual",
+      "key": "funeral_respect",
+      "content": "丧事礼物强调慰问与共同体支持，不宜用交易口吻表达。",
+      "tags": ["funeral", "ritual"]
+    },
+    {
+      "kid": "k06",
+      "category": "norm",
+      "key": "vertical_gift",
+      "content": "纵向关系中的回礼可以不等额，但应避免被理解为赤裸交换。",
+      "tags": ["vertical", "authority", "gift"]
+    },
+    {
+      "kid": "k07",
+      "category": "vocabulary",
+      "key": "renqing_tone",
+      "content": "常用克制表达：心意到了、以后常来往、别太见外。",
+      "tags": ["gift", "dialogue"]
+    },
+    {
+      "kid": "k08",
+      "category": "occupation",
+      "key": "community_leader",
+      "content": "社区负责人发言应兼顾公共规范、协调与面子。",
+      "tags": ["村委会主任", "road_maintenance", "conflict_mediation"]
+    },
+    {
+      "kid": "k09",
+      "category": "occupation",
+      "key": "merchant",
+      "content": "商户更关注现金流与长期互惠，但不应把表达性礼物直接说成投资。",
+      "tags": ["小卖部老板", "instrumental_gift"]
+    },
+    {
+      "kid": "k10",
+      "category": "norm",
+      "key": "dialogue_state_boundary",
+      "content": "对话只能表达意图与评价；实际转账和关系变化必须由规则引擎执行。",
+      "tags": ["dialogue", "gift", "wedding"]
+    }
+  ]
+}

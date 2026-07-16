@@ -1,0 +1,8 @@
+node_modules/
+dist/
+sim/data/runs/*/
+!sim/data/runs/README.md
+*.log
+.env
+.env.*
+.DS_Store

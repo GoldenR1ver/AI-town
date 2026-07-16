@@ -1,0 +1,43 @@
+{
+  "templateId": "public.health_campaign",
+  "category": "public",
+  "subType": "health_campaign",
+  "visibility": "public",
+  "trigger": {
+    "method": "scheduled",
+    "schedule": { "probabilityPerSlot": 0.05, "validSlots": ["PM"] }
+  },
+  "roleSlots": [
+    {
+      "slotId": "initiator",
+      "label": "村医",
+      "cardinality": 1,
+      "required": true,
+      "resolver": { "type": "tag_match", "tag": "public_service", "count": 1 },
+      "occupancy": "required"
+    },
+    {
+      "slotId": "affected_residents",
+      "label": "村民",
+      "cardinality": { "min": 2, "max": 4 },
+      "required": true,
+      "resolver": { "type": "same_community" },
+      "occupancy": "optional"
+    }
+  ],
+  "goalTemplates": [
+    {
+      "goalTemplateId": "attend",
+      "assignedToSlot": "affected_residents",
+      "goalType": "attend",
+      "params": {},
+      "priority": 55,
+      "optional": false
+    }
+  ],
+  "dialogue": { "mode": "host", "minParticipants": 2, "maxParticipants": 5, "maxTurns": 6, "forced": true },
+  "locationType": "community",
+  "durationSlots": 1,
+  "contentSummaryTemplate": "{{initiator.name}}开展卫生健康宣传",
+  "basePriority": 50
+}

@@ -1,0 +1,79 @@
+{
+  "templateId": "private.wedding",
+  "category": "private",
+  "subType": "wedding",
+  "visibility": "semi",
+  "trigger": {
+    "method": "scheduled",
+    "schedule": { "probabilityPerSlot": 0.02, "validSlots": ["AM"], "forceOnDays": [1] }
+  },
+  "roleSlots": [
+    {
+      "slotId": "host",
+      "label": "主办/新人家庭",
+      "cardinality": 1,
+      "required": true,
+      "resolver": { "type": "tag_match", "tag": "host", "count": 1 },
+      "occupancy": "required"
+    },
+    {
+      "slotId": "kin",
+      "label": "亲属",
+      "cardinality": { "min": 1, "max": 4 },
+      "required": true,
+      "resolver": { "type": "kinship", "ofSlot": "host", "relation": "family" },
+      "occupancy": "optional"
+    },
+    {
+      "slotId": "guests",
+      "label": "宾客",
+      "cardinality": { "min": 2, "max": 5 },
+      "required": true,
+      "resolver": { "type": "relationship", "ofSlot": "host", "metric": "affection", "topK": 8 },
+      "occupancy": "optional"
+    }
+  ],
+  "goalTemplates": [
+    {
+      "goalTemplateId": "gift_from_guests",
+      "assignedToSlot": "guests",
+      "goalType": "give_gift",
+      "params": {
+        "expressiveScore": 0.7,
+        "value": "income*0.05",
+        "replyWindowSlots": 2
+      },
+      "deadline": { "offsetSlots": 1 },
+      "priority": 85,
+      "optional": false,
+      "descriptionTemplate": "向{{host.name}}婚礼随礼"
+    },
+    {
+      "goalTemplateId": "gift_from_kin",
+      "assignedToSlot": "kin",
+      "goalType": "give_gift",
+      "params": {
+        "expressiveScore": 0.8,
+        "value": "income*0.04",
+        "replyWindowSlots": 12
+      },
+      "priority": 90,
+      "optional": false,
+      "descriptionTemplate": "亲属向{{host.name}}随礼"
+    },
+    {
+      "goalTemplateId": "attend_kin",
+      "assignedToSlot": "kin",
+      "goalType": "attend",
+      "params": {},
+      "priority": 95,
+      "optional": false
+    }
+  ],
+  "dialogue": { "mode": "dialogue", "minParticipants": 2, "maxParticipants": 4, "maxTurns": 6, "forced": true },
+  "locationType": "venue",
+  "durationSlots": 1,
+  "contentSummaryTemplate": "{{host.name}}家办婚礼，亲友出席随礼",
+  "params": { "occasion": "wedding", "minGiftNorm": 200, "replyWindowSlots": 2 },
+  "basePriority": 80
+}

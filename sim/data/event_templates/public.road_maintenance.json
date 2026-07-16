@@ -1,0 +1,52 @@
+{
+  "templateId": "public.road_maintenance",
+  "category": "public",
+  "subType": "road_maintenance",
+  "visibility": "public",
+  "trigger": {
+    "method": "scheduled",
+    "schedule": { "probabilityPerSlot": 0.08, "validSlots": ["AM"], "forceOnDays": [2] }
+  },
+  "roleSlots": [
+    {
+      "slotId": "initiator",
+      "label": "社区负责人",
+      "cardinality": 1,
+      "required": true,
+      "resolver": { "type": "tag_match", "tag": "community_leader", "count": 1 },
+      "occupancy": "required"
+    },
+    {
+      "slotId": "affected_residents",
+      "label": "受益居民",
+      "cardinality": { "min": 2, "max": 5 },
+      "required": true,
+      "resolver": { "type": "same_community" },
+      "occupancy": "optional"
+    }
+  ],
+  "goalTemplates": [
+    {
+      "goalTemplateId": "donate",
+      "assignedToSlot": "affected_residents",
+      "goalType": "donate_cash",
+      "params": { "amount": 200 },
+      "priority": 70,
+      "optional": true,
+      "descriptionTemplate": "为道路养护捐款"
+    },
+    {
+      "goalTemplateId": "attend_meeting",
+      "assignedToSlot": "affected_residents",
+      "goalType": "attend",
+      "params": {},
+      "priority": 50,
+      "optional": false
+    }
+  ],
+  "dialogue": { "mode": "host", "minParticipants": 2, "maxParticipants": 6, "maxTurns": 8, "forced": true },
+  "locationType": "community",
+  "durationSlots": 1,
+  "contentSummaryTemplate": "{{initiator.name}}组织社区道路养护动员",
+  "basePriority": 55
+}

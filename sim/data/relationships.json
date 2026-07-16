@@ -1,0 +1,194 @@
+{
+  "relationships": [
+    {
+      "from": "a01", "to": "a02", "socialBasis": "kin",
+      "intimacy": 70, "trust": 65, "affection": 68, "authority": 40,
+      "giftDebt": 0, "reciprocityScore": 0.5, "relationAxis": "vertical_down"
+    },
+    {
+      "from": "a02", "to": "a01", "socialBasis": "kin",
+      "intimacy": 70, "trust": 60, "affection": 65, "authority": 75,
+      "giftDebt": 0, "reciprocityScore": 0.5, "relationAxis": "vertical_up"
+    },
+    {
+      "from": "a01", "to": "a03", "socialBasis": "kin",
+      "intimacy": 75, "trust": 70, "affection": 72, "authority": 20,
+      "giftDebt": 0, "reciprocityScore": 0.6, "relationAxis": "horizontal"
+    },
+    {
+      "from": "a03", "to": "a01", "socialBasis": "kin",
+      "intimacy": 75, "trust": 70, "affection": 72, "authority": 25,
+      "giftDebt": 0, "reciprocityScore": 0.6, "relationAxis": "horizontal"
+    },
+    {
+      "from": "a02", "to": "a03", "socialBasis": "kin",
+      "intimacy": 60, "trust": 55, "affection": 60, "authority": 30,
+      "giftDebt": 0, "reciprocityScore": 0.5, "relationAxis": "horizontal"
+    },
+    {
+      "from": "a03", "to": "a02", "socialBasis": "kin",
+      "intimacy": 60, "trust": 55, "affection": 60, "authority": 15,
+      "giftDebt": 0, "reciprocityScore": 0.5, "relationAxis": "horizontal"
+    },
+    {
+      "from": "a01", "to": "a04", "socialBasis": "neighbor",
+      "intimacy": 35, "trust": 40, "affection": 30, "authority": 20,
+      "giftDebt": 0, "reciprocityScore": 0.4, "relationAxis": "horizontal"
+    },
+    {
+      "from": "a04", "to": "a01", "socialBasis": "neighbor",
+      "intimacy": 35, "trust": 45, "affection": 30, "authority": 55,
+      "giftDebt": 0, "reciprocityScore": 0.4, "relationAxis": "vertical_up"
+    },
+    {
+      "from": "a04", "to": "a06", "socialBasis": "friend",
+      "intimacy": 50, "trust": 48, "affection": 52, "authority": 10,
+      "giftDebt": 0, "reciprocityScore": 0.5, "relationAxis": "horizontal"
+    },
+    {
+      "from": "a06", "to": "a04", "socialBasis": "friend",
+      "intimacy": 50, "trust": 48, "affection": 52, "authority": 10,
+      "giftDebt": 0, "reciprocityScore": 0.5, "relationAxis": "horizontal"
+    },
+    {
+      "from": "a05", "to": "a07", "socialBasis": "colleague",
+      "intimacy": 40, "trust": 55, "affection": 45, "authority": 20,
+      "giftDebt": 0, "reciprocityScore": 0.45, "relationAxis": "horizontal"
+    },
+    {
+      "from": "a07", "to": "a05", "socialBasis": "colleague",
+      "intimacy": 40, "trust": 55, "affection": 45, "authority": 15,
+      "giftDebt": 0, "reciprocityScore": 0.45, "relationAxis": "horizontal"
+    },
+    {
+      "from": "a06", "to": "a08", "socialBasis": "friend",
+      "intimacy": 30, "trust": 35, "affection": 40, "authority": 5,
+      "giftDebt": 0, "reciprocityScore": 0.3, "relationAxis": "horizontal"
+    },
+    {
+      "from": "a08", "to": "a06", "socialBasis": "friend",
+      "intimacy": 30, "trust": 35, "affection": 40, "authority": 5,
+      "giftDebt": 0, "reciprocityScore": 0.3, "relationAxis": "horizontal"
+    },
+    {
+      "from": "a09", "to": "a01", "socialBasis": "neighbor",
+      "intimacy": 45, "trust": 50, "affection": 40, "authority": 60,
+      "giftDebt": 0, "reciprocityScore": 0.5, "relationAxis": "vertical_up"
+    },
+    {
+      "from": "a01", "to": "a09", "socialBasis": "neighbor",
+      "intimacy": 45, "trust": 50, "affection": 40, "authority": 25,
+      "giftDebt": 0, "reciprocityScore": 0.5, "relationAxis": "vertical_down"
+    },
+    {
+      "from": "a10", "to": "a01", "socialBasis": "friend",
+      "intimacy": 40, "trust": 45, "affection": 42, "authority": 50,
+      "giftDebt": 0, "reciprocityScore": 0.4, "relationAxis": "vertical_up"
+    },
+    {
+      "from": "a01", "to": "a10", "socialBasis": "friend",
+      "intimacy": 40, "trust": 45, "affection": 42, "authority": 15,
+      "giftDebt": 0, "reciprocityScore": 0.4, "relationAxis": "horizontal"
+    },
+    {
+      "from": "a10", "to": "a04", "socialBasis": "colleague",
+      "intimacy": 35, "trust": 40, "affection": 38, "authority": 10,
+      "giftDebt": 0, "reciprocityScore": 0.35, "relationAxis": "horizontal"
+    },
+    {
+      "from": "a04", "to": "a10", "socialBasis": "colleague",
+      "intimacy": 35, "trust": 40, "affection": 38, "authority": 10,
+      "giftDebt": 0, "reciprocityScore": 0.35, "relationAxis": "horizontal"
+    },
+    {
+      "from": "a04", "to": "a11", "socialBasis": "kin",
+      "intimacy": 72, "trust": 68, "affection": 70, "authority": 25,
+      "giftDebt": 0, "reciprocityScore": 0.55, "relationAxis": "horizontal"
+    },
+    {
+      "from": "a11", "to": "a04", "socialBasis": "kin",
+      "intimacy": 72, "trust": 68, "affection": 70, "authority": 40,
+      "giftDebt": 0, "reciprocityScore": 0.55, "relationAxis": "horizontal"
+    },
+    {
+      "from": "a02", "to": "a12", "socialBasis": "colleague",
+      "intimacy": 42, "trust": 50, "affection": 45, "authority": 15,
+      "giftDebt": 0, "reciprocityScore": 0.45, "relationAxis": "horizontal"
+    },
+    {
+      "from": "a12", "to": "a02", "socialBasis": "colleague",
+      "intimacy": 42, "trust": 50, "affection": 45, "authority": 15,
+      "giftDebt": 0, "reciprocityScore": 0.45, "relationAxis": "horizontal"
+    },
+    {
+      "from": "a05", "to": "a13", "socialBasis": "colleague",
+      "intimacy": 48, "trust": 58, "affection": 50, "authority": 12,
+      "giftDebt": 0, "reciprocityScore": 0.5, "relationAxis": "horizontal"
+    },
+    {
+      "from": "a13", "to": "a05", "socialBasis": "colleague",
+      "intimacy": 48, "trust": 58, "affection": 50, "authority": 12,
+      "giftDebt": 0, "reciprocityScore": 0.5, "relationAxis": "horizontal"
+    },
+    {
+      "from": "a01", "to": "a14", "socialBasis": "kin",
+      "intimacy": 65, "trust": 55, "affection": 62, "authority": 35,
+      "giftDebt": 0, "reciprocityScore": 0.5, "relationAxis": "vertical_down"
+    },
+    {
+      "from": "a14", "to": "a01", "socialBasis": "kin",
+      "intimacy": 65, "trust": 58, "affection": 62, "authority": 70,
+      "giftDebt": 0, "reciprocityScore": 0.5, "relationAxis": "vertical_up"
+    },
+    {
+      "from": "a02", "to": "a14", "socialBasis": "kin",
+      "intimacy": 68, "trust": 60, "affection": 66, "authority": 20,
+      "giftDebt": 0, "reciprocityScore": 0.55, "relationAxis": "horizontal"
+    },
+    {
+      "from": "a14", "to": "a02", "socialBasis": "kin",
+      "intimacy": 68, "trust": 60, "affection": 66, "authority": 35,
+      "giftDebt": 0, "reciprocityScore": 0.55, "relationAxis": "horizontal"
+    },
+    {
+      "from": "a01", "to": "a15", "socialBasis": "colleague",
+      "intimacy": 40, "trust": 55, "affection": 35, "authority": 20,
+      "giftDebt": 0, "reciprocityScore": 0.4, "relationAxis": "vertical_down"
+    },
+    {
+      "from": "a15", "to": "a01", "socialBasis": "colleague",
+      "intimacy": 40, "trust": 60, "affection": 35, "authority": 75,
+      "giftDebt": 0, "reciprocityScore": 0.4, "relationAxis": "vertical_up"
+    },
+    {
+      "from": "a03", "to": "a16", "socialBasis": "neighbor",
+      "intimacy": 38, "trust": 42, "affection": 40, "authority": 10,
+      "giftDebt": 0, "reciprocityScore": 0.35, "relationAxis": "horizontal"
+    },
+    {
+      "from": "a16", "to": "a03", "socialBasis": "neighbor",
+      "intimacy": 38, "trust": 42, "affection": 40, "authority": 10,
+      "giftDebt": 0, "reciprocityScore": 0.35, "relationAxis": "horizontal"
+    },
+    {
+      "from": "a06", "to": "a14", "socialBasis": "friend",
+      "intimacy": 32, "trust": 36, "affection": 38, "authority": 5,
+      "giftDebt": 0, "reciprocityScore": 0.3, "relationAxis": "horizontal"
+    },
+    {
+      "from": "a14", "to": "a06", "socialBasis": "friend",
+      "intimacy": 32, "trust": 36, "affection": 38, "authority": 5,
+      "giftDebt": 0, "reciprocityScore": 0.3, "relationAxis": "horizontal"
+    },
+    {
+      "from": "a09", "to": "a16", "socialBasis": "neighbor",
+      "intimacy": 44, "trust": 48, "affection": 42, "authority": 15,
+      "giftDebt": 0, "reciprocityScore": 0.4, "relationAxis": "horizontal"
+    },
+    {
+      "from": "a16", "to": "a09", "socialBasis": "neighbor",
+      "intimacy": 44, "trust": 48, "affection": 42, "authority": 20,
+      "giftDebt": 0, "reciprocityScore": 0.4, "relationAxis": "horizontal"
+    }
+  ]
+}

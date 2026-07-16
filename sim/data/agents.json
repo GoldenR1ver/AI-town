@@ -1,0 +1,463 @@
+{
+  "agents": [
+    {
+      "public": {
+        "id": "a01",
+        "name": "赵建国",
+        "age": 58,
+        "gender": "M",
+        "occupation": "村委会主任",
+        "education": "高中",
+        "kinship": [
+          "a02",
+          "a03",
+          "a14",
+          "a15"
+        ],
+        "socialTags": [
+          "host",
+          "authority",
+          "community_leader"
+        ],
+        "face": 70,
+        "communityId": "village",
+        "workplaceId": "village_committee",
+        "prestige": 70
+      },
+      "private": {
+        "bigFive": {
+          "O": 0.4,
+          "C": 0.7,
+          "E": 0.6,
+          "A": 0.5,
+          "N": 0.3
+        }
+      },
+      "economy": {
+        "cash": 8000,
+        "deposit": 40000,
+        "debt": 0,
+        "creditLimit": 20000,
+        "income": 6000,
+        "essentialExpenseRatio": 0.45,
+        "savingsRatio": 0.25
+      }
+    },
+    {
+      "public": {
+        "id": "a02",
+        "name": "赵明",
+        "age": 32,
+        "gender": "M",
+        "occupation": "建筑工",
+        "education": "初中",
+        "kinship": [
+          "a01",
+          "a03",
+          "a14"
+        ],
+        "socialTags": [
+          "kin"
+        ],
+        "face": 45,
+        "communityId": "village",
+        "workplaceId": "construction",
+        "prestige": 45
+      },
+      "economy": {
+        "cash": 3500,
+        "deposit": 8000,
+        "debt": 2000,
+        "creditLimit": 5000,
+        "income": 4500,
+        "essentialExpenseRatio": 0.55,
+        "savingsRatio": 0.15
+      }
+    },
+    {
+      "public": {
+        "id": "a03",
+        "name": "赵秀兰",
+        "age": 55,
+        "gender": "F",
+        "occupation": "务农",
+        "education": "小学",
+        "kinship": [
+          "a01",
+          "a02",
+          "a14"
+        ],
+        "socialTags": [
+          "kin"
+        ],
+        "face": 50,
+        "communityId": "village",
+        "workplaceId": "farm",
+        "prestige": 50
+      },
+      "economy": {
+        "cash": 2000,
+        "deposit": 12000,
+        "debt": 0,
+        "creditLimit": 3000,
+        "income": 2500,
+        "essentialExpenseRatio": 0.5,
+        "savingsRatio": 0.2
+      }
+    },
+    {
+      "public": {
+        "id": "a04",
+        "name": "钱大伟",
+        "age": 40,
+        "gender": "M",
+        "occupation": "小卖部老板",
+        "education": "初中",
+        "kinship": [
+          "a11"
+        ],
+        "socialTags": [
+          "merchant",
+          "neighbor"
+        ],
+        "face": 55,
+        "communityId": "village",
+        "workplaceId": "shop",
+        "prestige": 55
+      },
+      "economy": {
+        "cash": 12000,
+        "deposit": 30000,
+        "debt": 0,
+        "creditLimit": 15000,
+        "income": 7000,
+        "essentialExpenseRatio": 0.4,
+        "savingsRatio": 0.3
+      }
+    },
+    {
+      "public": {
+        "id": "a05",
+        "name": "孙丽",
+        "age": 28,
+        "gender": "F",
+        "occupation": "小学教师",
+        "education": "大专",
+        "kinship": [],
+        "socialTags": [
+          "colleague"
+        ],
+        "face": 48,
+        "communityId": "village",
+        "workplaceId": "school",
+        "prestige": 48
+      },
+      "economy": {
+        "cash": 4500,
+        "deposit": 15000,
+        "debt": 0,
+        "creditLimit": 8000,
+        "income": 4800,
+        "essentialExpenseRatio": 0.42,
+        "savingsRatio": 0.28
+      }
+    },
+    {
+      "public": {
+        "id": "a06",
+        "name": "周强",
+        "age": 35,
+        "gender": "M",
+        "occupation": "司机",
+        "education": "初中",
+        "kinship": [],
+        "socialTags": [
+          "friend"
+        ],
+        "face": 42,
+        "communityId": "village",
+        "workplaceId": "transport",
+        "prestige": 42
+      },
+      "economy": {
+        "cash": 3000,
+        "deposit": 6000,
+        "debt": 5000,
+        "creditLimit": 4000,
+        "income": 4000,
+        "essentialExpenseRatio": 0.58,
+        "savingsRatio": 0.1
+      }
+    },
+    {
+      "public": {
+        "id": "a07",
+        "name": "吴芳",
+        "age": 45,
+        "gender": "F",
+        "occupation": "村医",
+        "education": "中专",
+        "kinship": [],
+        "socialTags": [
+          "public_service"
+        ],
+        "face": 60,
+        "communityId": "village",
+        "workplaceId": "clinic",
+        "prestige": 60
+      },
+      "economy": {
+        "cash": 5000,
+        "deposit": 20000,
+        "debt": 0,
+        "creditLimit": 10000,
+        "income": 5200,
+        "essentialExpenseRatio": 0.4,
+        "savingsRatio": 0.25
+      }
+    },
+    {
+      "public": {
+        "id": "a08",
+        "name": "郑浩",
+        "age": 26,
+        "gender": "M",
+        "occupation": "网店客服",
+        "education": "本科",
+        "kinship": [],
+        "socialTags": [
+          "young",
+          "outsider"
+        ],
+        "face": 35,
+        "communityId": "village",
+        "workplaceId": "ecommerce",
+        "prestige": 35
+      },
+      "private": {
+        "bigFive": {
+          "O": 0.7,
+          "C": 0.5,
+          "E": 0.4,
+          "A": 0.6,
+          "N": 0.4
+        }
+      },
+      "economy": {
+        "cash": 2800,
+        "deposit": 5000,
+        "debt": 0,
+        "creditLimit": 3000,
+        "income": 3800,
+        "essentialExpenseRatio": 0.5,
+        "savingsRatio": 0.2
+      }
+    },
+    {
+      "public": {
+        "id": "a09",
+        "name": "冯叔",
+        "age": 62,
+        "gender": "M",
+        "occupation": "退休工人",
+        "education": "初中",
+        "kinship": [],
+        "socialTags": [
+          "elder",
+          "neighbor"
+        ],
+        "face": 58,
+        "communityId": "village",
+        "workplaceId": "retired",
+        "prestige": 58
+      },
+      "economy": {
+        "cash": 4000,
+        "deposit": 25000,
+        "debt": 0,
+        "creditLimit": 5000,
+        "income": 3200,
+        "essentialExpenseRatio": 0.35,
+        "savingsRatio": 0.3
+      }
+    },
+    {
+      "public": {
+        "id": "a10",
+        "name": "陈美玲",
+        "age": 38,
+        "gender": "F",
+        "occupation": "婚礼司仪",
+        "education": "高中",
+        "kinship": [],
+        "socialTags": [
+          "ritual",
+          "broker"
+        ],
+        "face": 65,
+        "communityId": "village",
+        "workplaceId": "ceremony",
+        "prestige": 65
+      },
+      "economy": {
+        "cash": 6000,
+        "deposit": 18000,
+        "debt": 0,
+        "creditLimit": 8000,
+        "income": 5500,
+        "essentialExpenseRatio": 0.4,
+        "savingsRatio": 0.22
+      }
+    },
+    {
+      "public": {
+        "id": "a11",
+        "name": "钱小芳",
+        "age": 36,
+        "gender": "F",
+        "occupation": "小卖部店员",
+        "education": "初中",
+        "kinship": ["a04"],
+        "socialTags": ["kin", "merchant"],
+        "face": 48,
+        "communityId": "village",
+        "workplaceId": "shop",
+        "prestige": 48
+      },
+      "economy": {
+        "cash": 3200,
+        "deposit": 9000,
+        "debt": 0,
+        "creditLimit": 4000,
+        "income": 3200,
+        "essentialExpenseRatio": 0.5,
+        "savingsRatio": 0.18
+      }
+    },
+    {
+      "public": {
+        "id": "a12",
+        "name": "李建国",
+        "age": 34,
+        "gender": "M",
+        "occupation": "建筑工",
+        "education": "初中",
+        "kinship": [],
+        "socialTags": ["colleague"],
+        "face": 40,
+        "communityId": "village",
+        "workplaceId": "construction",
+        "prestige": 40
+      },
+      "economy": {
+        "cash": 2800,
+        "deposit": 5000,
+        "debt": 1500,
+        "creditLimit": 3500,
+        "income": 4200,
+        "essentialExpenseRatio": 0.56,
+        "savingsRatio": 0.12
+      }
+    },
+    {
+      "public": {
+        "id": "a13",
+        "name": "王秀英",
+        "age": 31,
+        "gender": "F",
+        "occupation": "小学教师",
+        "education": "本科",
+        "kinship": [],
+        "socialTags": ["colleague"],
+        "face": 50,
+        "communityId": "village",
+        "workplaceId": "school",
+        "prestige": 50
+      },
+      "economy": {
+        "cash": 5000,
+        "deposit": 16000,
+        "debt": 0,
+        "creditLimit": 8000,
+        "income": 5000,
+        "essentialExpenseRatio": 0.4,
+        "savingsRatio": 0.3
+      }
+    },
+    {
+      "public": {
+        "id": "a14",
+        "name": "赵小龙",
+        "age": 24,
+        "gender": "M",
+        "occupation": "快递员",
+        "education": "高中",
+        "kinship": ["a01", "a02", "a03"],
+        "socialTags": ["kin", "young"],
+        "face": 38,
+        "communityId": "village",
+        "workplaceId": "transport",
+        "prestige": 38
+      },
+      "economy": {
+        "cash": 2200,
+        "deposit": 3000,
+        "debt": 0,
+        "creditLimit": 2500,
+        "income": 3600,
+        "essentialExpenseRatio": 0.52,
+        "savingsRatio": 0.15
+      }
+    },
+    {
+      "public": {
+        "id": "a15",
+        "name": "刘德",
+        "age": 48,
+        "gender": "M",
+        "occupation": "村委会文书",
+        "education": "高中",
+        "kinship": ["a01"],
+        "socialTags": ["public_service", "subordinate"],
+        "face": 52,
+        "communityId": "village",
+        "workplaceId": "village_committee",
+        "prestige": 52
+      },
+      "economy": {
+        "cash": 4200,
+        "deposit": 14000,
+        "debt": 0,
+        "creditLimit": 6000,
+        "income": 4500,
+        "essentialExpenseRatio": 0.42,
+        "savingsRatio": 0.24
+      }
+    },
+    {
+      "public": {
+        "id": "a16",
+        "name": "黄梅",
+        "age": 50,
+        "gender": "F",
+        "occupation": "务农",
+        "education": "小学",
+        "kinship": [],
+        "socialTags": ["neighbor"],
+        "face": 46,
+        "communityId": "village",
+        "workplaceId": "farm",
+        "prestige": 46
+      },
+      "economy": {
+        "cash": 1800,
+        "deposit": 8000,
+        "debt": 500,
+        "creditLimit": 2500,
+        "income": 2400,
+        "essentialExpenseRatio": 0.55,
+        "savingsRatio": 0.18
+      }
+    }
+  ]
+}

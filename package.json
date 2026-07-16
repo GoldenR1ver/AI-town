@@ -1,0 +1,56 @@
+{
+  "name": "gift-flow-sim",
+  "version": "0.1.0",
+  "private": true,
+  "description": "礼物的流动：multi-agent 社会学仿真（阎云翔启发 MVP）",
+  "type": "module",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "sim:empty": "tsx sim/backend/engine/run_empty.ts",
+    "sim:run": "tsx sim/backend/engine/run_experiment.ts",
+    "sim:p5": "tsx sim/backend/engine/run_experiment.ts",
+    "sim:contrast": "tsx sim/backend/engine/run_contrast.ts",
+    "sim:p1": "tsx sim/backend/engine/run_p1.ts",
+    "sim:p2": "tsx sim/backend/engine/run_p2.ts",
+    "sim:p3": "tsx sim/backend/engine/run_p3.ts",
+    "sim:p4": "tsx sim/backend/engine/run_p4.ts",
+    "sim:demo": "tsx sim/backend/engine/run_demo.ts",
+    "demo": "tsx sim/backend/engine/run_demo.ts && tsx sim/backend/engine/export_demo_data.ts && vite build --config sim/frontend/game/vite.config.ts",
+    "sim:seed-gifts": "tsx sim/backend/engine/run_seed_gifts.ts",
+    "frontend:export": "tsx sim/backend/engine/export_demo_data.ts",
+    "frontend:dev": "vite --config sim/frontend/game/vite.config.ts",
+    "frontend:build": "vite build --config sim/frontend/game/vite.config.ts",
+    "frontend:start": "npm run frontend:export && npm run frontend:build && npm run frontend:serve",
+    "frontend:serve": "tsx sim/frontend/serve.ts",
+    "llm:ping": "tsx sim/backend/llm/ping.ts",
+    "verify:d1": "tsx sim/backend/engine/verify_d1.ts",
+    "verify:d2": "tsx sim/backend/engine/verify_d2.ts",
+    "verify:p0": "tsx sim/backend/engine/verify_p0.ts",
+    "verify:p1": "tsx sim/backend/engine/verify_p1.ts",
+    "verify:p2": "tsx sim/backend/engine/verify_p2.ts",
+    "verify:p3": "tsx sim/backend/engine/verify_p3.ts",
+    "verify:p4": "tsx sim/backend/engine/verify_p4.ts",
+    "verify:p5": "tsx sim/backend/engine/verify_p5.ts",
+    "verify:gift-default": "tsx sim/backend/engine/verify_gift_default.ts",
+    "verify:frontend": "tsx sim/backend/engine/verify_frontend_replay.ts",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "@types/react": "^18.3.31",
+    "@types/react-dom": "^18.3.7",
+    "@vitejs/plugin-react": "^6.0.3",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2",
+    "vite": "^8.1.5"
+  },
+  "dependencies": {
+    "@pixi/react": "^7.1.2",
+    "pixi.js": "^7.4.3",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  }
+}
