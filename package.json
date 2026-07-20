@@ -33,7 +33,8 @@
     "verify:p5": "tsx sim/backend/engine/verify_p5.ts",
     "verify:gift-default": "tsx sim/backend/engine/verify_gift_default.ts",
     "verify:frontend": "tsx sim/backend/engine/verify_frontend_replay.ts",
-    "typecheck": "tsc -p tsconfig.json --noEmit"
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "verify:systems": "tsx sim/backend/engine/verify_systems.ts"
   },
   "engines": {
     "node": ">=20"

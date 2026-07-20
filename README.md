@@ -94,6 +94,7 @@ npm run llm:ping
 
 ```bash
 npm run verify:p0     # Phase 0：契约/空跑/Replay/模板库
+npm run verify:systems # 九层核心系统：静态契约 + runtime 汇总验收
 npm run verify:p1     # Phase 1：事务管线 + PET/BDI + 经事件送礼
 npm run verify:p2     # Phase 2：Prompt/多模式对话/摘要/BDIE/持久化
 npm run verify:p3     # Phase 3：关系三通道/认知树/R5
