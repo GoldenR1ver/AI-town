@@ -179,6 +179,36 @@ function updateCash(agent: AgentState | undefined, value: unknown): void {
   if (agent && cash != null) agent.economy.cash = cash;
 }
 
+function applySocialSnapshot(agent: AgentState | undefined, value: unknown): void {
+  if (!agent) return;
+  const social = asRecord(value);
+  for (const key of ["face", "prestige", "reputation"] as const) {
+    const next = asNumber(social[key]);
+    if (next != null) agent.public[key] = next;
+  }
+}
+
+function applyRelationshipPatch(edge: RelationshipEdge, value: unknown): void {
+  const patch = asRecord(value);
+  for (const key of [
+    "trust",
+    "affection",
+    "intimacy",
+    "authority",
+    "giftDebt",
+    "reciprocityScore",
+  ] as const) {
+    const next = asNumber(patch[key]);
+    if (next != null) edge[key] = next;
+  }
+  const socialBasis = asString(patch.socialBasis);
+  if (socialBasis) edge.socialBasis = socialBasis as RelationshipEdge["socialBasis"];
+  const relationAxis = asString(patch.relationAxis);
+  if (relationAxis) edge.relationAxis = relationAxis as RelationshipEdge["relationAxis"];
+  const interactionSummary = asString(patch.interactionSummary);
+  if (interactionSummary) edge.interactionSummary = interactionSummary;
+}
+
 function upsertGift(state: ReplayWorldState, gift: GiftRecord): void {
   const index = state.giftLedger.findIndex((entry) => entry.gid === gift.gid);
   if (index >= 0) state.giftLedger[index] = { ...state.giftLedger[index]!, ...gift };
@@ -244,6 +274,11 @@ function applyGiftGiven(state: ReplayWorldState, payload: JsonRecord): void {
   const after = asRecord(payload.after);
   updateCash(state.agents[gift.from], after.fromCash);
   updateCash(state.agents[gift.to], after.toCash);
+  const social = asRecord(after.social);
+  applySocialSnapshot(state.agents[gift.from], social.giver);
+  applySocialSnapshot(state.agents[gift.to], social.receiver);
+
+  // Legacy flat fields used by older exported runs.
   const hostPrestige = asNumber(after.hostPrestige);
   if (hostPrestige != null && state.agents[gift.to]) {
     state.agents[gift.to]!.public.prestige = hostPrestige;
@@ -259,11 +294,11 @@ function applyGiftGiven(state: ReplayWorldState, payload: JsonRecord): void {
 
 function applyGiftReplied(state: ReplayWorldState, payload: JsonRecord): void {
   const originalGid = asString(payload.originalGid);
+  const original = originalGid
+    ? state.giftLedger.find((gift) => gift.gid === originalGid)
+    : undefined;
   const reply = payload.reply as GiftRecord | undefined;
-  if (originalGid) {
-    const original = state.giftLedger.find((gift) => gift.gid === originalGid);
-    if (original) original.status = "replied";
-  }
+  if (original) original.status = "replied";
   if (reply?.gid) {
     upsertGift(state, structuredClone(reply));
     // Older runs intentionally retained the fulfilled desire as memory while
@@ -272,12 +307,28 @@ function applyGiftReplied(state: ReplayWorldState, payload: JsonRecord): void {
     const after = asRecord(payload.after);
     updateCash(state.agents[reply.from], after.fromCash);
     updateCash(state.agents[reply.to], after.toCash);
+    const social = asRecord(payload.social);
+    const socialAfter = asRecord(social.after);
+    applySocialSnapshot(state.agents[reply.from], socialAfter.giver);
+    applySocialSnapshot(state.agents[reply.to], socialAfter.receiver);
+
+    const forward = ensureEdge(state, reply.from, reply.to);
+    const reverse = ensureEdge(state, reply.to, reply.from);
     if (payload.sufficient !== false) {
-      const reciprocalEdge = ensureEdge(state, reply.to, reply.from);
-      reciprocalEdge.reciprocityScore = Math.min(
-        1,
-        reciprocalEdge.reciprocityScore + 0.1,
-      );
+      for (const edge of [forward, reverse]) {
+        edge.reciprocityScore = Math.min(1, edge.reciprocityScore + 0.1);
+      }
+    } else {
+      // Legacy logs omitted relationship reciprocity snapshots for underpayment.
+      const reputationDelta = asNumber(asRecord(social.deltas).giverReputation);
+      const severity = reputationDelta == null ? undefined : Math.abs(reputationDelta) / 8;
+      if (severity != null) {
+        forward.reciprocityScore = Math.max(
+          0,
+          forward.reciprocityScore - 0.15 * severity * 0.65,
+        );
+      }
+      reverse.reciprocityScore = Math.max(0, reverse.reciprocityScore - 0.1);
     }
   }
 }
@@ -287,6 +338,35 @@ function applyGiftDefaulted(state: ReplayWorldState, payload: JsonRecord): void 
   if (!gift?.gid) return;
   upsertGift(state, { ...structuredClone(gift), status: "defaulted" });
   removeRepayIntention(state, gift.to, gift.gid);
+
+  const before = asRecord(payload.before);
+  const after = asRecord(payload.after);
+  const socialAfter = asRecord(after.social);
+  // In default logs, giver is the debtor/defaulting party and receiver is the creditor.
+  applySocialSnapshot(state.agents[gift.to], socialAfter.giver);
+  applySocialSnapshot(state.agents[gift.from], socialAfter.receiver);
+
+  // Compatibility for runs created before relationship.delta logged both edges fully.
+  const debtorEdge = ensureEdge(state, gift.to, gift.from);
+  applyRelationshipPatch(debtorEdge, after);
+  debtorEdge.giftDebt *= 1.1;
+  const beforeTrust = asNumber(before.trust);
+  const afterTrust = asNumber(after.trust);
+  const severity = asNumber(asRecord(payload.severity).severity);
+  const creditorEdge = ensureEdge(state, gift.from, gift.to);
+  if (beforeTrust != null && afterTrust != null) {
+    creditorEdge.trust = Math.max(
+      0,
+      Math.min(100, creditorEdge.trust + (afterTrust - beforeTrust) * 0.6),
+    );
+  }
+  if (severity != null) {
+    creditorEdge.reciprocityScore = Math.max(
+      0,
+      creditorEdge.reciprocityScore - 0.1 * severity,
+    );
+  }
+  creditorEdge.lastChangedAt = { ...state.simTime };
 }
 
 function applyEconomyMonthly(state: ReplayWorldState, payload: JsonRecord): void {
@@ -377,8 +457,30 @@ export function applyReplayLog(state: ReplayWorldState, log: LogEntry): ReplayWo
       const to = asString(payload.to);
       if (!from || !to) break;
       const edge = ensureEdge(state, from, to);
-      Object.assign(edge, asRecord(payload.after));
+      const before = asRecord(payload.before);
+      const after = asRecord(payload.after);
+      applyRelationshipPatch(edge, after);
       edge.lastChangedAt = { ...log.simTime };
+
+      // Legacy underpay logs omitted the reverse-edge trust delta.
+      const reason = asString(payload.reason);
+      const formula = asString(payload.formula);
+      if (
+        reason?.startsWith("repay ") &&
+        formula?.startsWith("underpay ") &&
+        asNumber(after.reciprocityScore) == null
+      ) {
+        const beforeTrust = asNumber(before.trust);
+        const afterTrust = asNumber(after.trust);
+        if (beforeTrust != null && afterTrust != null) {
+          const reverse = ensureEdge(state, to, from);
+          reverse.trust = Math.max(
+            0,
+            Math.min(100, reverse.trust + (afterTrust - beforeTrust) * 0.6),
+          );
+          reverse.lastChangedAt = { ...log.simTime };
+        }
+      }
       break;
     }
     case "bdi.updated":
