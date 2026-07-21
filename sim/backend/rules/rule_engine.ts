@@ -443,9 +443,6 @@ export class RuleEngine {
           trust: afterFwd.trust,
           affection: afterFwd.affection,
           intimacy: afterFwd.intimacy,
-          face: fromAgent.public.face,
-          prestige: toAgent.public.prestige,
-          reputation: fromAgent.public.reputation,
         },
         reason: etiquette.belowNorm ? `gift ${gid} + R1 belowNorm` : `gift ${gid}`,
         formula: etiquette.belowNorm
@@ -466,6 +463,7 @@ export class RuleEngine {
           affection: afterBack.affection,
           intimacy: afterBack.intimacy,
           giftDebt: afterBack.giftDebt,
+          reciprocityScore: afterBack.reciprocityScore,
         },
         reason: `gift debt + relation from ${gid}`,
         formula: `${delta.formula}; ${debtInfo.formula}`,
@@ -634,6 +632,7 @@ export class RuleEngine {
         lastChangedAt: { ...time },
       });
     }
+    const finalBack = graph.getEdge(p.to, p.from) ?? edgeBack;
     world.relationships = graph.all();
 
     delete debtor.private.intentions[`repay:${p.originalGid}`];
@@ -685,8 +684,37 @@ export class RuleEngine {
           affection: after.affection,
           intimacy: after.intimacy,
           giftDebt: after.giftDebt,
+          reciprocityScore: after.reciprocityScore,
+          authority: after.authority,
         },
         reason: `repay ${p.originalGid}`,
+        formula,
+      },
+      { affectedAgents: [p.from, p.to], affectedGids: [p.originalGid] },
+    );
+    this.options.log?.append(
+      time,
+      "relationship.delta",
+      {
+        from: p.to,
+        to: p.from,
+        before: {
+          trust: edgeBack.trust,
+          affection: edgeBack.affection,
+          intimacy: edgeBack.intimacy,
+          giftDebt: edgeBack.giftDebt,
+          reciprocityScore: edgeBack.reciprocityScore,
+          authority: edgeBack.authority,
+        },
+        after: {
+          trust: finalBack.trust,
+          affection: finalBack.affection,
+          intimacy: finalBack.intimacy,
+          giftDebt: finalBack.giftDebt,
+          reciprocityScore: finalBack.reciprocityScore,
+          authority: finalBack.authority,
+        },
+        reason: `repay reverse ${p.originalGid}`,
         formula,
       },
       { affectedAgents: [p.from, p.to], affectedGids: [p.originalGid] },
@@ -875,13 +903,13 @@ export class RuleEngine {
       graph.upsert(after);
 
       // R9: reverse edge asymmetric trust
-      const afterBack = applyEdgeDelta(edgeBack, { trust: relPen.reverseTrust }, time);
-      graph.upsert({
-        ...afterBack,
-        reciprocityScore: Math.max(0, afterBack.reciprocityScore - 0.1 * social.severity.severity),
+      const afterBack = {
+        ...applyEdgeDelta(edgeBack, { trust: relPen.reverseTrust }, time),
+        reciprocityScore: Math.max(0, edgeBack.reciprocityScore - 0.1 * social.severity.severity),
         interactionSummary: `${debtorId} 对我逾期未回礼 ${g.gid}`,
         lastChangedAt: { ...time },
-      });
+      };
+      graph.upsert(afterBack);
 
       // 2) BDIE — both parties, scaled by severity
       const debtor = world.agents[debtorId];
@@ -1048,12 +1076,41 @@ export class RuleEngine {
             trust: after.trust,
             affection: after.affection,
             intimacy: after.intimacy,
+            giftDebt: after.giftDebt,
             reciprocityScore: after.reciprocityScore,
-            face: world.agents[debtorId]?.public.face,
-            prestige: world.agents[debtorId]?.public.prestige,
-            reputation: world.agents[debtorId]?.public.reputation,
+            authority: after.authority,
+            interactionSummary: after.interactionSummary,
           },
           reason: `defaulted ${g.gid}`,
+          formula,
+        },
+        { affectedAgents: [g.from, g.to], affectedGids: [g.gid] },
+      );
+      this.options.log?.append(
+        time,
+        "relationship.delta",
+        {
+          from: creditorId,
+          to: debtorId,
+          before: {
+            trust: edgeBack.trust,
+            affection: edgeBack.affection,
+            intimacy: edgeBack.intimacy,
+            giftDebt: edgeBack.giftDebt,
+            reciprocityScore: edgeBack.reciprocityScore,
+            authority: edgeBack.authority,
+            interactionSummary: edgeBack.interactionSummary,
+          },
+          after: {
+            trust: afterBack.trust,
+            affection: afterBack.affection,
+            intimacy: afterBack.intimacy,
+            giftDebt: afterBack.giftDebt,
+            reciprocityScore: afterBack.reciprocityScore,
+            authority: afterBack.authority,
+            interactionSummary: afterBack.interactionSummary,
+          },
+          reason: `defaulted reverse ${g.gid}`,
           formula,
         },
         { affectedAgents: [g.from, g.to], affectedGids: [g.gid] },
