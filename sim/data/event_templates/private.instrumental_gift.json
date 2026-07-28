@@ -30,7 +30,7 @@
       "params": {
         "expressiveScore": 0.25,
         "value": "income*0.03",
-        "replyWindowSlots": 9
+        "replyWindowSlots": 15
       },
       "priority": 80,
       "optional": false,
@@ -41,7 +41,7 @@
       "assignedToSlot": "receiver",
       "goalType": "reply_gift",
       "params": { "minAdjustedValue": "from_event" },
-      "deadline": { "offsetSlots": 9 },
+      "deadline": { "offsetSlots": 15 },
       "priority": 70,
       "optional": true
     }
@@ -50,6 +50,6 @@
   "locationType": "abstract",
   "durationSlots": 1,
   "contentSummaryTemplate": "{{initiator.name}}向{{receiver.name}}工具性送礼",
-  "params": { "occasion": "instrumental" },
+  "params": { "occasion": "instrumental", "replyWindowSlots": 15 },
   "basePriority": 65
 }

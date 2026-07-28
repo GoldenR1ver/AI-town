@@ -21,6 +21,8 @@ export interface ManualOverrides {
   roleOverrides?: Record<string, string[]>;
   payload?: Record<string, unknown>;
   sourceAgentId?: string;
+  /** Override event source (default manual). */
+  source?: EventSource;
 }
 
 export class EventGenerator {
@@ -41,25 +43,57 @@ export class EventGenerator {
   ): EventInstance | null {
     const template = this.library.get(templateId);
     if (!template) return null;
-    return this.materialize(world, template, time, "manual", rng, overrides);
+    return this.materialize(world, template, time, overrides?.source ?? "manual", rng, overrides);
   }
 
   generateScheduled(world: WorldState, time: SimTime, rng: () => number): EventInstance[] {
     if (!world.config.enableScheduledEvents) return [];
+    const maxPublic = world.config.maxPublicScheduledPerSlot ?? 3;
+    const maxPrivate = world.config.maxPrivateScheduledPerSlot ?? 6;
+    const all = this.library.scheduledTemplates();
+    const privateT = all.filter((t) => t.category === "private");
+    const publicT = all.filter((t) => t.category === "public");
+
     const out: EventInstance[] = [];
-    for (const template of this.library.scheduledTemplates()) {
+    const tryOne = (template: (typeof all)[number]): EventInstance | null => {
       const sched = template.trigger.schedule;
-      if (sched?.validSlots && !sched.validSlots.includes(time.slot)) continue;
+      if (sched?.validSlots && !sched.validSlots.includes(time.slot)) return null;
       const forced = sched?.forceOnDays?.includes(time.day) ?? false;
       const p = sched?.probabilityPerSlot ?? 0;
-      if (!forced && rng() > p) continue;
-      const ev = this.materialize(world, template, time, "scheduled", rng);
+      // Soft-scale probability when the public catalog is huge
+      const scale =
+        template.category === "public" && publicT.length > 20
+          ? Math.min(1, 12 / publicT.length)
+          : 1;
+      if (!forced && rng() > p * scale) return null;
+      return this.materialize(world, template, time, "scheduled", rng);
+    };
+
+    // Private reciprocal / ritual first so they are not crowded out by catalog public events.
+    for (const template of privateT) {
+      if (out.filter((e) => e.category === "private").length >= maxPrivate) break;
+      const ev = tryOne(template);
       if (ev) out.push(ev);
+    }
+    let publicCount = 0;
+    // Shuffle public lightly via rng order
+    const publicOrder = [...publicT];
+    for (let i = publicOrder.length - 1; i > 0; i--) {
+      const j = Math.floor(rng() * (i + 1));
+      [publicOrder[i], publicOrder[j]] = [publicOrder[j]!, publicOrder[i]!];
+    }
+    for (const template of publicOrder) {
+      if (publicCount >= maxPublic) break;
+      const ev = tryOne(template);
+      if (ev) {
+        out.push(ev);
+        publicCount += 1;
+      }
     }
     return out;
   }
 
-  /** Phase 6 stub — Intention → template (not used in P1 verify). */
+  /** Intention / BDIE-driven social templates (P6). */
   generateFromIntention(): EventInstance | null {
     return null;
   }

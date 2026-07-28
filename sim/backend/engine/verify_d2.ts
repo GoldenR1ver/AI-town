@@ -52,11 +52,11 @@ function checkEconomy(): void {
     savingsRatio: 0.2,
     lastSettlementDay: 0,
   };
-  // cash = 1000 + 1000*0.6 = 1600; repay 300 → cash 1300 debt 0; savings 260 → deposit 2260 cash 1040
+  // cash = 1000 + 1000 = 2000; repay 300 → cash 1700 debt 0; savings 340 → deposit 2340 cash 1360
   const next = new EconomyManager().monthlySettle(sample, 31);
   const ok =
-    Math.abs(next.cash - 1040) < 1e-9 &&
-    Math.abs(next.deposit - 2260) < 1e-9 &&
+    Math.abs(next.cash - 1360) < 1e-9 &&
+    Math.abs(next.deposit - 2340) < 1e-9 &&
     Math.abs(next.debt - 0) < 1e-9;
   if (ok) pass("D2-A3.economy", `cash=${next.cash} deposit=${next.deposit} debt=${next.debt}`);
   else fail("D2-A3.economy", `unexpected ${JSON.stringify({ cash: next.cash, deposit: next.deposit, debt: next.debt })}`);

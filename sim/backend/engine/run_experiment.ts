@@ -1,24 +1,17 @@
 /**
  * Phase 5 integrated batch runner (P5-02 / P5-03 / P5-05).
  *
- * Usage:
- *   npm run sim:run
- *   DAYS=30 VARIANT=baseline npm run sim:run
- *   DAYS=60 VARIANT=E1_memory_off SEED=7 npm run sim:run
- *   P5_LLM_MODE=live npm run sim:run
+ * Usage (params-first):
+ *   npm run sim:run -- --preset baseline_16_30d
+ *   npm run sim:run -- --preset test1
+ *   npm run sim:run -- --params sim/data/experiment_params/live100_365d_baseline.json
  *
- * Env:
- *   DAYS          — 30 or 60 (default 30); maps to endDay
- *   END_DAY       — override end day directly
- *   END_SLOTS     — override exact slot count (takes precedence over DAYS for clock length)
- *   VARIANT       — baseline | E1_memory_on | E1_memory_off | E2_* | E3_* | E4_*
- *   SEED          — RNG seed (default 42)
- *   RUN_ID        — optional fixed run id
- *   P5_LLM_MODE   — mock | live | auto (default mock)
- *   ENABLE_DIALOGUE — 0 to skip dialogue in main clock (faster)
- *   DEMO_STORY    — 1 to write demo_report.json acts for frontend (default 1 for DAYS<=10)
+ * Optional one-shot overrides (only if explicitly set):
+ *   RUN_ID / SEED / END_DAY / VARIANT / P5_LLM_MODE / …
+ *
+ * Presets live in: sim/data/experiment_params/*.json
  */
-import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import type { RelationshipEdge, SimTime } from "../../shared/types/index.js";
@@ -27,15 +20,14 @@ import { loadAgents } from "../systems/person/loader.js";
 import { Experiment } from "./experiment.js";
 import {
   applyVariantEdges,
-  buildConfig,
-  resolveVariant,
   VARIANT_SPECS,
 } from "./experiment_presets.js";
+import { resolveLaunch, variantLabel } from "./load_launch_config.js";
 import { computeMetrics, writeMetricsJson } from "./metrics.js";
+import { applyAblationToWorld } from "./ablation.js";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const projectRoot = join(__dirname, "../../..");
-const dataDir = join(projectRoot, "sim/data");
 
 function loadEdges(path: string): RelationshipEdge[] {
   return (JSON.parse(readFileSync(path, "utf8")) as { relationships: RelationshipEdge[] })
@@ -43,7 +35,6 @@ function loadEdges(path: string): RelationshipEdge[] {
 }
 
 function queueDemoManuals(exp: Experiment): void {
-  // D1-AM wedding ritual (hosts + kin + guests) — forces dialogue in main clock
   exp.queueManual({
     templateId: "private.wedding",
     onlyAt: { day: 1, slot: "AM" },
@@ -56,21 +47,18 @@ function queueDemoManuals(exp: Experiment): void {
     sourceAgentId: "a01",
   });
 
-  // D1-PM instrumental gift
   exp.queueManual({
     templateId: "private.instrumental_gift",
     sourceAgentId: "a06",
     onlyAt: { day: 1, slot: "PM" },
   });
 
-  // D2-PM repay where debt exists
   exp.queueManual({
     templateId: "private.repay_gift",
     onlyAt: { day: 2, slot: "PM" },
     roleOverrides: { debtor: ["a04"], creditor: ["a06"] },
   });
 
-  // D3-AM public conflict mediation (host mode dialogue)
   exp.queueManual({
     templateId: "public.conflict_mediation",
     onlyAt: { day: 3, slot: "AM" },
@@ -120,35 +108,30 @@ function writeDemoStory(runDir: string, runId: string, endDay: number): void {
 }
 
 async function main(): Promise<void> {
-  const days = Number(process.env.DAYS ?? process.env.END_DAY ?? 30);
-  const endDay = Number(process.env.END_DAY ?? days);
-  const variant = resolveVariant(process.env.VARIANT);
+  const launch = resolveLaunch({ argv: process.argv.slice(2) });
+  const { config, runId, paths, params } = launch;
+  const variant = params.variant!;
   const spec = VARIANT_SPECS[variant];
-  const seed = Number(process.env.SEED ?? 42);
-  const llmPref =
-    (process.env.P5_LLM_MODE as "mock" | "live" | "auto" | undefined) ?? "mock";
-  const llm = createLlmClient(llmPref);
-  const enableDialogue = process.env.ENABLE_DIALOGUE !== "0";
-  const runId =
-    process.env.RUN_ID ?? `p5_${variant}_${endDay}d_${Date.now()}`;
+  const endDay = params.endDay;
 
-  const config = buildConfig({
-    runId,
-    endDay,
-    seed,
-    llmMode: llm.mode,
-    variant,
-    enableScheduledEvents: process.env.ENABLE_SCHEDULED !== "0",
-    enableDialogue,
-    dialogueMaxTurns: Number(process.env.DIALOGUE_TURNS ?? 4),
-  });
+  const llm = createLlmClient(params.llmPreference ?? config.llmPreference ?? "mock");
+  // Align frozen llmMode with resolved client.
+  config.llmMode = llm.mode;
 
-  const runDir = join(dataDir, "runs", runId);
+  const runDir = join(paths.runsDir, runId);
+  if (existsSync(runDir)) rmSync(runDir, { recursive: true, force: true });
   mkdirSync(runDir, { recursive: true });
   writeFileSync(
     join(runDir, "config.json"),
     JSON.stringify(
-      { ...config, llm: describeLlmClient(llm), variantLabel: spec.label },
+      {
+        ...config,
+        llm: describeLlmClient(llm),
+        variantLabel: spec.label,
+        agentScale: config.agentScale ?? 16,
+        paramsSource: launch.source,
+        presetId: params.presetId,
+      },
       null,
       2,
     ),
@@ -159,40 +142,42 @@ async function main(): Promise<void> {
     config,
     {
       runDir,
-      templatesDir: join(dataDir, "event_templates"),
-      knowledgePath: join(dataDir, "knowledge", "gift_norms.json"),
+      templatesDir: paths.templatesDir,
+      knowledgePath: paths.knowledgePath,
     },
     { llm },
   );
 
-  exp.world.agents = loadAgents(join(dataDir, "agents.json"));
-  exp.world.relationships = applyVariantEdges(
-    loadEdges(join(dataDir, "relationships.json")),
-    variant,
-  );
+  if (launch.loadPublicCatalog && existsSync(paths.publicCatalog)) {
+    exp.library.loadCatalog(paths.publicCatalog);
+  }
+  if (launch.loadRandomCatalog && existsSync(paths.randomCatalog)) {
+    exp.library.loadCatalog(paths.randomCatalog);
+  }
+
+  exp.world.agents = loadAgents(paths.agents);
+  exp.world.relationships = applyVariantEdges(loadEdges(paths.relationships), variant);
   for (const id of Object.keys(exp.world.agents)) {
     exp.world.personalEventTables[id] = [];
     exp.world.cognitiveTrees[id] = [];
   }
+  applyAblationToWorld(exp.world, config);
 
-  queueDemoManuals(exp);
-
-  const wantStory =
-    process.env.DEMO_STORY === "1" ||
-    (process.env.DEMO_STORY !== "0" && endDay <= 12);
-  if (wantStory) writeDemoStory(runDir, runId, endDay);
+  if (launch.wantDemoManuals) queueDemoManuals(exp);
+  if (launch.wantDemoStory) writeDemoStory(runDir, runId, endDay);
 
   exp.log.append({ day: 1, slot: "AM" }, "experiment.start", {
     config,
     llm: describeLlmClient(llm),
     phase: 5,
     variant,
+    paramsSource: launch.source,
   });
 
-  const start: SimTime = { day: 1, slot: "AM" };
+  const start: SimTime = { day: config.startDay ?? 1, slot: "AM" };
   let last: SimTime;
-  if (process.env.END_SLOTS) {
-    last = await exp.scheduler.runSlots(start, Number(process.env.END_SLOTS));
+  if (config.endSlots && config.endSlots > 0) {
+    last = await exp.scheduler.runSlots(start, config.endSlots);
   } else {
     await exp.scheduler.run(start, endDay);
     last = { day: endDay, slot: "EVE" };
@@ -204,7 +189,7 @@ async function main(): Promise<void> {
     variant,
     label: spec.label,
     endDay,
-    seed,
+    seed: config.seed,
   });
   writeMetricsJson(runDir, metrics);
 
@@ -215,15 +200,23 @@ async function main(): Promise<void> {
     conversations: exp.world.conversations.length,
   });
 
-  writeFileSync(join(dataDir, "runs", "LATEST_P5_RUN.txt"), runId, "utf8");
-  writeFileSync(join(dataDir, "runs", "LATEST_GOLD_RUN.txt"), runId, "utf8");
+  exp.snapshots.flushIndex();
+
+  writeFileSync(join(paths.runsDir, "LATEST_P5_RUN.txt"), runId, "utf8");
+  writeFileSync(join(paths.runsDir, "LATEST_GOLD_RUN.txt"), runId, "utf8");
 
   console.log(`P5 run finished: ${runDir}`);
-  console.log(`  variant=${variant} (${spec.label})`);
-  console.log(`  agents=${Object.keys(exp.world.agents).length} endDay=${endDay}`);
+  console.log(`  params=${launch.source}`);
+  console.log(`  variant=${variant} (${variantLabel(variant)})`);
+  console.log(
+    `  agents=${Object.keys(exp.world.agents).length} scale=${config.agentScale} templates=${exp.library.size()} endDay=${endDay}`,
+  );
   console.log(`  dialogues=${exp.world.metrics.dialoguesCompleted} gifts=${exp.world.giftLedger.length}`);
   console.log(`  metrics.reciprocity_rate=${metrics.reciprocity_rate.toFixed(3)}`);
   console.log(`  metrics.default_rate=${metrics.default_rate.toFixed(3)}`);
+  console.log(
+    `  concentration gift→prestige_top10=${metrics.gift_inflow_top10_prestige_share.toFixed(3)} corr=${metrics.gift_prestige_corr.toFixed(3)}`,
+  );
   console.log(`  RUN_ID=${runId}`);
 }
 

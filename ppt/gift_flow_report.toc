@@ -1,0 +1,7 @@
+\beamer@sectionintoc {1}{研究背景与问题}{3}{0}{1}
+\beamer@sectionintoc {2}{实验框架：9 个核心组件}{5}{0}{2}
+\beamer@sectionintoc {3}{实验设置}{10}{0}{3}
+\beamer@sectionintoc {4}{实验结果}{11}{0}{4}
+\beamer@sectionintoc {5}{结论向实验结果的解释}{16}{0}{5}
+\beamer@sectionintoc {6}{可说明结论的更多实验变量}{19}{0}{6}
+\beamer@sectionintoc {7}{局限与结论}{22}{0}{7}

@@ -1,0 +1,49 @@
+{
+  "templateId": "private.neighbor_gift",
+  "category": "private",
+  "subType": "neighbor_gift",
+  "visibility": "private",
+  "trigger": {
+    "method": "scheduled",
+    "schedule": { "probabilityPerSlot": 0.22, "validSlots": ["AM", "PM", "EVE"] }
+  },
+  "roleSlots": [
+    {
+      "slotId": "initiator",
+      "label": "送礼邻里",
+      "cardinality": 1,
+      "required": true,
+      "resolver": { "type": "random_adult", "minAge": 20 },
+      "occupancy": "required"
+    },
+    {
+      "slotId": "receiver",
+      "label": "收礼邻里",
+      "cardinality": 1,
+      "required": true,
+      "resolver": { "type": "neighbor", "ofSlot": "initiator", "topK": 5 },
+      "occupancy": "required"
+    }
+  ],
+  "goalTemplates": [
+    {
+      "goalTemplateId": "give",
+      "assignedToSlot": "initiator",
+      "goalType": "give_gift",
+      "params": {
+        "expressiveScore": 0.55,
+        "value": "income*0.02",
+        "replyWindowSlots": 30
+      },
+      "priority": 70,
+      "optional": false,
+      "descriptionTemplate": "向{{receiver.name}}送日常往来礼"
+    }
+  ],
+  "dialogue": { "mode": "dialogue", "minParticipants": 2, "maxParticipants": 2, "maxTurns": 4, "forced": false },
+  "locationType": "home",
+  "durationSlots": 1,
+  "contentSummaryTemplate": "{{initiator.name}}向{{receiver.name}}送日常往来礼",
+  "params": { "occasion": "daily", "replyWindowSlots": 30 },
+  "basePriority": 40
+}

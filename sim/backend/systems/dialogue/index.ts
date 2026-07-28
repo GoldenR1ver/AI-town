@@ -2,6 +2,10 @@ export { DialogueController } from "./controller.js";
 export type { RunDialogueArgs } from "./controller.js";
 export { DialogPromptBuilder, PublicPromptBuilder, PrivatePromptBuilder } from "./prompt.js";
 export type { DialogPromptArgs, BuiltPrompt } from "./prompt.js";
+export {
+  buildPersonalStateNarrative,
+  loadPersonalStateNarrativeTable,
+} from "./state_narrative.js";
 export { deriveStyleProfile, styleInstruction } from "./style.js";
 export { KnowledgeBase } from "./knowledge.js";
 export { DialogueSummarizer } from "./summarizer.js";

@@ -56,6 +56,19 @@ export interface EmotionState {
   energy: number;
 }
 
+/**
+ * Explicit social temperament beyond BigFive.
+ * Values in [0,1]; if omitted, derived from BigFive at runtime.
+ */
+export interface PersonalityTraits {
+  /** 内向：少主动发起/参与社交与出资 */
+  introversion: number;
+  /** 挑剔：未获礼/轻慢时关系损失更大 */
+  pickiness: number;
+  /** 记仇/恶语倾向：更易讨厌他人并背后说坏话 */
+  spitefulness: number;
+}
+
 export interface IntentionRecord {
   slotDue?: SimTime;
   actionType?: string;
@@ -70,9 +83,16 @@ export interface PrivateState {
   svoAngle?: number;
   svoLength?: number;
   beliefs: Record<string, number>;
+  /**
+   * Day index when each belief key was first learned / last reinforced.
+   * Used by 30-day random forgetting.
+   */
+  beliefLearnedDay?: Record<string, number>;
   desires: Record<string, number>;
   intentions: Record<string, IntentionRecord>;
   emotion: EmotionState;
+  /** Optional explicit temperament; falls back to BigFive-derived traits. */
+  personality?: PersonalityTraits;
 }
 
 export interface EconomyState {
@@ -104,6 +124,11 @@ export interface RelationshipEdge {
   giftDebt: number;
   reciprocityScore: number;
   relationAxis: RelationAxis;
+  /**
+   * Explicit "讨厌" intensity in [0,100].
+   * High dislike biases gossip / avoidance / refuse-to-meet.
+   */
+  dislike?: number;
   lastChangedAt?: SimTime;
   interactionSummary?: string;
 }
@@ -135,6 +160,10 @@ export interface GiftRecord {
    * Defaults to true when omitted (legacy records).
    */
   replyRequired?: boolean;
+  /**
+   * W10: how many hardship window extensions already applied (max 1).
+   */
+  windowExtensionsUsed?: number;
 }
 
 /** R7: shared ritual / gift public memory (distinct from private PET). */
@@ -318,6 +347,7 @@ export type LogEventType =
   | "event.propagated"
   | "event.completed"
   | "event.rejected"
+  | "event.refused"
   | "dialogue.start"
   | "dialogue.message"
   | "dialogue.end"
@@ -326,7 +356,9 @@ export type LogEventType =
   | "gift.replied"
   | "gift.defaulted"
   | "economy.monthly"
+  | "economy.daily"
   | "bdi.updated"
+  | "bdi.forget"
   | "cognitive.promoted"
   | "public_memory.created"
   | "rule.rejected";
@@ -374,7 +406,7 @@ export interface WorldSnapshot {
   metrics: SlotMetrics;
 }
 
-/** Contrast experiment variant ids (Phase 5 E1–E4). */
+/** Contrast experiment variant ids (Phase 5 E1–E4 + ablation A0–A3). */
 export type ExperimentVariant =
   | "baseline"
   | "E1_memory_on"
@@ -384,7 +416,15 @@ export type ExperimentVariant =
   | "E3_horizontal_only"
   | "E3_with_vertical"
   | "E4_occasion_off"
-  | "E4_occasion_on";
+  | "E4_occasion_on"
+  /** Full model control for ablation suite. */
+  | "A0_full"
+  /** Ablate personal attributes + B/D/I/E influence on drive & decisions. */
+  | "A1_no_bdie"
+  /** Ablate cognitive tree (no prompt injection / promotion). */
+  | "A2_no_cognitive"
+  /** Infinite money — cash unconstrained; gift expectations inflate. */
+  | "A3_infinite_economy";
 
 export interface ExperimentConfig {
   runId: string;
@@ -408,6 +448,108 @@ export interface ExperimentConfig {
   dialogueMaxTurns?: number;
   /** Contrast / batch label. */
   variant?: ExperimentVariant;
+  /**
+   * BDIE/personality-driven random social events (串门/闲谈等).
+   * Default true for scale runs; set false to isolate scheduled/manual only.
+   */
+  enableRandomSocialEvents?: boolean;
+  /** Max agent-driven social events accepted per time slot. */
+  maxRandomSocialPerSlot?: number;
+  /** When false, flatten BigFive and ignore B/D/I/E in social drive & decisions. */
+  enableBdieDrive?: boolean;
+  /** When false, skip cognitive tree prompt injection and promotion. */
+  enableCognitiveTree?: boolean;
+  /**
+   * When true, agents hold effectively unbounded cash/deposit;
+   * gift size expectations rise with prestige/income instead of cash clamp.
+   */
+  infiniteEconomy?: boolean;
+  /** Generate repay events from open debts each slot (default true). */
+  enableAgentDrivenRepay?: boolean;
+  /** Max repay events accepted per time slot. */
+  maxRepayPerSlot?: number;
+  /** Cap public scheduled events per slot (large catalogs). */
+  maxPublicScheduledPerSlot?: number;
+  /** Cap private scheduled events per slot. */
+  maxPrivateScheduledPerSlot?: number;
+
+  /* ---------- Launch / runtime (formerly env-only) ---------- */
+
+  /** Agent cohort size: 16 (classic village) or 100 (scale). */
+  agentScale?: 16 | 100;
+  /** Exact slot count; when set, overrides endDay clock length. */
+  endSlots?: number;
+  /** Snapshot every N slots (scale default 3, classic default 1). */
+  snapshotEverySlots?: number;
+  /** Pretty-print snapshot JSON (default false for scale). */
+  snapshotPretty?: boolean;
+  /** Soft cap on non-forced dialogues per time slot. */
+  maxDialoguePerSlot?: number;
+  /**
+   * Write demo_report.json for frontend story acts.
+   * "auto" = on when endDay <= 12.
+   */
+  demoStory?: boolean | "auto";
+  /** Preferred LLM client mode before createLlmClient resolution. */
+  llmPreference?: "mock" | "live" | "auto";
+  /** Load public_500.json catalog when present (default true for agentScale 100). */
+  loadPublicCatalog?: boolean;
+  /** Load random_500.json catalog when present (default true for agentScale 100). */
+  loadRandomCatalog?: boolean;
+  /** Queue classic 16-agent demo manuals (default true only for agentScale 16). */
+  queueDemoManuals?: boolean;
+  /** Optional absolute/relative override for agents JSON. */
+  agentsPath?: string;
+  /** Optional absolute/relative override for relationships JSON. */
+  relationshipsPath?: string;
+}
+
+/**
+ * Authoring-time experiment parameters (JSON under sim/data/experiment_params/).
+ * Resolved into ExperimentConfig by load_launch_config.ts.
+ */
+export interface ExperimentParamsFile {
+  /** Stable preset id, e.g. "test1" / "baseline_16_30d". */
+  presetId?: string;
+  /** Human label for the preset. */
+  label?: string;
+  /** Optional description. */
+  description?: string;
+  /** Fixed run directory name; auto-generated when omitted. */
+  runId?: string;
+  variant?: ExperimentVariant;
+  startDay?: number;
+  endDay?: number;
+  endSlots?: number;
+  seed?: number;
+  llmPreference?: "mock" | "live" | "auto";
+  llmMode?: "mock" | "live";
+  enableDialogue?: boolean;
+  dialogueMaxTurns?: number;
+  enableScheduledEvents?: boolean;
+  enableRandomSocialEvents?: boolean;
+  maxRandomSocialPerSlot?: number;
+  maxDialoguePerSlot?: number;
+  maxRepayPerSlot?: number;
+  maxPublicScheduledPerSlot?: number;
+  maxPrivateScheduledPerSlot?: number;
+  enableAgentDrivenRepay?: boolean;
+  enableVerticalRelations?: boolean;
+  agentScale?: 16 | 100;
+  snapshotEverySlots?: number;
+  snapshotPretty?: boolean;
+  demoStory?: boolean | "auto";
+  loadPublicCatalog?: boolean;
+  loadRandomCatalog?: boolean;
+  queueDemoManuals?: boolean;
+  agentsPath?: string;
+  relationshipsPath?: string;
+  enableGiftMemory?: boolean;
+  enableReciprocityRules?: boolean;
+  enableOccasionNorms?: boolean;
+  enableBdieDrive?: boolean;
+  enableCognitiveTree?: boolean;
+  infiniteEconomy?: boolean;
 }
 
 export const SLOT_ORDER: TimeSlot[] = ["AM", "PM", "EVE"];

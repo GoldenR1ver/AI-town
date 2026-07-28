@@ -2,8 +2,11 @@ import type { EmotionState, SimTime } from "../../shared/types/index.js";
 import type { LogWriter } from "../log/log_writer.js";
 import type { WorldState } from "../store/world_state.js";
 import { applyGiftDefaultToBdi, syncRepayIntentionsFromLedger } from "../cognition/bdi.js";
+import { forgetOldBeliefs, stampBeliefDays } from "../cognition/forget.js";
+import { derivePersonality } from "../cognition/personality.js";
 import { CognitiveTreeManager } from "../cognition/cognitive_tree.js";
 import { EconomyManager } from "../systems/economy/manager.js";
+import { applyDailyVitals } from "../systems/person/daily_vitals.js";
 import {
   GiftLedgerManager,
   advanceSimTime,
@@ -14,6 +17,7 @@ import {
   assessRepaySufficiency,
   computeGiftDebt,
   defaultReplyWindowSlots,
+  resolveReplyPolicy,
 } from "../systems/gift/norms.js";
 import {
   computeRelationPenalty,
@@ -31,6 +35,12 @@ import {
   applyEdgeDelta,
   giftRelationshipDelta,
 } from "../systems/relationship/graph.js";
+import {
+  agentCashHardship,
+  isCeremonyOccasion,
+  isFestivalOccasion,
+} from "../cognition/gift_debt_align.js";
+import { isAfter } from "../systems/gift/ledger.js";
 
 export type RuleProposal =
   | {
@@ -55,6 +65,7 @@ export type RuleProposal =
       trust?: number;
       affection?: number;
       intimacy?: number;
+      dislike?: number;
       reason: string;
     }
   | {
@@ -65,7 +76,9 @@ export type RuleProposal =
       reason: string;
     }
   | { kind: "economy_monthly" }
-  | { kind: "gift_window_check" };
+  | { kind: "gift_window_check" }
+  | { kind: "daily_vitals" }
+  | { kind: "belief_forget"; rngSeed?: number };
 
 export interface RuleResult {
   ok: boolean;
@@ -121,6 +134,10 @@ export class RuleEngine {
         return this.applyEconomyMonthly(world, time);
       case "gift_window_check":
         return this.applyGiftWindowCheck(world, time);
+      case "daily_vitals":
+        return this.applyDailyVitals(world, time);
+      case "belief_forget":
+        return this.applyBeliefForget(world, time, proposal);
       default: {
         const _exhaustive: never = proposal;
         return this.reject(time, proposal as RuleProposal, `unknown: ${JSON.stringify(_exhaustive)}`);
@@ -142,6 +159,8 @@ export class RuleEngine {
           : { ok: false, reason: `dialogue_bdie: unknown agent ${proposal.agentId}` };
       case "economy_monthly":
       case "gift_window_check":
+      case "daily_vitals":
+      case "belief_forget":
         return { ok: true, reason: "ok", before: null };
       default: {
         const _exhaustive: never = proposal;
@@ -223,13 +242,18 @@ export class RuleEngine {
     world: WorldState,
     p: Extract<RuleProposal, { kind: "relationship_delta" }>,
   ): RuleResult {
+    if (!world.agents[p.from] || !world.agents[p.to]) {
+      return { ok: false, reason: `relationship_delta: unknown agent`, before: null };
+    }
     const edge = world.relationships.find((e) => e.from === p.from && e.to === p.to);
     const before = edge
-      ? { trust: edge.trust, affection: edge.affection, intimacy: edge.intimacy }
-      : null;
-    if (!edge) {
-      return { ok: false, reason: `relationship_delta: no edge ${p.from}->${p.to}`, before };
-    }
+      ? {
+          trust: edge.trust,
+          affection: edge.affection,
+          intimacy: edge.intimacy,
+          dislike: edge.dislike ?? 0,
+        }
+      : { trust: 20, affection: 20, intimacy: 20, dislike: 0 };
     if (!p.reason?.trim()) {
       return { ok: false, reason: "relationship_delta: reason required", before };
     }
@@ -255,7 +279,6 @@ export class RuleEngine {
     const instrumental = 1 - expressive;
     const debtInfo = computeGiftDebt(p.value, expressive, p.occasion);
     const adjustedValue = debtInfo.adjustedValue;
-    const windowSlots = defaultReplyWindowSlots(debtInfo.giftKind, p.replyWindowSlots);
     const gid = makeGiftId(`${time.day}${time.slot}_${p.from}_${p.to}_${world.giftLedger.length}`);
 
     // R1 occasion etiquette
@@ -280,10 +303,36 @@ export class RuleEngine {
     const edgeFwd = graph.ensureEdge(p.from, p.to);
     const edgeBack = graph.ensureEdge(p.to, p.from);
     const axis = edgeFwd.relationAxis;
+    const openDebtCount = world.giftLedger.filter(
+      (g) =>
+        g.to === p.to &&
+        g.status === "pending_reply" &&
+        g.replyRequired !== false,
+    ).length;
 
-    // W1 / W6 / R28: vertical gifts are not subject to window-default (replyRequired=false).
-    // Keep pending_reply so R4 symbolic repay can still clear the debt voluntarily.
-    const replyRequired = axis === "horizontal";
+    const policy = resolveReplyPolicy({
+      occasion: p.occasion,
+      giftKind: debtInfo.giftKind,
+      relationAxis: axis,
+      explicitWindowSlots: p.replyWindowSlots,
+      expressiveScore: expressive,
+      windowContext: {
+        intimacy: edgeFwd.intimacy,
+        socialBasis: edgeFwd.socialBasis,
+        debtorPrestige: toAgent.public.prestige ?? 50,
+        debtorFace: toAgent.public.face ?? 50,
+        debtorSocialTags: toAgent.public.socialTags,
+        debtorOccupation: toAgent.public.occupation,
+        debtorOpenDebtCount: openDebtCount,
+        debtorCash: toAgent.economy.cash,
+        debtorIncome: toAgent.economy.income,
+        creditorPrestige: fromAgent.public.prestige ?? 50,
+      },
+    });
+    const windowSlots = policy.replyRequired
+      ? policy.windowSlots
+      : Math.max(1, p.replyWindowSlots ?? 1);
+    const replyRequired = policy.replyRequired;
     const record = {
       gid,
       eid: p.eid,
@@ -296,7 +345,7 @@ export class RuleEngine {
       description: p.description ?? `gift ${p.value}`,
       givenAt: { ...time },
       replyWindowEnd: advanceSimTime(time, windowSlots),
-      status: "pending_reply" as const,
+      status: policy.initialStatus,
       occasion: p.occasion,
       giftKind: debtInfo.giftKind,
       belowNorm: etiquette.belowNorm,
@@ -323,19 +372,37 @@ export class RuleEngine {
 
     let afterFwd = applyEdgeDelta(edgeFwd, delta, time);
     let afterBack = applyEdgeDelta(edgeBack, delta, time);
-    afterBack = {
-      ...afterBack,
-      giftDebt: afterBack.giftDebt + debtInfo.debtAmount,
-      reciprocityScore: Math.min(1, afterBack.reciprocityScore + 0.05),
-    };
+    if (policy.recordDebt) {
+      afterBack = {
+        ...afterBack,
+        giftDebt: afterBack.giftDebt + debtInfo.debtAmount,
+        reciprocityScore: Math.min(1, afterBack.reciprocityScore + 0.05),
+      };
+    } else {
+      afterBack = {
+        ...afterBack,
+        reciprocityScore: Math.min(1, afterBack.reciprocityScore + 0.03),
+      };
+    }
 
     // R1 edge penalties (trust/affection); face/reputation via flow_effects
     if (etiquette.belowNorm) {
+      const pickiness = derivePersonality(toAgent).pickiness;
+      const pickyScale = 1 + pickiness * 0.9;
       afterFwd = applyEdgeDelta(
         afterFwd,
         {
-          trust: -etiquette.trustPenalty,
-          affection: -etiquette.affectionPenalty,
+          trust: -etiquette.trustPenalty * pickyScale,
+          affection: -etiquette.affectionPenalty * pickyScale,
+        },
+        time,
+      );
+      // Picky receivers also accumulate dislike toward light gifters.
+      afterBack = applyEdgeDelta(
+        afterBack,
+        {
+          dislike: 2 + pickiness * 6,
+          affection: -1.5 * pickiness,
         },
         time,
       );
@@ -354,6 +421,16 @@ export class RuleEngine {
         priority: debtInfo.giftKind === "instrumental" ? 88 : 80,
       };
     }
+
+    // W4/W5: if giver owes recipient an open debt, this gift offsets it (cross-occasion / festival).
+    const offset = this.applyCrossOccasionOffset(world, time, {
+      newGid: gid,
+      from: p.from,
+      to: p.to,
+      value: p.value,
+      occasion: p.occasion,
+    });
+
     const synced = syncRepayIntentionsFromLedger(
       toAgent.private,
       p.to,
@@ -361,6 +438,15 @@ export class RuleEngine {
       time,
     );
     toAgent.private = synced.next;
+    if (offset.cleared) {
+      const giverSynced = syncRepayIntentionsFromLedger(
+        fromAgent.private,
+        p.from,
+        world.giftLedger,
+        time,
+      );
+      fromAgent.private = giverSynced.next;
+    }
 
     // rule-of-gift-flow.md §3 — face / prestige / reputation
     const social = applyGiveGiftSocialEffects({
@@ -471,6 +557,28 @@ export class RuleEngine {
       { affectedAgents: [p.from, p.to], affectedGids: [gid] },
     );
 
+    if (offset.rule) {
+      this.options.log?.append(
+        time,
+        "gift.given",
+        {
+          kind: "gift_debt_offset",
+          rule: offset.rule,
+          originalGid: offset.originalGid,
+          replyGid: gid,
+          offsetValue: offset.offsetValue,
+          crossOccasion: offset.crossOccasion,
+          festival: offset.festival,
+          cleared: offset.cleared,
+          reason: offset.reason,
+        },
+        {
+          affectedAgents: [p.from, p.to],
+          affectedGids: offset.originalGid ? [gid, offset.originalGid] : [gid],
+        },
+      );
+    }
+
     return {
       ok: true,
       reason: etiquette.belowNorm ? "give_gift applied (R1 breach)" : "give_gift applied",
@@ -483,6 +591,7 @@ export class RuleEngine {
         edgeBack: afterBack,
         social: social.after,
         etiquette,
+        offset,
       },
       applied: {
         gid,
@@ -491,7 +600,128 @@ export class RuleEngine {
         etiquette,
         giftKind: debtInfo.giftKind,
         relationAxis: axis,
+        offset,
       },
+    };
+  }
+
+  /**
+   * W4: gift within window to original creditor offsets debt (cross-occasion OK for ceremony).
+   * W5: festival↔festival mutual gifts offset by min(values).
+   */
+  private applyCrossOccasionOffset(
+    world: WorldState,
+    time: SimTime,
+    p: {
+      newGid: string;
+      from: string;
+      to: string;
+      value: number;
+      occasion?: string;
+    },
+  ): {
+    rule?: "W4" | "W5";
+    originalGid?: string;
+    offsetValue?: number;
+    crossOccasion?: boolean;
+    festival?: boolean;
+    cleared: boolean;
+    reason: string;
+  } {
+    const open = world.giftLedger.find(
+      (g) =>
+        g.to === p.from &&
+        g.from === p.to &&
+        g.status === "pending_reply" &&
+        g.replyRequired !== false &&
+        g.gid !== p.newGid,
+    );
+    if (!open) return { cleared: false, reason: "no open reverse debt" };
+
+    const festival =
+      isFestivalOccasion(open.occasion) && isFestivalOccasion(p.occasion);
+    const crossOccasion = (open.occasion ?? "") !== (p.occasion ?? "");
+    const ceremony =
+      isCeremonyOccasion(open.occasion ?? "") || isCeremonyOccasion(p.occasion ?? "");
+    const offsetValue = Math.min(p.value, open.adjustedValue);
+
+    const allow =
+      festival ||
+      ceremony ||
+      !crossOccasion ||
+      p.value >= open.adjustedValue * 0.75;
+    if (!allow) {
+      return {
+        cleared: false,
+        reason: "cross-occasion offset not allowed for this gift pair",
+        crossOccasion,
+        festival,
+      };
+    }
+
+    const graph = new RelationshipGraph(world.relationships);
+    const edge = graph.ensureEdge(p.from, p.to);
+    const clearFull =
+      p.value >= open.adjustedValue * 0.8 ||
+      (festival && offsetValue >= open.adjustedValue * 0.7);
+
+    if (clearFull) {
+      const ledger = new GiftLedgerManager(world.giftLedger);
+      ledger.markReplied(open.gid, p.newGid);
+      world.metrics.giftReplied += 1;
+      const delaySlots = slotDistance(open.givenAt, time);
+      const n = world.metrics.giftReplied;
+      const prev = world.metrics.avgRepayDelaySlots ?? 0;
+      world.metrics.avgRepayDelaySlots = prev + (delaySlots - prev) / n;
+      graph.upsert({
+        ...edge,
+        giftDebt: Math.max(0, edge.giftDebt - open.adjustedValue),
+        reciprocityScore: Math.min(1, edge.reciprocityScore + 0.08),
+        interactionSummary: `${festival ? "W5" : "W4"} 抵扣 ${open.gid}←${p.newGid}`,
+        lastChangedAt: { ...time },
+      });
+      world.relationships = graph.all();
+      delete world.agents[p.from]?.private.intentions[`repay:${open.gid}`];
+      return {
+        rule: festival ? "W5" : "W4",
+        originalGid: open.gid,
+        offsetValue,
+        crossOccasion,
+        festival,
+        cleared: true,
+        reason: festival
+          ? `W5 festival offset min=${offsetValue}`
+          : `W4 cross-occasion repay${crossOccasion ? " (occasions differ)" : ""}`,
+      };
+    }
+
+    if (festival) {
+      open.adjustedValue = Math.max(0, open.adjustedValue - offsetValue);
+      graph.upsert({
+        ...edge,
+        giftDebt: Math.max(0, edge.giftDebt - offsetValue),
+        interactionSummary: `W5 部分抵扣 ${open.gid} -${offsetValue}`,
+        lastChangedAt: { ...time },
+      });
+      world.relationships = graph.all();
+      return {
+        rule: "W5",
+        originalGid: open.gid,
+        offsetValue,
+        crossOccasion,
+        festival,
+        cleared: false,
+        reason: `W5 partial festival offset ${offsetValue}`,
+      };
+    }
+
+    return {
+      cleared: false,
+      reason: "offset amount insufficient to clear",
+      crossOccasion,
+      festival,
+      originalGid: open.gid,
+      offsetValue,
     };
   }
 
@@ -531,6 +761,28 @@ export class RuleEngine {
     const ledger = new GiftLedgerManager(world.giftLedger);
     ledger.markReplied(p.originalGid, replyGid);
     world.metrics.giftReplied += 1;
+    // Track mean repay delay (slots from gift givenAt → repay now)
+    const delaySlots = slotDistance(original.givenAt, time);
+    const n = world.metrics.giftReplied;
+    const prev = world.metrics.avgRepayDelaySlots ?? 0;
+    world.metrics.avgRepayDelaySlots = prev + (delaySlots - prev) / n;
+
+    // W4: explicit repay clears original debt regardless of current occasion.
+    if (original.occasion) {
+      this.options.log?.append(
+        time,
+        "gift.replied",
+        {
+          kind: "cross_occasion_repay",
+          rule: "W4",
+          originalGid: p.originalGid,
+          replyGid,
+          originalOccasion: original.occasion,
+          reason: "W4: repay within window counts across occasions",
+        },
+        { affectedAgents: [p.from, p.to], affectedGids: [p.originalGid, replyGid] },
+      );
+    }
 
     const graph = new RelationshipGraph(world.relationships);
     const edge = graph.ensureEdge(p.from, p.to);
@@ -637,7 +889,6 @@ export class RuleEngine {
 
     delete debtor.private.intentions[`repay:${p.originalGid}`];
 
-    const delaySlots = slotDistance(original.givenAt, time);
     // Sufficient repay: light positive social. Underpay social already applied via severity path.
     const social = sufficient
       ? applyRepaySocialEffects({
@@ -741,11 +992,21 @@ export class RuleEngine {
     p: Extract<RuleProposal, { kind: "relationship_delta" }>,
   ): RuleResult {
     const graph = new RelationshipGraph(world.relationships);
-    const edge = graph.getEdge(p.from, p.to)!;
-    const before = { trust: edge.trust, affection: edge.affection, intimacy: edge.intimacy };
+    const edge = graph.ensureEdge(p.from, p.to);
+    const before = {
+      trust: edge.trust,
+      affection: edge.affection,
+      intimacy: edge.intimacy,
+      dislike: edge.dislike ?? 0,
+    };
     const after = applyEdgeDelta(
       edge,
-      { trust: p.trust, affection: p.affection, intimacy: p.intimacy },
+      {
+        trust: p.trust,
+        affection: p.affection,
+        intimacy: p.intimacy,
+        dislike: p.dislike,
+      },
       time,
     );
     graph.upsert(after);
@@ -758,7 +1019,12 @@ export class RuleEngine {
         from: p.from,
         to: p.to,
         before,
-        after: { trust: after.trust, affection: after.affection, intimacy: after.intimacy },
+        after: {
+          trust: after.trust,
+          affection: after.affection,
+          intimacy: after.intimacy,
+          dislike: after.dislike ?? 0,
+        },
         reason: p.reason,
         formula: "manual delta clamp[0,100]",
       },
@@ -769,7 +1035,12 @@ export class RuleEngine {
       ok: true,
       reason: "relationship_delta applied",
       before,
-      after: { trust: after.trust, affection: after.affection, intimacy: after.intimacy },
+      after: {
+        trust: after.trust,
+        affection: after.affection,
+        intimacy: after.intimacy,
+        dislike: after.dislike ?? 0,
+      },
     };
   }
 
@@ -783,12 +1054,15 @@ export class RuleEngine {
       beliefs: { ...agent.private.beliefs },
       emotion: { ...agent.private.emotion },
     };
+    const touchedBeliefs: string[] = [];
     for (const [key, rawDelta] of Object.entries(p.beliefDelta)) {
       const delta = Math.max(-0.2, Math.min(0.2, rawDelta));
-      agent.private.beliefs[key] = Math.max(
-        0,
-        Math.min(1, (agent.private.beliefs[key] ?? 0) + delta),
-      );
+      const prev = agent.private.beliefs[key] ?? 0;
+      agent.private.beliefs[key] = Math.max(0, Math.min(1, prev + delta));
+      if (agent.private.beliefs[key]! > 0) touchedBeliefs.push(key);
+    }
+    if (touchedBeliefs.length) {
+      agent.private = stampBeliefDays(agent.private, touchedBeliefs, time.day);
     }
     for (const key of ["mood", "arousal", "stress", "energy"] as const) {
       const raw = p.emotionDelta[key];
@@ -822,6 +1096,73 @@ export class RuleEngine {
     };
   }
 
+  private applyDailyVitals(world: WorldState, time: SimTime): RuleResult {
+    const infinite = world.config.infiniteEconomy === true;
+    const summary: Record<
+      string,
+      {
+        cost: number;
+        cashBefore: number;
+        cashAfter: number;
+        stressDelta: number;
+        energyBefore: number;
+        energyAfter: number;
+      }
+    > = {};
+    for (const [id, agent] of Object.entries(world.agents)) {
+      const result = applyDailyVitals(agent, infinite);
+      summary[id] = {
+        cost: result.cost,
+        cashBefore: result.cashBefore,
+        cashAfter: result.cashAfter,
+        stressDelta: result.economicStressDelta,
+        energyBefore: result.emotionBefore.energy,
+        energyAfter: result.emotionAfter.energy,
+      };
+    }
+    this.options.log?.append(time, "economy.daily", {
+      reason: "daily living cost + emotion recovery",
+      formula: "cash-=cost[50,200]; energy→0.75 by~0.2; mood→0.5; stress*=0.9 + economic pressure",
+      infiniteEconomy: infinite,
+      sample: Object.fromEntries(Object.entries(summary).slice(0, 8)),
+      agentCount: Object.keys(summary).length,
+    });
+    return { ok: true, reason: "daily_vitals applied", after: summary };
+  }
+
+  private applyBeliefForget(
+    world: WorldState,
+    time: SimTime,
+    p: Extract<RuleProposal, { kind: "belief_forget" }>,
+  ): RuleResult {
+    let seed = (p.rngSeed ?? world.config.seed) ^ (time.day * 2654435761);
+    const rng = () => {
+      seed |= 0;
+      seed = (seed + 0x6d2b79f5) | 0;
+      let t = Math.imul(seed ^ (seed >>> 15), 1 | seed);
+      t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+      return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+    };
+    const forgottenByAgent: Record<string, string[]> = {};
+    let total = 0;
+    for (const [id, agent] of Object.entries(world.agents)) {
+      const { next, forgotten } = forgetOldBeliefs(agent.private, time.day, rng);
+      agent.private = next;
+      if (forgotten.length) {
+        forgottenByAgent[id] = forgotten;
+        total += forgotten.length;
+      }
+    }
+    this.options.log?.append(time, "bdi.forget", {
+      day: time.day,
+      totalForgotten: total,
+      agentsAffected: Object.keys(forgottenByAgent).length,
+      sample: Object.fromEntries(Object.entries(forgottenByAgent).slice(0, 6)),
+      formula: "beliefs older than 30d forgotten with age-scaled probability",
+    });
+    return { ok: true, reason: "belief_forget applied", after: { total, forgottenByAgent } };
+  }
+
   private applyEconomyMonthly(world: WorldState, time: SimTime): RuleResult {
     const before: Record<string, { cash: number; deposit: number; debt: number }> = {};
     const after: Record<string, { cash: number; deposit: number; debt: number }> = {};
@@ -841,14 +1182,45 @@ export class RuleEngine {
     this.options.log?.append(time, "economy.monthly", {
       before,
       after,
-      reason: "month start settlement",
-      formula: "cash+=income*(1-essential); repay debt; deposit+=cash*savings",
+        reason: "month start settlement",
+      formula: "cash+=income; repay debt; deposit+=cash*savings (essentials via daily_vitals)",
     });
     return { ok: true, reason: "economy_monthly applied", before, after };
   }
 
   private applyGiftWindowCheck(world: WorldState, time: SimTime): RuleResult {
     const ledger = new GiftLedgerManager(world.giftLedger);
+
+    // W10: one-time +9 slot extension when debtor is in cash hardship.
+    const extended: string[] = [];
+    for (const g of world.giftLedger) {
+      if (g.status !== "pending_reply" || g.replyRequired === false) continue;
+      if ((g.windowExtensionsUsed ?? 0) >= 1) continue;
+      if (!isAfter(time, g.replyWindowEnd) && slotDistance(time, g.replyWindowEnd) > 0) {
+        continue;
+      }
+      const debtor = world.agents[g.to];
+      if (!debtor || world.config.infiniteEconomy === true) continue;
+      if (!agentCashHardship(debtor)) continue;
+      g.replyWindowEnd = advanceSimTime(g.replyWindowEnd, 9);
+      g.windowExtensionsUsed = 1;
+      extended.push(g.gid);
+      this.options.log?.append(
+        time,
+        "bdi.updated",
+        {
+          kind: "gift_window_extended",
+          rule: "W10",
+          gid: g.gid,
+          debtorId: g.to,
+          creditorId: g.from,
+          newEnd: g.replyWindowEnd,
+          reason: "cash hardship: +9 slots once",
+        },
+        { affectedAgents: [g.to, g.from], affectedGids: [g.gid] },
+      );
+    }
+
     const newly = ledger.checkWindows(time);
     const graph = new RelationshipGraph(world.relationships);
     const cognition = new CognitiveTreeManager(world.cognitiveTrees, this.options.log);
@@ -1120,8 +1492,8 @@ export class RuleEngine {
     world.cognitiveTrees = cognition.all();
     return {
       ok: true,
-      reason: `gift_window_check: ${newly.length} defaulted`,
-      applied: { gids: newly.map((g) => g.gid) },
+      reason: `gift_window_check: ${newly.length} defaulted, ${extended.length} W10-extended`,
+      applied: { gids: newly.map((g) => g.gid), extendedGids: extended },
     };
   }
 

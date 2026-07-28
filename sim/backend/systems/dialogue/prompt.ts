@@ -9,8 +9,11 @@ import type {
 } from "../../../shared/types/index.js";
 import type { WorldState } from "../../store/world_state.js";
 import { CognitiveTreeManager } from "../../cognition/cognitive_tree.js";
+import { derivePersonality } from "../../cognition/personality.js";
 import { RelationshipSummarizer } from "../relationship/summarizer.js";
 import { deriveStyleProfile, styleInstruction } from "./style.js";
+import { buildPersonalStateNarrative } from "./state_narrative.js";
+import { formatGiftDebtNarrative } from "../../cognition/gift_debt_align.js";
 
 export class PublicPromptBuilder {
   build(agent: AgentState): string {
@@ -36,6 +39,7 @@ export class PrivatePromptBuilder {
   build(agent: AgentState): string {
     return JSON.stringify({
       bigFive: agent.private.bigFive,
+      personality: derivePersonality(agent),
       svo: { angle: agent.private.svoAngle ?? 30, length: agent.private.svoLength ?? 1 },
       beliefs: agent.private.beliefs,
       desires: agent.private.desires,
@@ -90,21 +94,49 @@ export class DialogPromptBuilder {
           ? "你是群体随机发言者，只回应与当前场合相关的内容。"
           : "你在进行双人社会互动，回应对方并保持角色一致。";
     const relationText = this.relationSummary.summarizeForPrompt(edges, args.world.agents);
-    const cognition = new CognitiveTreeManager(args.world.cognitiveTrees).summarizeForPrompt(
-      args.selfId,
-      args.otherIds,
-    );
+    const cognitionEnabled = args.world.config.enableCognitiveTree !== false;
+    const cognition = cognitionEnabled
+      ? new CognitiveTreeManager(args.world.cognitiveTrees).summarizeForPrompt(
+          args.selfId,
+          args.otherIds,
+        )
+      : "(认知树已消融)";
+    const privateText =
+      args.world.config.enableBdieDrive === false
+        ? JSON.stringify({
+            bigFive: { O: 0.5, C: 0.5, E: 0.5, A: 0.5, N: 0.5 },
+            emotion: { mood: 0.5, arousal: 0.3, stress: 0.2, energy: 0.7 },
+            note: "BDIE消融",
+          })
+        : this.priv.build(self);
+
+    const stateNarrative =
+      args.world.config.enableBdieDrive === false
+        ? "- BDIE 已消融，按中性状态互动。"
+        : buildPersonalStateNarrative({
+            agent: self,
+            edges,
+            infiniteEconomy: args.world.config.infiniteEconomy === true,
+            extraLines: formatGiftDebtNarrative(
+              args.world,
+              args.selfId,
+              args.event.time ?? { day: 1, slot: "AM" },
+            ),
+          });
 
     const system = [
       `你扮演${self.public.name}。${modeText}`,
       "只能生成话语和影响建议；不得声称已修改现金、关系、礼单或事件状态。",
+      "必须遵守下方【个人状态约束】；高压/缺钱/内向时不得表现成热心主动出资或主动邀约。",
+      "若存在【欠情未还】，说话时可流露还礼压力，但不要主动请客加码；婚丧场合仍须体面。",
       "严格输出 JSON：{\"utterance\":\"...\",\"sentiment\":-1到1,\"politeness\":0到1,\"mentionedEids\":[\"...\"]}",
       `风格：${styleInstruction(style)}`,
     ].join("\n");
 
     const user = [
       `[Self公开] ${this.pub.build(self)}`,
-      `[Self私人] ${this.priv.build(self)}`,
+      `[Self私人] ${privateText}`,
+      `[个人状态约束]\n${stateNarrative}`,
       `[Other公开] ${others.map((a) => this.pub.build(a)).join("\n")}`,
       `[关系摘要] ${relationText}`,
       `[关系边] ${JSON.stringify(edges)}`,

@@ -19,6 +19,8 @@ import {
   processQueuedEvents,
   createRng,
   resetEidCounter,
+  generateStateDrivenSocial,
+  generateRepayFromDebts,
 } from "../systems/event/index.js";
 
 export interface ManualEventSpec {
@@ -71,7 +73,15 @@ export class Experiment {
     resetEidCounter();
     this.world = new WorldState(config);
     this.log = new LogWriter(paths.runDir);
-    this.snapshots = new SnapshotStore(paths.runDir);
+    const agentScale = config.agentScale ?? 16;
+    const scaleRun = agentScale >= 100;
+    const snapshotEverySlots = Math.max(
+      1,
+      config.snapshotEverySlots ?? (scaleRun ? 3 : 1),
+    );
+    this.snapshots = new SnapshotStore(paths.runDir, {
+      pretty: config.snapshotPretty ?? !scaleRun,
+    });
     this.rules = new RuleEngine({
       log: this.log,
       enableReciprocityRules: config.enableReciprocityRules,
@@ -83,8 +93,8 @@ export class Experiment {
     if (n < 1) throw new Error(`no templates in ${paths.templatesDir}`);
     this.generator = new EventGenerator(this.library, this.log);
     this.eventScheduler = new EventScheduler(this.log);
-    this.pipeline = new EventPipeline(this.rules, this.log);
     this.rng = createRng(config.seed);
+    this.pipeline = new EventPipeline(this.rules, this.log, this.rng);
 
     this.knowledge = new KnowledgeBase();
     const knowledgePath =
@@ -114,6 +124,13 @@ export class Experiment {
     }
 
     const handlers: SlotHandlers = {
+      onDayStart: (w, t) => {
+        this.rules.commit(w, t, { kind: "daily_vitals" });
+        this.rules.commit(w, t, {
+          kind: "belief_forget",
+          rngSeed: this.config.seed ^ (t.day * 9973),
+        });
+      },
       onMonthStart: (w, t) => {
         this.rules.commit(w, t, { kind: "economy_monthly" });
       },
@@ -124,7 +141,10 @@ export class Experiment {
       },
     };
 
-    this.scheduler = new TimeScheduler(this.world, this.log, this.snapshots, this.rules, handlers);
+    this.scheduler = new TimeScheduler(this.world, this.log, this.snapshots, this.rules, handlers, {
+      snapshotEverySlots,
+      alwaysSnapshotSlot: scaleRun ? "EVE" : undefined,
+    });
   }
 
   queueManual(spec: ManualEventSpec): void {
@@ -151,27 +171,80 @@ export class Experiment {
         this.eventScheduler.enqueue(world, ev);
       }
     }
+
+    if (world.config.enableRandomSocialEvents !== false) {
+      const social = generateStateDrivenSocial({
+        world,
+        time,
+        library: this.library,
+        generator: this.generator,
+        rng: this.rng,
+        log: this.log,
+        options: {
+          enableBdieDrive: world.config.enableBdieDrive !== false,
+          maxPerSlot: world.config.maxRandomSocialPerSlot ?? 8,
+        },
+      });
+      for (const ev of social) {
+        this.eventScheduler.enqueue(world, ev);
+      }
+    }
+
+    // Intention → repay events (before window check in same slot pipeline)
+    if (world.config.enableAgentDrivenRepay !== false) {
+      const repay = generateRepayFromDebts({
+        world,
+        time,
+        generator: this.generator,
+        rng: this.rng,
+        log: this.log,
+        options: {
+          maxPerSlot: world.config.maxRepayPerSlot ?? 12,
+        },
+      });
+      for (const ev of repay) {
+        this.eventScheduler.enqueue(world, ev);
+      }
+    }
   }
 
   /**
-   * P5-02: for each queued event → forced dialogue (if enabled) → EventPipeline (PET/BDI/gifts).
+   * P5-02: for each queued event → dialogue (if enabled) → EventPipeline (PET/BDI/gifts).
+   * Live LLM: forced dialogues always run; other templated dialogues run under a per-slot budget.
    */
   private async process(world: WorldState, time: SimTime): Promise<void> {
+    let dialoguesThisSlot = 0;
+    const maxDlgPerSlot = Math.max(
+      0,
+      world.config.maxDialoguePerSlot ?? (world.config.llmMode === "live" ? 4 : 8),
+    );
     await processQueuedEvents(this.eventScheduler, world, time, async (w, t, event) => {
-      if (this.dialogue && event.dialogue?.forced) {
+      const dlg = event.dialogue;
+      const want =
+        this.dialogue &&
+        dlg &&
+        (dlg.forced ||
+          (world.config.enableDialogue !== false &&
+            dialoguesThisSlot < maxDlgPerSlot &&
+            (event.templateId.includes("gift") ||
+              event.templateId.includes("wedding") ||
+              event.templateId.includes("repay") ||
+              event.category === "public")));
+      if (want && this.dialogue) {
         const maxTurns = Math.min(
           8,
-          Math.max(4, this.config.dialogueMaxTurns ?? event.dialogue.maxTurns ?? 4),
+          Math.max(2, this.config.dialogueMaxTurns ?? dlg.maxTurns ?? 4),
         );
         try {
           await this.dialogue.run({
             world: w,
             event,
             time: t,
-            mode: event.dialogue.mode,
-            minTurns: Math.min(4, maxTurns),
+            mode: dlg.mode,
+            minTurns: Math.min(2, maxTurns),
             maxTurns,
           });
+          dialoguesThisSlot += 1;
         } catch (err) {
           this.log.append(
             t,

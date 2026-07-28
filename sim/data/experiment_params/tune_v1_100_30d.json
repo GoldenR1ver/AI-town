@@ -1,0 +1,23 @@
+{
+  "presetId": "tune_v1_100_30d",
+  "label": "对齐后短跑 · 100人×30天 mock（理想带）",
+  "description": "决策/话语/时间性对齐 + 压力底噪/日常礼窗口/讨厌积累标定后的短跑验收。",
+  "runId": "tune_align_v2_100_30d",
+  "variant": "baseline",
+  "endDay": 30,
+  "seed": 42,
+  "agentScale": 100,
+  "llmPreference": "mock",
+  "enableDialogue": true,
+  "dialogueMaxTurns": 3,
+  "enableScheduledEvents": true,
+  "enableRandomSocialEvents": true,
+  "maxRandomSocialPerSlot": 12,
+  "maxDialoguePerSlot": 4,
+  "snapshotEverySlots": 3,
+  "snapshotPretty": false,
+  "demoStory": false,
+  "loadPublicCatalog": true,
+  "loadRandomCatalog": true,
+  "queueDemoManuals": false
+}

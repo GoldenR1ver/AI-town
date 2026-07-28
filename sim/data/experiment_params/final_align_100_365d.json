@@ -1,0 +1,23 @@
+{
+  "presetId": "final_align_100_365d",
+  "label": "最终汇报 · 100人×365天 live（对齐后）",
+  "description": "在决策/话语/时间性对齐与短跑标定后的正式 live 实验，供汇报验收。",
+  "runId": "final_align_100_365d",
+  "variant": "baseline",
+  "endDay": 365,
+  "seed": 42,
+  "agentScale": 100,
+  "llmPreference": "live",
+  "enableDialogue": true,
+  "dialogueMaxTurns": 3,
+  "enableScheduledEvents": true,
+  "enableRandomSocialEvents": true,
+  "maxRandomSocialPerSlot": 12,
+  "maxDialoguePerSlot": 3,
+  "snapshotEverySlots": 3,
+  "snapshotPretty": false,
+  "demoStory": false,
+  "loadPublicCatalog": true,
+  "loadRandomCatalog": true,
+  "queueDemoManuals": false
+}

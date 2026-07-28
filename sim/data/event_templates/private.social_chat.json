@@ -1,0 +1,58 @@
+{
+  "templateId": "private.social_chat",
+  "category": "private",
+  "subType": "social_casual_chat",
+  "visibility": "private",
+  "trigger": { "method": "agent_driven" },
+  "roleSlots": [
+    {
+      "slotId": "initiator",
+      "label": "闲谈发起",
+      "cardinality": 1,
+      "required": true,
+      "resolver": { "type": "self" },
+      "occupancy": "required"
+    },
+    {
+      "slotId": "partner",
+      "label": "闲谈对象",
+      "cardinality": 1,
+      "required": true,
+      "resolver": { "type": "neighbor", "ofSlot": "initiator", "topK": 5 },
+      "occupancy": "required"
+    }
+  ],
+  "goalTemplates": [
+    {
+      "goalTemplateId": "attend_init",
+      "assignedToSlot": "initiator",
+      "goalType": "attend",
+      "params": {},
+      "priority": 35,
+      "optional": false
+    },
+    {
+      "goalTemplateId": "attend_partner",
+      "assignedToSlot": "partner",
+      "goalType": "attend",
+      "params": {},
+      "priority": 35,
+      "optional": false
+    }
+  ],
+  "dialogue": { "mode": "random", "minParticipants": 2, "maxParticipants": 2, "maxTurns": 4, "forced": false },
+  "locationType": "community",
+  "durationSlots": 1,
+  "contentSummaryTemplate": "{{initiator.name}}与{{partner.name}}闲谈",
+  "params": {
+    "randomSocial": true,
+    "socialLabel": "闲谈",
+    "socialEffects": {
+      "moodDelta": 0.03,
+      "affectionDelta": 1.2,
+      "intimacyDelta": 0.8,
+      "trustDelta": 0.6
+    }
+  },
+  "basePriority": 30
+}

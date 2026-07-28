@@ -4,6 +4,12 @@ import {
 } from "@shared/replay/reducer";
 import type { ReplayData } from "@shared/replay/types";
 import { useEffect, useMemo, useState } from "react";
+import {
+  filterStepsForAgent,
+  nearestFocusedStepIndex,
+} from "./aitown/agentFocus";
+import { AgentFocusPanel } from "./components/AgentFocusPanel";
+import { AgentLeaderboard } from "./components/AgentLeaderboard";
 import { BdieInspector } from "./components/BdieInspector";
 import { DialoguePanel } from "./components/DialoguePanel";
 import { EventTimeline } from "./components/EventTimeline";
@@ -22,12 +28,37 @@ function ReplayExperience({ data }: { data: ReplayData }) {
   const [stepIndex, setStepIndex] = useState(0);
   const [selectedAgentId, setSelectedAgentId] = useState("");
   const [pinned, setPinned] = useState(false);
+  const [focusEnabled, setFocusEnabled] = useState(false);
+
+  const giftLedger = useMemo(() => {
+    const last = data.checkpoints[data.checkpoints.length - 1];
+    return last?.giftLedger?.length
+      ? last.giftLedger
+      : data.initialState.giftLedger;
+  }, [data.checkpoints, data.initialState.giftLedger]);
+
+  const focusedSteps = useMemo(
+    () =>
+      selectedAgentId
+        ? filterStepsForAgent(data.steps, selectedAgentId, giftLedger)
+        : [],
+    [data.steps, giftLedger, selectedAgentId],
+  );
+
+  const navigableSteps = focusEnabled && selectedAgentId ? focusedSteps : data.steps;
+
   const controller = useStepController({
-    steps: data.steps,
+    steps: navigableSteps,
     index: stepIndex,
     setIndex: setStepIndex,
   });
-  const step = data.steps[stepIndex] ?? data.steps[0];
+
+  const step =
+    data.steps[stepIndex] ??
+    navigableSteps.find((item) => item.index === stepIndex) ??
+    navigableSteps[0] ??
+    data.steps[0];
+
   const state = useMemo(
     () => replayStateAtStep(data, stepIndex),
     [data, stepIndex],
@@ -38,7 +69,7 @@ function ReplayExperience({ data }: { data: ReplayData }) {
   );
 
   useEffect(() => {
-    if (!step || pinned) return;
+    if (!step || pinned || focusEnabled) return;
     const nextFocus =
       step.dialogue?.speakerId ??
       step.focusAgentIds.find((agentId) => state.agents[agentId]) ??
@@ -47,7 +78,14 @@ function ReplayExperience({ data }: { data: ReplayData }) {
     if (nextFocus && nextFocus !== selectedAgentId) {
       setSelectedAgentId(nextFocus);
     }
-  }, [pinned, selectedAgentId, state.agents, step]);
+  }, [focusEnabled, pinned, selectedAgentId, state.agents, step]);
+
+  useEffect(() => {
+    if (!focusEnabled || !selectedAgentId || !focusedSteps.length) return;
+    if (focusedSteps.some((item) => item.index === stepIndex)) return;
+    const nearest = nearestFocusedStepIndex(focusedSteps, stepIndex);
+    if (nearest != null) setStepIndex(nearest);
+  }, [focusEnabled, focusedSteps, selectedAgentId, stepIndex]);
 
   if (!step) {
     return (
@@ -59,6 +97,11 @@ function ReplayExperience({ data }: { data: ReplayData }) {
   }
 
   const stepLogs = logsForStep(data, step);
+  const focusName =
+    state.agents[selectedAgentId]?.public.name ??
+    data.initialState.agents[selectedAgentId]?.public.name ??
+    selectedAgentId;
+
   const selectAgent = (agentId: string) => {
     setSelectedAgentId(agentId);
     setPinned(true);
@@ -66,9 +109,18 @@ function ReplayExperience({ data }: { data: ReplayData }) {
   const togglePin = () => {
     const nextPinned = !pinned;
     setPinned(nextPinned);
-    if (!nextPinned) {
+    if (!nextPinned && !focusEnabled) {
       const focus = step.dialogue?.speakerId ?? step.focusAgentIds[0];
       if (focus) setSelectedAgentId(focus);
+    }
+  };
+  const toggleFocus = () => {
+    const next = !focusEnabled;
+    setFocusEnabled(next);
+    if (next && selectedAgentId) {
+      setPinned(true);
+      const nearest = nearestFocusedStepIndex(focusedSteps, stepIndex);
+      if (nearest != null) setStepIndex(nearest);
     }
   };
 
@@ -77,9 +129,10 @@ function ReplayExperience({ data }: { data: ReplayData }) {
       <ReplayHeader runId={data.runId} step={step} state={state} />
       <main className="replay-layout">
         <EventTimeline
-          steps={data.steps}
+          steps={navigableSteps}
           currentIndex={stepIndex}
-          onJump={controller.jumpTo}
+          onJump={controller.jumpToStepIndex}
+          focusName={focusEnabled ? focusName : undefined}
         />
         <div className="stage-column">
           <section className="game-frame">
@@ -93,24 +146,41 @@ function ReplayExperience({ data }: { data: ReplayData }) {
           <DialoguePanel
             step={step}
             agents={state.agents}
+            steps={data.steps}
+            conversations={data.conversations ?? []}
             canNext={controller.canNext}
           />
           <PlaybackControls
-            index={stepIndex}
-            total={data.steps.length}
+            position={controller.position}
+            total={controller.total}
             canPrevious={controller.canPrevious}
             canNext={controller.canNext}
             onPrevious={controller.previous}
             onNext={controller.next}
             onJump={controller.jumpTo}
             onReplayAct={controller.replayAct}
+            focusLabel={focusEnabled ? `聚焦 ${focusName}` : undefined}
           />
         </div>
         <aside className="analysis-column">
+          <AgentFocusPanel
+            data={data}
+            agentId={selectedAgentId}
+            focusEnabled={focusEnabled}
+            focusedStepCount={focusedSteps.length}
+            totalStepCount={data.steps.length}
+            onToggleFocus={toggleFocus}
+            onSelectAgent={selectAgent}
+          />
           <RelationshipGraph
             state={state}
             step={step}
             stepLogs={stepLogs}
+            selectedAgentId={selectedAgentId}
+            onSelectAgent={selectAgent}
+          />
+          <AgentLeaderboard
+            state={state}
             selectedAgentId={selectedAgentId}
             onSelectAgent={selectAgent}
           />

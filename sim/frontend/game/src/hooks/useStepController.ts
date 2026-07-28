@@ -1,5 +1,5 @@
 import type { ReplayStep } from "@shared/replay/types";
-import { useCallback, useEffect } from "react";
+import { useCallback, useEffect, useMemo } from "react";
 
 interface StepControllerOptions {
   steps: ReplayStep[];
@@ -18,21 +18,64 @@ export function useStepController({
   index,
   setIndex,
 }: StepControllerOptions) {
-  const lastIndex = Math.max(steps.length - 1, 0);
-  const next = useCallback(
-    () => setIndex(Math.min(index + 1, lastIndex)),
-    [index, lastIndex, setIndex],
-  );
-  const previous = useCallback(
-    () => setIndex(Math.max(index - 1, 0)),
-    [index, setIndex],
-  );
+  const position = useMemo(() => {
+    const exact = steps.findIndex((step) => step.index === index);
+    if (exact >= 0) return exact;
+    const next = steps.findIndex((step) => step.index > index);
+    if (next >= 0) return next;
+    return Math.max(steps.length - 1, 0);
+  }, [index, steps]);
+
+  const lastPosition = Math.max(steps.length - 1, 0);
+
+  const next = useCallback(() => {
+    if (!steps.length) return;
+    const pos = steps.findIndex((step) => step.index === index);
+    if (pos >= 0) {
+      if (pos < steps.length - 1) setIndex(steps[pos + 1]!.index);
+      return;
+    }
+    const upcoming = steps.find((step) => step.index > index);
+    if (upcoming) setIndex(upcoming.index);
+    else setIndex(steps[steps.length - 1]!.index);
+  }, [index, setIndex, steps]);
+
+  const previous = useCallback(() => {
+    if (!steps.length) return;
+    const pos = steps.findIndex((step) => step.index === index);
+    if (pos > 0) {
+      setIndex(steps[pos - 1]!.index);
+      return;
+    }
+    if (pos === 0) return;
+    const prior = [...steps].reverse().find((step) => step.index < index);
+    if (prior) setIndex(prior.index);
+    else setIndex(steps[0]!.index);
+  }, [index, setIndex, steps]);
+
+  /** Jump by position within the current (possibly filtered) step list. */
   const jumpTo = useCallback(
-    (target: number) => setIndex(Math.max(0, Math.min(target, lastIndex))),
-    [lastIndex, setIndex],
+    (targetPosition: number) => {
+      if (!steps.length) return;
+      const clamped = Math.max(0, Math.min(targetPosition, steps.length - 1));
+      setIndex(steps[clamped]!.index);
+    },
+    [setIndex, steps],
   );
+
+  /** Jump directly to a step.index value. */
+  const jumpToStepIndex = useCallback(
+    (stepIndex: number) => {
+      setIndex(stepIndex);
+    },
+    [setIndex],
+  );
+
   const replayAct = useCallback(() => {
-    const current = steps[index];
+    const current =
+      steps.find((step) => step.index === index) ??
+      steps.find((step) => step.index >= index) ??
+      steps[0];
     if (!current) return;
     const first = steps.find(
       (step) =>
@@ -57,19 +100,22 @@ export function useStepController({
         jumpTo(0);
       } else if (event.code === "End") {
         event.preventDefault();
-        jumpTo(lastIndex);
+        jumpTo(lastPosition);
       }
     };
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
-  }, [jumpTo, lastIndex, next, previous]);
+  }, [jumpTo, lastPosition, next, previous]);
 
   return {
     next,
     previous,
     jumpTo,
+    jumpToStepIndex,
     replayAct,
-    canNext: index < lastIndex,
-    canPrevious: index > 0,
+    position,
+    total: steps.length,
+    canNext: position < lastPosition && steps.length > 0,
+    canPrevious: position > 0 && steps.length > 0,
   };
 }

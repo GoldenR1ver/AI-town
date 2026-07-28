@@ -1,0 +1,23 @@
+{
+  "presetId": "test2",
+  "label": "test2 · 100人×365天 live（含日开销/情绪恢复/拒绝/遗忘/讨厌说坏话）",
+  "description": "在 test1 同参基础上，验证 daily_vitals、belief_forget、refuse、gossip、state narrative 等新机制。",
+  "runId": "test2",
+  "variant": "baseline",
+  "endDay": 365,
+  "seed": 42,
+  "agentScale": 100,
+  "llmPreference": "live",
+  "enableDialogue": true,
+  "dialogueMaxTurns": 3,
+  "enableScheduledEvents": true,
+  "enableRandomSocialEvents": true,
+  "maxRandomSocialPerSlot": 12,
+  "maxDialoguePerSlot": 3,
+  "snapshotEverySlots": 3,
+  "snapshotPretty": false,
+  "demoStory": false,
+  "loadPublicCatalog": true,
+  "loadRandomCatalog": true,
+  "queueDemoManuals": false
+}

@@ -264,7 +264,14 @@ export function computeRelationPenalty(
 export function computeSocialPenalty(
   severity: DefaultSeverity,
   gift: GiftRecord,
-  opts?: { prestigeHostBonusRecent?: number },
+  opts?: {
+    prestigeHostBonusRecent?: number;
+    /** Concurrent open debts at default time — capacity excuse softens face. */
+    debtorOpenDebtCount?: number;
+    debtorPrestige?: number;
+    debtorSocialTags?: string[];
+    debtorOccupation?: string;
+  },
 ): SocialPenalty {
   const s = severity.severity;
   const publicRitual = isRitualOccasion(gift.occasion);
@@ -275,6 +282,22 @@ export function computeSocialPenalty(
   // R27 hardship: reputation still dips a little even when severity halved
   if (severity.hardshipScale < 1) {
     reputation = Math.min(reputation, -2 * s);
+  }
+
+  // Capacity / status excuse: leaders with many concurrent debts lose less face per miss
+  // (village expects delayed reciprocity, not same-slot clearing of all debts).
+  const openN = opts?.debtorOpenDebtCount ?? 0;
+  const tags = opts?.debtorSocialTags ?? [];
+  const occ = opts?.debtorOccupation ?? "";
+  const highStatus =
+    (opts?.debtorPrestige ?? 50) >= 65 ||
+    tags.some((t) => /authority|host|community_leader|cadre|official/i.test(t)) ||
+    /主任|村长|书记|支书|会长|干部/.test(occ);
+  if (highStatus && openN >= 3) {
+    const soften = Math.max(0.35, 1 - 0.12 * Math.min(6, openN - 2));
+    face *= soften;
+  } else if (openN >= 5) {
+    face *= 0.7;
   }
 
   // R13: prestige is slow — only severe defaults
@@ -302,7 +325,8 @@ export function computeSocialPenalty(
     memorySalience,
     formula:
       `R11–R14 face${face.toFixed(1)} rep${reputation.toFixed(1)} ` +
-      `prestige${prestige.toFixed(1)} pubMem=${writePublicMemory}`,
+      `prestige${prestige.toFixed(1)} pubMem=${writePublicMemory}` +
+      (highStatus && openN >= 3 ? `; statusLoadFace×open=${openN}` : ""),
   };
 }
 

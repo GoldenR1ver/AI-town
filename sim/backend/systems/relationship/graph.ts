@@ -56,6 +56,7 @@ export class RelationshipGraph {
       giftDebt: 0,
       reciprocityScore: 0.3,
       relationAxis: defaults?.relationAxis ?? "horizontal",
+      dislike: 0,
     };
     this.edges.push(edge);
     return edge;
@@ -108,7 +109,7 @@ export function scaledGiftDefaultPenalty(intimacy: number): {
 
 export function applyEdgeDelta(
   edge: RelationshipEdge,
-  delta: { trust?: number; affection?: number; intimacy?: number },
+  delta: { trust?: number; affection?: number; intimacy?: number; dislike?: number },
   at: SimTime,
 ): RelationshipEdge {
   return {
@@ -116,6 +117,7 @@ export function applyEdgeDelta(
     trust: clampScore(edge.trust + (delta.trust ?? 0)),
     affection: clampScore(edge.affection + (delta.affection ?? 0)),
     intimacy: clampScore(edge.intimacy + (delta.intimacy ?? 0)),
+    dislike: clampScore((edge.dislike ?? 0) + (delta.dislike ?? 0)),
     lastChangedAt: { ...at },
   };
 }

@@ -68,10 +68,22 @@ export class OpenAiCompatibleLlmClient implements LlmClient {
     }
 
     const data = (await res.json()) as {
-      choices?: Array<{ message?: { content?: string | null } }>;
+      choices?: Array<{
+        message?: {
+          content?: string | null;
+          reasoning_content?: string | null;
+        };
+      }>;
     };
-    const content = data.choices?.[0]?.message?.content;
-    if (typeof content !== "string" || !content.length) {
+    const msg = data.choices?.[0]?.message;
+    const content =
+      (typeof msg?.content === "string" && msg.content.trim().length > 0
+        ? msg.content
+        : undefined) ??
+      (typeof msg?.reasoning_content === "string" && msg.reasoning_content.trim().length > 0
+        ? msg.reasoning_content
+        : undefined);
+    if (!content) {
       throw new Error("LLM response missing choices[0].message.content");
     }
     return content;

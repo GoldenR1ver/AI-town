@@ -41,7 +41,7 @@
       "params": {
         "expressiveScore": 0.7,
         "value": "income*0.05",
-        "replyWindowSlots": 2
+        "replyWindowSlots": 90
       },
       "deadline": { "offsetSlots": 1 },
       "priority": 85,
@@ -55,7 +55,7 @@
       "params": {
         "expressiveScore": 0.8,
         "value": "income*0.04",
-        "replyWindowSlots": 12
+        "replyWindowSlots": 90
       },
       "priority": 90,
       "optional": false,
@@ -74,6 +74,6 @@
   "locationType": "venue",
   "durationSlots": 1,
   "contentSummaryTemplate": "{{host.name}}家办婚礼，亲友出席随礼",
-  "params": { "occasion": "wedding", "minGiftNorm": 200, "replyWindowSlots": 2 },
+  "params": { "occasion": "wedding", "minGiftNorm": 200, "replyWindowSlots": 90 },
   "basePriority": 80
 }

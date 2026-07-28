@@ -1,0 +1,23 @@
+{
+  "presetId": "test1",
+  "label": "test1 · 100人×365天 live 基线",
+  "description": "归档实验：live100_365d_20260725_1643（DeepSeek live，100 agents，365 days）。复跑时请确保 LLM 凭证可用；默认 runId 仍为 test1_rerun 以免覆盖归档。",
+  "runId": "test1_rerun",
+  "variant": "baseline",
+  "endDay": 365,
+  "seed": 42,
+  "agentScale": 100,
+  "llmPreference": "live",
+  "enableDialogue": true,
+  "dialogueMaxTurns": 3,
+  "enableScheduledEvents": true,
+  "enableRandomSocialEvents": true,
+  "maxRandomSocialPerSlot": 12,
+  "maxDialoguePerSlot": 3,
+  "snapshotEverySlots": 3,
+  "snapshotPretty": false,
+  "demoStory": false,
+  "loadPublicCatalog": true,
+  "loadRandomCatalog": true,
+  "queueDemoManuals": false
+}

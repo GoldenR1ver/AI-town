@@ -6,20 +6,11 @@
  *
  * Usage:
  *   npm run sim:contrast
- *   DAYS=60 SEEDS=42,43,44 npm run sim:contrast
- *   CONTRAST_VARIANTS=E1_memory_on,E1_memory_off npm run sim:contrast
+ *   npm run sim:contrast -- --preset contrast_cell
+ *   DAYS=60 SEEDS=42,43 CONTRAST_VARIANTS=E1_memory_on,E1_memory_off npm run sim:contrast
  *
- * Env:
- *   DAYS              — experiment duration in days (default 30)
- *   END_DAY           — forwarded to sim:run; overrides DAYS there
- *   END_SLOTS         — forwarded to sim:run for short smoke runs
- *   SEEDS             — comma-separated integer seeds (default 42)
- *   CONTRAST_VARIANTS — comma-separated existing variant ids
- *   CONTRAST_ID       — optional aggregate run id
- *   P5_LLM_MODE       — mock | live | auto (default mock)
- *
- * Other sim:run options such as ENABLE_DIALOGUE and ENABLE_SCHEDULED are
- * inherited unchanged. Demo story output is disabled unless DEMO_STORY is set.
+ * Each cell writes a params JSON under <contrastId>/_cells/ then invokes sim:run --params.
+ * Matrix knobs (DAYS/SEEDS/CONTRAST_*) remain optional overrides for batch orchestration.
  */
 import {
   existsSync,
@@ -62,6 +53,10 @@ const METRIC_COLUMNS: Array<keyof ExperimentMetrics> = [
   "dialogues_completed",
   "events_completed",
   "agent_count",
+  "gift_inflow_top10_prestige_share",
+  "gift_inflow_top10_wealth_share",
+  "gift_prestige_corr",
+  "gift_wealth_corr",
 ];
 
 interface ContrastRow extends ExperimentMetrics {
@@ -170,21 +165,34 @@ function runVariant(args: {
   if (existsSync(runDir)) throw new Error(`Run directory already exists: ${runDir}`);
 
   console.log(`\n[contrast] variant=${args.variant} seed=${args.seed} run=${runId}`);
-  const result = spawnSync("npm", ["run", "sim:run"], {
-    cwd: projectRoot,
-    env: {
-      ...process.env,
-      DAYS: String(args.days),
-      VARIANT: args.variant,
-      SEED: String(args.seed),
-      RUN_ID: runId,
-      P5_LLM_MODE: process.env.P5_LLM_MODE ?? "mock",
-      DEMO_STORY: process.env.DEMO_STORY ?? "0",
+  const cellDir = join(runsDir, args.contrastId, "_cells");
+  mkdirSync(cellDir, { recursive: true });
+  const cellPath = join(cellDir, `${runId}.json`);
+  const cell = {
+    presetId: "contrast_cell",
+    runId,
+    variant: args.variant,
+    seed: args.seed,
+    endDay: args.days,
+    endSlots: process.env.END_SLOTS ? Number(process.env.END_SLOTS) : undefined,
+    agentScale: Number(process.env.AGENTS ?? process.env.SCALE ?? 16) === 100 ? 100 : 16,
+    llmPreference: process.env.P5_LLM_MODE ?? "mock",
+    enableDialogue: process.env.ENABLE_DIALOGUE !== "0",
+    demoStory: process.env.DEMO_STORY === "1",
+  };
+  writeFileSync(cellPath, JSON.stringify(cell, null, 2), "utf8");
+
+  const result = spawnSync(
+    "npx",
+    ["tsx", "sim/backend/engine/run_experiment.ts", "--params", cellPath],
+    {
+      cwd: projectRoot,
+      env: { ...process.env },
+      encoding: "utf8",
+      maxBuffer: 16 * 1024 * 1024,
+      shell: process.platform === "win32",
     },
-    encoding: "utf8",
-    maxBuffer: 16 * 1024 * 1024,
-    shell: process.platform === "win32",
-  });
+  );
 
   if (result.stdout) process.stdout.write(result.stdout);
   if (result.stderr) process.stderr.write(result.stderr);

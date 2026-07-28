@@ -3,14 +3,14 @@
   "category": "private",
   "subType": "gift_repay",
   "visibility": "private",
-  "trigger": { "method": "manual" },
+  "trigger": { "method": "agent_driven" },
   "roleSlots": [
     {
       "slotId": "debtor",
       "label": "回礼方",
       "cardinality": 1,
       "required": true,
-      "resolver": { "type": "fixed", "agentId": "a04" },
+      "resolver": { "type": "self" },
       "occupancy": "required"
     },
     {
@@ -18,7 +18,7 @@
       "label": "原送礼方",
       "cardinality": 1,
       "required": true,
-      "resolver": { "type": "fixed", "agentId": "a06" },
+      "resolver": { "type": "relationship", "ofSlot": "debtor", "metric": "trust", "topK": 1 },
       "occupancy": "required"
     }
   ],
@@ -28,14 +28,14 @@
       "assignedToSlot": "debtor",
       "goalType": "reply_gift",
       "params": { "minAdjustedValue": "from_event" },
-      "priority": 88,
+      "priority": 92,
       "optional": false,
-      "descriptionTemplate": "向{{creditor.name}}回礼"
+      "descriptionTemplate": "向{{creditor.name}}偿还礼债"
     }
   ],
-  "dialogue": { "mode": "dialogue", "minParticipants": 2, "maxParticipants": 2, "maxTurns": 4, "forced": true },
+  "dialogue": { "mode": "dialogue", "minParticipants": 2, "maxParticipants": 2, "maxTurns": 4, "forced": false },
   "locationType": "abstract",
   "durationSlots": 1,
   "contentSummaryTemplate": "{{debtor.name}}向{{creditor.name}}偿还礼债",
-  "basePriority": 75
+  "basePriority": 85
 }

@@ -9,10 +9,21 @@ type MaybePromise<T> = T | Promise<T>;
 
 export interface SlotHandlers {
   /** Optional hooks; may be async (P5 dialogue in main clock). */
+  onDayStart?: (world: WorldState, time: SimTime) => MaybePromise<void>;
   onMonthStart?: (world: WorldState, time: SimTime) => MaybePromise<void>;
   onGenerateEvents?: (world: WorldState, time: SimTime) => MaybePromise<void>;
   onProcessEvents?: (world: WorldState, time: SimTime) => MaybePromise<void>;
   onGiftWindowCheck?: (world: WorldState, time: SimTime) => MaybePromise<void>;
+}
+
+export interface SchedulerOptions {
+  /**
+   * Write a snapshot every N slots (default 1 = every slot).
+   * Always writes the final step of a run.
+   */
+  snapshotEverySlots?: number;
+  /** If set, also always snapshot this slot of each day (e.g. "EVE"). */
+  alwaysSnapshotSlot?: TimeSlot;
 }
 
 /** How many day×slot steps from start inclusive to reach `count` slots. */
@@ -36,21 +47,30 @@ export function countSlotsInclusive(start: SimTime, endDay: number): number {
 }
 
 export class TimeScheduler {
+  private slotCounter = 0;
+  private readonly snapshotEverySlots: number;
+  private readonly alwaysSnapshotSlot?: TimeSlot;
+
   constructor(
     private readonly world: WorldState,
     private readonly log: LogWriter,
     private readonly snapshots: SnapshotStore,
     private readonly rules: RuleEngine,
     private readonly handlers: SlotHandlers = {},
-  ) {}
+    opts: SchedulerOptions = {},
+  ) {
+    this.snapshotEverySlots = Math.max(1, opts.snapshotEverySlots ?? 1);
+    this.alwaysSnapshotSlot = opts.alwaysSnapshotSlot;
+  }
 
   /** Run inclusive day range: startDay .. endDay, all three slots. */
   async run(start: SimTime, endDay: number): Promise<void> {
     let time: SimTime = { ...start };
 
     while (time.day <= endDay) {
-      await this.step(time);
-      if (time.day === endDay && time.slot === "EVE") break;
+      const isLast = time.day === endDay && time.slot === "EVE";
+      await this.step(time, isLast);
+      if (isLast) break;
       const next = nextSimTime(time);
       if (next.day > endDay) break;
       time = next;
@@ -62,15 +82,21 @@ export class TimeScheduler {
     let time: SimTime = { ...start };
     let last = time;
     for (let i = 0; i < slotCount; i++) {
-      await this.step(time);
+      const isLast = i === slotCount - 1;
+      await this.step(time, isLast);
       last = time;
-      if (i < slotCount - 1) time = nextSimTime(time);
+      if (!isLast) time = nextSimTime(time);
     }
     return last;
   }
 
-  async step(time: SimTime): Promise<void> {
+  async step(time: SimTime, forceSnapshot = false): Promise<void> {
     this.log.append(time, "timeslot.start", { day: time.day, slot: time.slot });
+
+    // Morning: living cost + emotion recovery + belief forgetting.
+    if (time.slot === "AM") {
+      await this.handlers.onDayStart?.(this.world, time);
+    }
 
     // Month-start hook only; do not auto-commit unimplemented economy_monthly on every day-1.
     if (time.slot === "AM" && time.day > 1 && (time.day - 1) % 30 === 0) {
@@ -81,9 +107,17 @@ export class TimeScheduler {
     await this.handlers.onProcessEvents?.(this.world, time);
     await this.handlers.onGiftWindowCheck?.(this.world, time);
 
-    const snap = this.world.snapshot(time, this.log.nextSeq());
-    this.snapshots.write(snap);
-    this.log.append(time, "timeslot.end", { snapshotId: snap.snapshotId }, { snapshotId: snap.snapshotId });
+    this.slotCounter += 1;
+    const dueInterval = this.slotCounter % this.snapshotEverySlots === 0;
+    const dueSlot =
+      this.alwaysSnapshotSlot != null && time.slot === this.alwaysSnapshotSlot;
+    if (forceSnapshot || dueInterval || dueSlot) {
+      const snap = this.world.snapshot(time, this.log.nextSeq());
+      this.snapshots.write(snap);
+      this.log.append(time, "timeslot.end", { snapshotId: snap.snapshotId }, { snapshotId: snap.snapshotId });
+    } else {
+      this.log.append(time, "timeslot.end", { snapshotSkipped: true });
+    }
   }
 }
 

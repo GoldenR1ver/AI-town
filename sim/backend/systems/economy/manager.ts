@@ -1,14 +1,13 @@
 import type { EconomyState } from "../../../shared/types/index.js";
 
 /**
- * Monthly settlement (plan.md §2.6):
- * cash += income * (1 - essentialExpenseRatio)
- * repay debt from cash
- * deposit += cash * savingsRatio; cash -= that
+ * Monthly wage settlement. Essential living costs are charged daily
+ * (`daily_vitals`); this hook pays income then debt/savings.
  */
 export class EconomyManager {
   monthlySettle(e: EconomyState, day: number): EconomyState {
-    let cash = e.cash + e.income * (1 - e.essentialExpenseRatio);
+    // Full wage — daily living costs already deducted via daily_vitals.
+    let cash = e.cash + e.income;
     const repayment = Math.min(e.debt, cash);
     const debt = e.debt - repayment;
     cash -= repayment;

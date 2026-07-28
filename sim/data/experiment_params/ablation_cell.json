@@ -1,0 +1,19 @@
+{
+  "presetId": "ablation_cell",
+  "label": "消融单格默认（由 run_ablation 覆盖 variant/seed/runId）",
+  "variant": "A0_full",
+  "endDay": 14,
+  "seed": 42,
+  "agentScale": 100,
+  "llmPreference": "mock",
+  "enableDialogue": false,
+  "dialogueMaxTurns": 3,
+  "enableScheduledEvents": true,
+  "enableRandomSocialEvents": true,
+  "maxRandomSocialPerSlot": 12,
+  "maxDialoguePerSlot": 2,
+  "snapshotEverySlots": 3,
+  "snapshotPretty": false,
+  "demoStory": false,
+  "queueDemoManuals": false
+}

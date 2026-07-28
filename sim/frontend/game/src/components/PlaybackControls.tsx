@@ -1,16 +1,18 @@
 interface PlaybackControlsProps {
-  index: number;
+  /** Position within the current navigable step list (0-based). */
+  position: number;
   total: number;
   canPrevious: boolean;
   canNext: boolean;
   onPrevious: () => void;
   onNext: () => void;
-  onJump: (index: number) => void;
+  onJump: (position: number) => void;
   onReplayAct: () => void;
+  focusLabel?: string;
 }
 
 export function PlaybackControls({
-  index,
+  position,
   total,
   canPrevious,
   canNext,
@@ -18,8 +20,9 @@ export function PlaybackControls({
   onNext,
   onJump,
   onReplayAct,
+  focusLabel,
 }: PlaybackControlsProps) {
-  const progress = total > 1 ? (index / (total - 1)) * 100 : 100;
+  const progress = total > 1 ? (position / (total - 1)) * 100 : 100;
   return (
     <nav className="playback-controls pixel-panel" aria-label="回放控制">
       <button
@@ -43,12 +46,14 @@ export function PlaybackControls({
           type="range"
           min={0}
           max={Math.max(total - 1, 0)}
-          value={index}
+          value={Math.min(position, Math.max(total - 1, 0))}
           onChange={(event) => onJump(Number(event.target.value))}
           style={{ "--progress": `${progress}%` } as React.CSSProperties}
         />
         <small>
-          STEP {String(index + 1).padStart(3, "0")} / {String(total).padStart(3, "0")}
+          STEP {String(position + 1).padStart(3, "0")} /{" "}
+          {String(total).padStart(3, "0")}
+          {focusLabel ? ` · ${focusLabel}` : ""}
         </small>
       </label>
       <button

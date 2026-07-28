@@ -1,0 +1,22 @@
+{
+  "test1": {
+    "runId": "live100_365d_20260725_1643",
+    "aliasDir": "test1",
+    "label": "100人×365天 live LLM 基线（归档）",
+    "paramsPreset": "test1",
+    "paramsPath": "sim/data/experiment_params/test1.json",
+    "sourceRunId": "live100_365d_20260725_1643",
+    "savedAt": "2026-07-25",
+    "notes": "目录 sim/data/runs/test1 为指向源跑次的联接；分析/导出可用 RUN_ID=test1"
+  },
+  "test2": {
+    "runId": "test2",
+    "aliasDir": "test2",
+    "label": "100人×365天 live（日开销/情绪恢复/拒绝/遗忘/说坏话）",
+    "paramsPreset": "test2",
+    "paramsPath": "sim/data/experiment_params/test2.json",
+    "sourceRunId": "test2",
+    "savedAt": "2026-07-26",
+    "notes": "含 daily_vitals / belief_forget / refuse / gossip；见 expectation_report.json"
+  }
+}

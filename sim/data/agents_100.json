@@ -1,0 +1,5352 @@
+{
+  "agents": [
+    {
+      "public": {
+        "id": "a001",
+        "name": "曹雪",
+        "age": 66,
+        "gender": "F",
+        "occupation": "村委会主任",
+        "education": "初中",
+        "kinship": [
+          "a026",
+          "a051",
+          "a076"
+        ],
+        "socialTags": [
+          "host",
+          "authority",
+          "community_leader"
+        ],
+        "face": 70,
+        "prestige": 72,
+        "reputation": 68,
+        "communityId": "village",
+        "workplaceId": "village_committee",
+        "hobbies": [
+          "看电视"
+        ],
+        "habits": [
+          "爱请客"
+        ]
+      },
+      "private": {
+        "bigFive": {
+          "O": 0.5,
+          "C": 0.4,
+          "E": 0.3,
+          "A": 0.6,
+          "N": 0.6
+        },
+        "emotion": {
+          "mood": 0.5,
+          "arousal": 0.4,
+          "stress": 0.5,
+          "energy": 0.5
+        }
+      },
+      "economy": {
+        "cash": 2770,
+        "deposit": 28145,
+        "debt": 0,
+        "creditLimit": 22023,
+        "income": 6000,
+        "essentialExpenseRatio": 0.5,
+        "savingsRatio": 0.2
+      }
+    },
+    {
+      "public": {
+        "id": "a002",
+        "name": "褚建国",
+        "age": 73,
+        "gender": "M",
+        "occupation": "村委会文书",
+        "education": "小学",
+        "kinship": [
+          "a027",
+          "a052",
+          "a077"
+        ],
+        "socialTags": [
+          "host",
+          "authority",
+          "community_leader"
+        ],
+        "face": 73,
+        "prestige": 76,
+        "reputation": 70,
+        "communityId": "village",
+        "workplaceId": "village_committee",
+        "hobbies": [
+          "看电视"
+        ],
+        "habits": [
+          "爱抽烟"
+        ]
+      },
+      "private": {
+        "bigFive": {
+          "O": 0.7,
+          "C": 0.5,
+          "E": 0.8,
+          "A": 0.7,
+          "N": 0.7
+        },
+        "emotion": {
+          "mood": 0.7,
+          "arousal": 0.2,
+          "stress": 0.5,
+          "energy": 0.6
+        }
+      },
+      "economy": {
+        "cash": 6314,
+        "deposit": 1875,
+        "debt": 0,
+        "creditLimit": 15086,
+        "income": 6400,
+        "essentialExpenseRatio": 0.4,
+        "savingsRatio": 0.2
+      }
+    },
+    {
+      "public": {
+        "id": "a003",
+        "name": "孔军",
+        "age": 30,
+        "gender": "M",
+        "occupation": "退休干部",
+        "education": "中专",
+        "kinship": [
+          "a028",
+          "a053",
+          "a078"
+        ],
+        "socialTags": [
+          "host",
+          "authority",
+          "community_leader"
+        ],
+        "face": 76,
+        "prestige": 80,
+        "reputation": 72,
+        "communityId": "village",
+        "workplaceId": "village_committee",
+        "hobbies": [
+          "戏曲"
+        ],
+        "habits": [
+          "少言"
+        ]
+      },
+      "private": {
+        "bigFive": {
+          "O": 0.5,
+          "C": 0.8,
+          "E": 0.3,
+          "A": 0.7,
+          "N": 0.1
+        },
+        "emotion": {
+          "mood": 0.7,
+          "arousal": 0.3,
+          "stress": 0.3,
+          "energy": 0.6
+        }
+      },
+      "economy": {
+        "cash": 2542,
+        "deposit": 74952,
+        "debt": 6817,
+        "creditLimit": 5475,
+        "income": 6800,
+        "essentialExpenseRatio": 0.6,
+        "savingsRatio": 0.3
+      }
+    },
+    {
+      "public": {
+        "id": "a004",
+        "name": "褚勇",
+        "age": 47,
+        "gender": "M",
+        "occupation": "退休干部",
+        "education": "小学",
+        "kinship": [
+          "a029",
+          "a054",
+          "a079"
+        ],
+        "socialTags": [
+          "authority",
+          "elder"
+        ],
+        "face": 63,
+        "prestige": 66,
+        "reputation": 65,
+        "communityId": "village",
+        "workplaceId": "home",
+        "hobbies": [
+          "戏曲"
+        ],
+        "habits": [
+          "爱抽烟"
+        ]
+      },
+      "private": {
+        "bigFive": {
+          "O": 0.2,
+          "C": 0.7,
+          "E": 0.7,
+          "A": 0.8,
+          "N": 0.4
+        },
+        "emotion": {
+          "mood": 0.5,
+          "arousal": 0.4,
+          "stress": 0.3,
+          "energy": 0.6
+        }
+      },
+      "economy": {
+        "cash": 3944,
+        "deposit": 46676,
+        "debt": 0,
+        "creditLimit": 16105,
+        "income": 4109,
+        "essentialExpenseRatio": 0.5,
+        "savingsRatio": 0.2
+      }
+    },
+    {
+      "public": {
+        "id": "a005",
+        "name": "何伟",
+        "age": 39,
+        "gender": "M",
+        "occupation": "村委会主任",
+        "education": "初中",
+        "kinship": [
+          "a030",
+          "a055",
+          "a080"
+        ],
+        "socialTags": [
+          "host",
+          "authority",
+          "community_leader"
+        ],
+        "face": 68,
+        "prestige": 65,
+        "reputation": 67,
+        "communityId": "village",
+        "workplaceId": "village_committee",
+        "hobbies": [
+          "散步"
+        ],
+        "habits": [
+          "爱抽烟"
+        ]
+      },
+      "private": {
+        "bigFive": {
+          "O": 0.8,
+          "C": 0.6,
+          "E": 0.2,
+          "A": 0.2,
+          "N": 0.3
+        },
+        "emotion": {
+          "mood": 0.5,
+          "arousal": 0.5,
+          "stress": 0.2,
+          "energy": 0.5
+        }
+      },
+      "economy": {
+        "cash": 7357,
+        "deposit": 44499,
+        "debt": 0,
+        "creditLimit": 9063,
+        "income": 6155,
+        "essentialExpenseRatio": 0.4,
+        "savingsRatio": 0.2
+      }
+    },
+    {
+      "public": {
+        "id": "a006",
+        "name": "卫霞",
+        "age": 29,
+        "gender": "F",
+        "occupation": "厨师",
+        "education": "小学",
+        "kinship": [
+          "a031",
+          "a056",
+          "a081"
+        ],
+        "socialTags": [
+          "service"
+        ],
+        "face": 53,
+        "prestige": 49,
+        "reputation": 51,
+        "communityId": "village",
+        "workplaceId": "canteen",
+        "hobbies": [
+          "散步"
+        ],
+        "habits": [
+          "少言"
+        ]
+      },
+      "private": {
+        "bigFive": {
+          "O": 0.5,
+          "C": 0.2,
+          "E": 0.7,
+          "A": 0.8,
+          "N": 0.6
+        },
+        "emotion": {
+          "mood": 0.5,
+          "arousal": 0.5,
+          "stress": 0.2,
+          "energy": 0.5
+        }
+      },
+      "economy": {
+        "cash": 9502,
+        "deposit": 59813,
+        "debt": 6540,
+        "creditLimit": 5551,
+        "income": 3291,
+        "essentialExpenseRatio": 0.4,
+        "savingsRatio": 0.2
+      }
+    },
+    {
+      "public": {
+        "id": "a007",
+        "name": "严秀兰",
+        "age": 78,
+        "gender": "F",
+        "occupation": "教师",
+        "education": "大专",
+        "kinship": [
+          "a032",
+          "a057",
+          "a082"
+        ],
+        "socialTags": [
+          "educated"
+        ],
+        "face": 63,
+        "prestige": 56,
+        "reputation": 60,
+        "communityId": "village",
+        "workplaceId": "school",
+        "hobbies": [
+          "散步"
+        ],
+        "habits": [
+          "爱请客"
+        ]
+      },
+      "private": {
+        "bigFive": {
+          "O": 0.7,
+          "C": 0.5,
+          "E": 0.2,
+          "A": 0.4,
+          "N": 0.6
+        },
+        "emotion": {
+          "mood": 0.5,
+          "arousal": 0.6,
+          "stress": 0.4,
+          "energy": 0.5
+        }
+      },
+      "economy": {
+        "cash": 2045,
+        "deposit": 3300,
+        "debt": 0,
+        "creditLimit": 12788,
+        "income": 4856,
+        "essentialExpenseRatio": 0.5,
+        "savingsRatio": 0.3
+      }
+    },
+    {
+      "public": {
+        "id": "a008",
+        "name": "周霞",
+        "age": 65,
+        "gender": "F",
+        "occupation": "教师",
+        "education": "初中",
+        "kinship": [
+          "a033",
+          "a058",
+          "a083"
+        ],
+        "socialTags": [
+          "educated"
+        ],
+        "face": 55,
+        "prestige": 63,
+        "reputation": 59,
+        "communityId": "village",
+        "workplaceId": "school",
+        "hobbies": [
+          "下棋"
+        ],
+        "habits": [
+          "少言"
+        ]
+      },
+      "private": {
+        "bigFive": {
+          "O": 0.7,
+          "C": 0.6,
+          "E": 0.7,
+          "A": 0.2,
+          "N": 0.7
+        },
+        "emotion": {
+          "mood": 0.6,
+          "arousal": 0.4,
+          "stress": 0.1,
+          "energy": 0.6
+        }
+      },
+      "economy": {
+        "cash": 1919,
+        "deposit": 63316,
+        "debt": 6444,
+        "creditLimit": 20463,
+        "income": 4824,
+        "essentialExpenseRatio": 0.6,
+        "savingsRatio": 0.1
+      }
+    },
+    {
+      "public": {
+        "id": "a009",
+        "name": "蒋雪",
+        "age": 46,
+        "gender": "F",
+        "occupation": "厨师",
+        "education": "初中",
+        "kinship": [
+          "a034",
+          "a059",
+          "a084"
+        ],
+        "socialTags": [
+          "service"
+        ],
+        "face": 34,
+        "prestige": 34,
+        "reputation": 34,
+        "communityId": "village",
+        "workplaceId": "canteen",
+        "hobbies": [
+          "打牌"
+        ],
+        "habits": [
+          "早起"
+        ]
+      },
+      "private": {
+        "bigFive": {
+          "O": 0.3,
+          "C": 0.5,
+          "E": 0.8,
+          "A": 0.5,
+          "N": 0.1
+        },
+        "emotion": {
+          "mood": 0.5,
+          "arousal": 0.5,
+          "stress": 0.2,
+          "energy": 0.5
+        }
+      },
+      "economy": {
+        "cash": 2454,
+        "deposit": 55382,
+        "debt": 6614,
+        "creditLimit": 4302,
+        "income": 3440,
+        "essentialExpenseRatio": 0.4,
+        "savingsRatio": 0.1
+      }
+    },
+    {
+      "public": {
+        "id": "a010",
+        "name": "秦涛",
+        "age": 56,
+        "gender": "M",
+        "occupation": "司机",
+        "education": "小学",
+        "kinship": [
+          "a035",
+          "a060",
+          "a085"
+        ],
+        "socialTags": [
+          "neighbor"
+        ],
+        "face": 54,
+        "prestige": 50,
+        "reputation": 52,
+        "communityId": "village",
+        "workplaceId": "transport",
+        "hobbies": [
+          "看电视"
+        ],
+        "habits": [
+          "少言"
+        ]
+      },
+      "private": {
+        "bigFive": {
+          "O": 0.3,
+          "C": 0.3,
+          "E": 0.7,
+          "A": 0.7,
+          "N": 0.4
+        },
+        "emotion": {
+          "mood": 0.6,
+          "arousal": 0.4,
+          "stress": 0.5,
+          "energy": 0.6
+        }
+      },
+      "economy": {
+        "cash": 9458,
+        "deposit": 61258,
+        "debt": 0,
+        "creditLimit": 19898,
+        "income": 3890,
+        "essentialExpenseRatio": 0.4,
+        "savingsRatio": 0.2
+      }
+    },
+    {
+      "public": {
+        "id": "a011",
+        "name": "严梅",
+        "age": 22,
+        "gender": "F",
+        "occupation": "建筑工",
+        "education": "高中",
+        "kinship": [
+          "a036",
+          "a061",
+          "a086"
+        ],
+        "socialTags": [
+          "migrant"
+        ],
+        "face": 31,
+        "prestige": 38,
+        "reputation": 35,
+        "communityId": "village",
+        "workplaceId": "construction",
+        "hobbies": [
+          "下棋"
+        ],
+        "habits": [
+          "爱请客"
+        ]
+      },
+      "private": {
+        "bigFive": {
+          "O": 0.7,
+          "C": 0.7,
+          "E": 0.2,
+          "A": 0.3,
+          "N": 0.6
+        },
+        "emotion": {
+          "mood": 0.5,
+          "arousal": 0.3,
+          "stress": 0.5,
+          "energy": 0.8
+        }
+      },
+      "economy": {
+        "cash": 10987,
+        "deposit": 44409,
+        "debt": 806,
+        "creditLimit": 13135,
+        "income": 5463,
+        "essentialExpenseRatio": 0.5,
+        "savingsRatio": 0.3
+      }
+    },
+    {
+      "public": {
+        "id": "a012",
+        "name": "严玲",
+        "age": 40,
+        "gender": "F",
+        "occupation": "养殖户",
+        "education": "中专",
+        "kinship": [
+          "a037",
+          "a062",
+          "a087"
+        ],
+        "socialTags": [
+          "merchant"
+        ],
+        "face": 62,
+        "prestige": 59,
+        "reputation": 61,
+        "communityId": "village",
+        "workplaceId": "farm",
+        "hobbies": [
+          "打牌"
+        ],
+        "habits": [
+          "早起"
+        ]
+      },
+      "private": {
+        "bigFive": {
+          "O": 0.4,
+          "C": 0.5,
+          "E": 0.5,
+          "A": 0.7,
+          "N": 0.6
+        },
+        "emotion": {
+          "mood": 0.5,
+          "arousal": 0.4,
+          "stress": 0.2,
+          "energy": 0.7
+        }
+      },
+      "economy": {
+        "cash": 3517,
+        "deposit": 53341,
+        "debt": 5670,
+        "creditLimit": 22038,
+        "income": 5653,
+        "essentialExpenseRatio": 0.5,
+        "savingsRatio": 0.2
+      }
+    },
+    {
+      "public": {
+        "id": "a013",
+        "name": "孔明",
+        "age": 59,
+        "gender": "M",
+        "occupation": "厨师",
+        "education": "小学",
+        "kinship": [
+          "a038",
+          "a063",
+          "a088"
+        ],
+        "socialTags": [
+          "service"
+        ],
+        "face": 57,
+        "prestige": 49,
+        "reputation": 53,
+        "communityId": "village",
+        "workplaceId": "canteen",
+        "hobbies": [
+          "种菜"
+        ],
+        "habits": [
+          "早起"
+        ]
+      },
+      "private": {
+        "bigFive": {
+          "O": 0.3,
+          "C": 0.3,
+          "E": 0.6,
+          "A": 0.4,
+          "N": 0.3
+        },
+        "emotion": {
+          "mood": 0.6,
+          "arousal": 0.3,
+          "stress": 0.2,
+          "energy": 0.4
+        }
+      },
+      "economy": {
+        "cash": 5223,
+        "deposit": 65247,
+        "debt": 0,
+        "creditLimit": 6187,
+        "income": 4023,
+        "essentialExpenseRatio": 0.4,
+        "savingsRatio": 0.1
+      }
+    },
+    {
+      "public": {
+        "id": "a014",
+        "name": "何英",
+        "age": 33,
+        "gender": "F",
+        "occupation": "教师",
+        "education": "中专",
+        "kinship": [
+          "a039",
+          "a064",
+          "a089"
+        ],
+        "socialTags": [
+          "educated"
+        ],
+        "face": 65,
+        "prestige": 64,
+        "reputation": 65,
+        "communityId": "village",
+        "workplaceId": "school",
+        "hobbies": [
+          "下棋"
+        ],
+        "habits": [
+          "爱请客"
+        ]
+      },
+      "private": {
+        "bigFive": {
+          "O": 0.5,
+          "C": 0.6,
+          "E": 0.7,
+          "A": 0.4,
+          "N": 0.4
+        },
+        "emotion": {
+          "mood": 0.4,
+          "arousal": 0.6,
+          "stress": 0.4,
+          "energy": 0.6
+        }
+      },
+      "economy": {
+        "cash": 7427,
+        "deposit": 78483,
+        "debt": 0,
+        "creditLimit": 14248,
+        "income": 5181,
+        "essentialExpenseRatio": 0.4,
+        "savingsRatio": 0.2
+      }
+    },
+    {
+      "public": {
+        "id": "a015",
+        "name": "张勇",
+        "age": 66,
+        "gender": "M",
+        "occupation": "小卖部老板",
+        "education": "中专",
+        "kinship": [
+          "a040",
+          "a065",
+          "a090"
+        ],
+        "socialTags": [
+          "merchant",
+          "host"
+        ],
+        "face": 51,
+        "prestige": 55,
+        "reputation": 53,
+        "communityId": "village",
+        "workplaceId": "shop",
+        "hobbies": [
+          "戏曲"
+        ],
+        "habits": [
+          "节俭"
+        ]
+      },
+      "private": {
+        "bigFive": {
+          "O": 0.3,
+          "C": 0.7,
+          "E": 0.7,
+          "A": 0.8,
+          "N": 0.4
+        },
+        "emotion": {
+          "mood": 0.7,
+          "arousal": 0.5,
+          "stress": 0.5,
+          "energy": 0.4
+        }
+      },
+      "economy": {
+        "cash": 8083,
+        "deposit": 58443,
+        "debt": 0,
+        "creditLimit": 10128,
+        "income": 5057,
+        "essentialExpenseRatio": 0.6,
+        "savingsRatio": 0.2
+      }
+    },
+    {
+      "public": {
+        "id": "a016",
+        "name": "周建国",
+        "age": 44,
+        "gender": "M",
+        "occupation": "医生",
+        "education": "初中",
+        "kinship": [
+          "a041",
+          "a066",
+          "a091"
+        ],
+        "socialTags": [
+          "professional"
+        ],
+        "face": 54,
+        "prestige": 60,
+        "reputation": 57,
+        "communityId": "village",
+        "workplaceId": "clinic",
+        "hobbies": [
+          "打牌"
+        ],
+        "habits": [
+          "节俭"
+        ]
+      },
+      "private": {
+        "bigFive": {
+          "O": 0.4,
+          "C": 0.3,
+          "E": 0.3,
+          "A": 0.3,
+          "N": 0.7
+        },
+        "emotion": {
+          "mood": 0.7,
+          "arousal": 0.4,
+          "stress": 0.2,
+          "energy": 0.6
+        }
+      },
+      "economy": {
+        "cash": 5705,
+        "deposit": 52285,
+        "debt": 3700,
+        "creditLimit": 15048,
+        "income": 7699,
+        "essentialExpenseRatio": 0.6,
+        "savingsRatio": 0.2
+      }
+    },
+    {
+      "public": {
+        "id": "a017",
+        "name": "严鹏",
+        "age": 69,
+        "gender": "M",
+        "occupation": "司机",
+        "education": "小学",
+        "kinship": [
+          "a042",
+          "a067",
+          "a092"
+        ],
+        "socialTags": [
+          "neighbor"
+        ],
+        "face": 52,
+        "prestige": 48,
+        "reputation": 50,
+        "communityId": "village",
+        "workplaceId": "transport",
+        "hobbies": [
+          "戏曲"
+        ],
+        "habits": [
+          "少言"
+        ]
+      },
+      "private": {
+        "bigFive": {
+          "O": 0.8,
+          "C": 0.7,
+          "E": 0.7,
+          "A": 0.2,
+          "N": 0.4
+        },
+        "emotion": {
+          "mood": 0.7,
+          "arousal": 0.4,
+          "stress": 0.4,
+          "energy": 0.6
+        }
+      },
+      "economy": {
+        "cash": 3734,
+        "deposit": 26082,
+        "debt": 0,
+        "creditLimit": 18714,
+        "income": 4663,
+        "essentialExpenseRatio": 0.5,
+        "savingsRatio": 0.2
+      }
+    },
+    {
+      "public": {
+        "id": "a018",
+        "name": "郑刚",
+        "age": 68,
+        "gender": "M",
+        "occupation": "医生",
+        "education": "高中",
+        "kinship": [
+          "a043",
+          "a068",
+          "a093"
+        ],
+        "socialTags": [
+          "professional"
+        ],
+        "face": 64,
+        "prestige": 71,
+        "reputation": 68,
+        "communityId": "village",
+        "workplaceId": "clinic",
+        "hobbies": [
+          "戏曲"
+        ],
+        "habits": [
+          "少言"
+        ]
+      },
+      "private": {
+        "bigFive": {
+          "O": 0.5,
+          "C": 0.5,
+          "E": 0.6,
+          "A": 0.7,
+          "N": 0.6
+        },
+        "emotion": {
+          "mood": 0.5,
+          "arousal": 0.3,
+          "stress": 0.3,
+          "energy": 0.7
+        }
+      },
+      "economy": {
+        "cash": 8577,
+        "deposit": 14204,
+        "debt": 0,
+        "creditLimit": 24907,
+        "income": 6289,
+        "essentialExpenseRatio": 0.5,
+        "savingsRatio": 0.2
+      }
+    },
+    {
+      "public": {
+        "id": "a019",
+        "name": "褚娟",
+        "age": 41,
+        "gender": "F",
+        "occupation": "厨师",
+        "education": "小学",
+        "kinship": [
+          "a044",
+          "a069",
+          "a094"
+        ],
+        "socialTags": [
+          "service"
+        ],
+        "face": 49,
+        "prestige": 48,
+        "reputation": 49,
+        "communityId": "village",
+        "workplaceId": "canteen",
+        "hobbies": [
+          "散步"
+        ],
+        "habits": [
+          "节俭"
+        ]
+      },
+      "private": {
+        "bigFive": {
+          "O": 0.7,
+          "C": 0.3,
+          "E": 0.7,
+          "A": 0.3,
+          "N": 0.4
+        },
+        "emotion": {
+          "mood": 0.4,
+          "arousal": 0.3,
+          "stress": 0.4,
+          "energy": 0.4
+        }
+      },
+      "economy": {
+        "cash": 7903,
+        "deposit": 41190,
+        "debt": 0,
+        "creditLimit": 5660,
+        "income": 4117,
+        "essentialExpenseRatio": 0.5,
+        "savingsRatio": 0.2
+      }
+    },
+    {
+      "public": {
+        "id": "a020",
+        "name": "王刚",
+        "age": 74,
+        "gender": "M",
+        "occupation": "村委会文书",
+        "education": "大专",
+        "kinship": [
+          "a045",
+          "a070",
+          "a095"
+        ],
+        "socialTags": [
+          "public_service",
+          "subordinate"
+        ],
+        "face": 46,
+        "prestige": 54,
+        "reputation": 50,
+        "communityId": "village",
+        "workplaceId": "village_committee",
+        "hobbies": [
+          "打牌"
+        ],
+        "habits": [
+          "爱请客"
+        ]
+      },
+      "private": {
+        "bigFive": {
+          "O": 0.6,
+          "C": 0.8,
+          "E": 0.2,
+          "A": 0.8,
+          "N": 0.5
+        },
+        "emotion": {
+          "mood": 0.7,
+          "arousal": 0.5,
+          "stress": 0.4,
+          "energy": 0.8
+        }
+      },
+      "economy": {
+        "cash": 2093,
+        "deposit": 55565,
+        "debt": 0,
+        "creditLimit": 8304,
+        "income": 4707,
+        "essentialExpenseRatio": 0.4,
+        "savingsRatio": 0.1
+      }
+    },
+    {
+      "public": {
+        "id": "a021",
+        "name": "吴雪",
+        "age": 51,
+        "gender": "F",
+        "occupation": "电工",
+        "education": "高中",
+        "kinship": [
+          "a046",
+          "a071",
+          "a096"
+        ],
+        "socialTags": [
+          "crafts"
+        ],
+        "face": 48,
+        "prestige": 54,
+        "reputation": 51,
+        "communityId": "village",
+        "workplaceId": "utility",
+        "hobbies": [
+          "散步"
+        ],
+        "habits": [
+          "少言"
+        ]
+      },
+      "private": {
+        "bigFive": {
+          "O": 0.2,
+          "C": 0.7,
+          "E": 0.5,
+          "A": 0.3,
+          "N": 0.3
+        },
+        "emotion": {
+          "mood": 0.5,
+          "arousal": 0.4,
+          "stress": 0.1,
+          "energy": 0.6
+        }
+      },
+      "economy": {
+        "cash": 8048,
+        "deposit": 32158,
+        "debt": 0,
+        "creditLimit": 16614,
+        "income": 3807,
+        "essentialExpenseRatio": 0.5,
+        "savingsRatio": 0.1
+      }
+    },
+    {
+      "public": {
+        "id": "a022",
+        "name": "金明",
+        "age": 33,
+        "gender": "M",
+        "occupation": "医生",
+        "education": "小学",
+        "kinship": [
+          "a047",
+          "a072",
+          "a097"
+        ],
+        "socialTags": [
+          "professional"
+        ],
+        "face": 72,
+        "prestige": 65,
+        "reputation": 69,
+        "communityId": "village",
+        "workplaceId": "clinic",
+        "hobbies": [
+          "打牌"
+        ],
+        "habits": [
+          "少言"
+        ]
+      },
+      "private": {
+        "bigFive": {
+          "O": 0.2,
+          "C": 0.2,
+          "E": 0.5,
+          "A": 0.7,
+          "N": 0.5
+        },
+        "emotion": {
+          "mood": 0.5,
+          "arousal": 0.4,
+          "stress": 0.3,
+          "energy": 0.4
+        }
+      },
+      "economy": {
+        "cash": 3011,
+        "deposit": 24820,
+        "debt": 0,
+        "creditLimit": 14439,
+        "income": 5621,
+        "essentialExpenseRatio": 0.6,
+        "savingsRatio": 0.2
+      }
+    },
+    {
+      "public": {
+        "id": "a023",
+        "name": "李华",
+        "age": 52,
+        "gender": "F",
+        "occupation": "村委会文书",
+        "education": "高中",
+        "kinship": [
+          "a048",
+          "a073",
+          "a098"
+        ],
+        "socialTags": [
+          "public_service",
+          "subordinate"
+        ],
+        "face": 44,
+        "prestige": 45,
+        "reputation": 45,
+        "communityId": "village",
+        "workplaceId": "village_committee",
+        "hobbies": [
+          "散步"
+        ],
+        "habits": [
+          "早起"
+        ]
+      },
+      "private": {
+        "bigFive": {
+          "O": 0.8,
+          "C": 0.4,
+          "E": 0.4,
+          "A": 0.3,
+          "N": 0.6
+        },
+        "emotion": {
+          "mood": 0.4,
+          "arousal": 0.6,
+          "stress": 0.4,
+          "energy": 0.5
+        }
+      },
+      "economy": {
+        "cash": 2582,
+        "deposit": 26839,
+        "debt": 4493,
+        "creditLimit": 2671,
+        "income": 4030,
+        "essentialExpenseRatio": 0.6,
+        "savingsRatio": 0.2
+      }
+    },
+    {
+      "public": {
+        "id": "a024",
+        "name": "张涛",
+        "age": 38,
+        "gender": "M",
+        "occupation": "村委会主任",
+        "education": "小学",
+        "kinship": [
+          "a049",
+          "a074",
+          "a099"
+        ],
+        "socialTags": [
+          "host",
+          "authority",
+          "community_leader"
+        ],
+        "face": 76,
+        "prestige": 77,
+        "reputation": 77,
+        "communityId": "village",
+        "workplaceId": "village_committee",
+        "hobbies": [
+          "下棋"
+        ],
+        "habits": [
+          "爱抽烟"
+        ]
+      },
+      "private": {
+        "bigFive": {
+          "O": 0.4,
+          "C": 0.4,
+          "E": 0.8,
+          "A": 0.3,
+          "N": 0.4
+        },
+        "emotion": {
+          "mood": 0.4,
+          "arousal": 0.5,
+          "stress": 0.5,
+          "energy": 0.7
+        }
+      },
+      "economy": {
+        "cash": 2199,
+        "deposit": 43690,
+        "debt": 0,
+        "creditLimit": 19705,
+        "income": 7273,
+        "essentialExpenseRatio": 0.4,
+        "savingsRatio": 0.3
+      }
+    },
+    {
+      "public": {
+        "id": "a025",
+        "name": "许燕",
+        "age": 70,
+        "gender": "F",
+        "occupation": "医生",
+        "education": "大专",
+        "kinship": [
+          "a050",
+          "a075",
+          "a100"
+        ],
+        "socialTags": [
+          "professional"
+        ],
+        "face": 80,
+        "prestige": 74,
+        "reputation": 77,
+        "communityId": "village",
+        "workplaceId": "clinic",
+        "hobbies": [
+          "看电视"
+        ],
+        "habits": [
+          "爱抽烟"
+        ]
+      },
+      "private": {
+        "bigFive": {
+          "O": 0.5,
+          "C": 0.4,
+          "E": 0.2,
+          "A": 0.4,
+          "N": 0.2
+        },
+        "emotion": {
+          "mood": 0.6,
+          "arousal": 0.5,
+          "stress": 0.5,
+          "energy": 0.6
+        }
+      },
+      "economy": {
+        "cash": 6582,
+        "deposit": 37819,
+        "debt": 0,
+        "creditLimit": 3093,
+        "income": 7320,
+        "essentialExpenseRatio": 0.5,
+        "savingsRatio": 0.2
+      }
+    },
+    {
+      "public": {
+        "id": "a026",
+        "name": "曹辉",
+        "age": 66,
+        "gender": "M",
+        "occupation": "电工",
+        "education": "大专",
+        "kinship": [
+          "a001",
+          "a051",
+          "a076"
+        ],
+        "socialTags": [
+          "crafts"
+        ],
+        "face": 59,
+        "prestige": 54,
+        "reputation": 57,
+        "communityId": "village",
+        "workplaceId": "utility",
+        "hobbies": [
+          "种菜"
+        ],
+        "habits": [
+          "爱抽烟"
+        ]
+      },
+      "private": {
+        "bigFive": {
+          "O": 0.7,
+          "C": 0.8,
+          "E": 0.5,
+          "A": 0.7,
+          "N": 0.1
+        },
+        "emotion": {
+          "mood": 0.7,
+          "arousal": 0.6,
+          "stress": 0.3,
+          "energy": 0.8
+        }
+      },
+      "economy": {
+        "cash": 8963,
+        "deposit": 76598,
+        "debt": 0,
+        "creditLimit": 15736,
+        "income": 3609,
+        "essentialExpenseRatio": 0.4,
+        "savingsRatio": 0.3
+      }
+    },
+    {
+      "public": {
+        "id": "a027",
+        "name": "施英",
+        "age": 62,
+        "gender": "F",
+        "occupation": "小卖部老板",
+        "education": "初中",
+        "kinship": [
+          "a002",
+          "a052",
+          "a077"
+        ],
+        "socialTags": [
+          "merchant",
+          "host"
+        ],
+        "face": 51,
+        "prestige": 50,
+        "reputation": 51,
+        "communityId": "village",
+        "workplaceId": "shop",
+        "hobbies": [
+          "散步"
+        ],
+        "habits": [
+          "爱请客"
+        ]
+      },
+      "private": {
+        "bigFive": {
+          "O": 0.6,
+          "C": 0.6,
+          "E": 0.6,
+          "A": 0.5,
+          "N": 0.5
+        },
+        "emotion": {
+          "mood": 0.6,
+          "arousal": 0.4,
+          "stress": 0.3,
+          "energy": 0.7
+        }
+      },
+      "economy": {
+        "cash": 5919,
+        "deposit": 2268,
+        "debt": 0,
+        "creditLimit": 17370,
+        "income": 6747,
+        "essentialExpenseRatio": 0.6,
+        "savingsRatio": 0.3
+      }
+    },
+    {
+      "public": {
+        "id": "a028",
+        "name": "陈勇",
+        "age": 43,
+        "gender": "M",
+        "occupation": "建筑工",
+        "education": "高中",
+        "kinship": [
+          "a003",
+          "a053",
+          "a078"
+        ],
+        "socialTags": [
+          "migrant"
+        ],
+        "face": 40,
+        "prestige": 37,
+        "reputation": 39,
+        "communityId": "village",
+        "workplaceId": "construction",
+        "hobbies": [
+          "散步"
+        ],
+        "habits": [
+          "少言"
+        ]
+      },
+      "private": {
+        "bigFive": {
+          "O": 0.7,
+          "C": 0.7,
+          "E": 0.4,
+          "A": 0.8,
+          "N": 0.7
+        },
+        "emotion": {
+          "mood": 0.7,
+          "arousal": 0.5,
+          "stress": 0.1,
+          "energy": 0.5
+        }
+      },
+      "economy": {
+        "cash": 4116,
+        "deposit": 23109,
+        "debt": 0,
+        "creditLimit": 5276,
+        "income": 4050,
+        "essentialExpenseRatio": 0.4,
+        "savingsRatio": 0.1
+      }
+    },
+    {
+      "public": {
+        "id": "a029",
+        "name": "李伟",
+        "age": 30,
+        "gender": "M",
+        "occupation": "养殖户",
+        "education": "大专",
+        "kinship": [
+          "a004",
+          "a054",
+          "a079"
+        ],
+        "socialTags": [
+          "merchant"
+        ],
+        "face": 46,
+        "prestige": 43,
+        "reputation": 45,
+        "communityId": "village",
+        "workplaceId": "farm",
+        "hobbies": [
+          "下棋"
+        ],
+        "habits": [
+          "爱请客"
+        ]
+      },
+      "private": {
+        "bigFive": {
+          "O": 0.6,
+          "C": 0.4,
+          "E": 0.2,
+          "A": 0.4,
+          "N": 0.2
+        },
+        "emotion": {
+          "mood": 0.6,
+          "arousal": 0.3,
+          "stress": 0.5,
+          "energy": 0.6
+        }
+      },
+      "economy": {
+        "cash": 11722,
+        "deposit": 50222,
+        "debt": 0,
+        "creditLimit": 5868,
+        "income": 3954,
+        "essentialExpenseRatio": 0.4,
+        "savingsRatio": 0.1
+      }
+    },
+    {
+      "public": {
+        "id": "a030",
+        "name": "沈玲",
+        "age": 63,
+        "gender": "F",
+        "occupation": "厨师",
+        "education": "中专",
+        "kinship": [
+          "a005",
+          "a055",
+          "a080"
+        ],
+        "socialTags": [
+          "service"
+        ],
+        "face": 44,
+        "prestige": 50,
+        "reputation": 47,
+        "communityId": "village",
+        "workplaceId": "canteen",
+        "hobbies": [
+          "戏曲"
+        ],
+        "habits": [
+          "爱抽烟"
+        ]
+      },
+      "private": {
+        "bigFive": {
+          "O": 0.7,
+          "C": 0.5,
+          "E": 0.2,
+          "A": 0.5,
+          "N": 0.1
+        },
+        "emotion": {
+          "mood": 0.4,
+          "arousal": 0.3,
+          "stress": 0.3,
+          "energy": 0.7
+        }
+      },
+      "economy": {
+        "cash": 8943,
+        "deposit": 59198,
+        "debt": 0,
+        "creditLimit": 17875,
+        "income": 4114,
+        "essentialExpenseRatio": 0.6,
+        "savingsRatio": 0.2
+      }
+    },
+    {
+      "public": {
+        "id": "a031",
+        "name": "严勇",
+        "age": 55,
+        "gender": "M",
+        "occupation": "裁缝",
+        "education": "小学",
+        "kinship": [
+          "a006",
+          "a056",
+          "a081"
+        ],
+        "socialTags": [
+          "crafts"
+        ],
+        "face": 53,
+        "prestige": 48,
+        "reputation": 51,
+        "communityId": "village",
+        "workplaceId": "home",
+        "hobbies": [
+          "看电视"
+        ],
+        "habits": [
+          "少言"
+        ]
+      },
+      "private": {
+        "bigFive": {
+          "O": 0.6,
+          "C": 0.6,
+          "E": 0.7,
+          "A": 0.2,
+          "N": 0.4
+        },
+        "emotion": {
+          "mood": 0.6,
+          "arousal": 0.3,
+          "stress": 0.5,
+          "energy": 0.6
+        }
+      },
+      "economy": {
+        "cash": 5380,
+        "deposit": 76852,
+        "debt": 6793,
+        "creditLimit": 19423,
+        "income": 3581,
+        "essentialExpenseRatio": 0.4,
+        "savingsRatio": 0.2
+      }
+    },
+    {
+      "public": {
+        "id": "a032",
+        "name": "吴勇",
+        "age": 65,
+        "gender": "M",
+        "occupation": "建筑工",
+        "education": "中专",
+        "kinship": [
+          "a007",
+          "a057",
+          "a082"
+        ],
+        "socialTags": [
+          "migrant"
+        ],
+        "face": 34,
+        "prestige": 41,
+        "reputation": 38,
+        "communityId": "village",
+        "workplaceId": "construction",
+        "hobbies": [
+          "散步"
+        ],
+        "habits": [
+          "早起"
+        ]
+      },
+      "private": {
+        "bigFive": {
+          "O": 0.7,
+          "C": 0.5,
+          "E": 0.7,
+          "A": 0.3,
+          "N": 0.5
+        },
+        "emotion": {
+          "mood": 0.4,
+          "arousal": 0.4,
+          "stress": 0.4,
+          "energy": 0.5
+        }
+      },
+      "economy": {
+        "cash": 8544,
+        "deposit": 46337,
+        "debt": 7124,
+        "creditLimit": 2856,
+        "income": 4613,
+        "essentialExpenseRatio": 0.5,
+        "savingsRatio": 0.3
+      }
+    },
+    {
+      "public": {
+        "id": "a033",
+        "name": "蒋磊",
+        "age": 56,
+        "gender": "M",
+        "occupation": "教师",
+        "education": "初中",
+        "kinship": [
+          "a008",
+          "a058",
+          "a083"
+        ],
+        "socialTags": [
+          "educated"
+        ],
+        "face": 66,
+        "prestige": 63,
+        "reputation": 65,
+        "communityId": "village",
+        "workplaceId": "school",
+        "hobbies": [
+          "散步"
+        ],
+        "habits": [
+          "爱请客"
+        ]
+      },
+      "private": {
+        "bigFive": {
+          "O": 0.3,
+          "C": 0.3,
+          "E": 0.2,
+          "A": 0.7,
+          "N": 0.7
+        },
+        "emotion": {
+          "mood": 0.6,
+          "arousal": 0.3,
+          "stress": 0.5,
+          "energy": 0.8
+        }
+      },
+      "economy": {
+        "cash": 3308,
+        "deposit": 36327,
+        "debt": 0,
+        "creditLimit": 15564,
+        "income": 4901,
+        "essentialExpenseRatio": 0.6,
+        "savingsRatio": 0.1
+      }
+    },
+    {
+      "public": {
+        "id": "a034",
+        "name": "金建国",
+        "age": 78,
+        "gender": "M",
+        "occupation": "保姆",
+        "education": "初中",
+        "kinship": [
+          "a009",
+          "a059",
+          "a084"
+        ],
+        "socialTags": [
+          "service"
+        ],
+        "face": 35,
+        "prestige": 32,
+        "reputation": 34,
+        "communityId": "village",
+        "workplaceId": "home",
+        "hobbies": [
+          "看电视"
+        ],
+        "habits": [
+          "节俭"
+        ]
+      },
+      "private": {
+        "bigFive": {
+          "O": 0.6,
+          "C": 0.6,
+          "E": 0.8,
+          "A": 0.5,
+          "N": 0.6
+        },
+        "emotion": {
+          "mood": 0.5,
+          "arousal": 0.4,
+          "stress": 0.3,
+          "energy": 0.6
+        }
+      },
+      "economy": {
+        "cash": 9754,
+        "deposit": 54487,
+        "debt": 6426,
+        "creditLimit": 7674,
+        "income": 2351,
+        "essentialExpenseRatio": 0.5,
+        "savingsRatio": 0.3
+      }
+    },
+    {
+      "public": {
+        "id": "a035",
+        "name": "沈刚",
+        "age": 24,
+        "gender": "M",
+        "occupation": "村委会文书",
+        "education": "小学",
+        "kinship": [
+          "a010",
+          "a060",
+          "a085"
+        ],
+        "socialTags": [
+          "public_service",
+          "subordinate"
+        ],
+        "face": 57,
+        "prestige": 59,
+        "reputation": 58,
+        "communityId": "village",
+        "workplaceId": "village_committee",
+        "hobbies": [
+          "下棋"
+        ],
+        "habits": [
+          "节俭"
+        ]
+      },
+      "private": {
+        "bigFive": {
+          "O": 0.5,
+          "C": 0.2,
+          "E": 0.6,
+          "A": 0.2,
+          "N": 0.4
+        },
+        "emotion": {
+          "mood": 0.6,
+          "arousal": 0.4,
+          "stress": 0.3,
+          "energy": 0.5
+        }
+      },
+      "economy": {
+        "cash": 7815,
+        "deposit": 67623,
+        "debt": 0,
+        "creditLimit": 21352,
+        "income": 5163,
+        "essentialExpenseRatio": 0.5,
+        "savingsRatio": 0.2
+      }
+    },
+    {
+      "public": {
+        "id": "a036",
+        "name": "朱娟",
+        "age": 65,
+        "gender": "F",
+        "occupation": "教师",
+        "education": "大专",
+        "kinship": [
+          "a011",
+          "a061",
+          "a086"
+        ],
+        "socialTags": [
+          "educated"
+        ],
+        "face": 62,
+        "prestige": 54,
+        "reputation": 58,
+        "communityId": "village",
+        "workplaceId": "school",
+        "hobbies": [
+          "种菜"
+        ],
+        "habits": [
+          "早起"
+        ]
+      },
+      "private": {
+        "bigFive": {
+          "O": 0.6,
+          "C": 0.2,
+          "E": 0.8,
+          "A": 0.7,
+          "N": 0.3
+        },
+        "emotion": {
+          "mood": 0.4,
+          "arousal": 0.5,
+          "stress": 0.2,
+          "energy": 0.5
+        }
+      },
+      "economy": {
+        "cash": 3743,
+        "deposit": 59607,
+        "debt": 6687,
+        "creditLimit": 10145,
+        "income": 5113,
+        "essentialExpenseRatio": 0.5,
+        "savingsRatio": 0.2
+      }
+    },
+    {
+      "public": {
+        "id": "a037",
+        "name": "赵杰",
+        "age": 38,
+        "gender": "M",
+        "occupation": "务农",
+        "education": "初中",
+        "kinship": [
+          "a012",
+          "a062",
+          "a087"
+        ],
+        "socialTags": [
+          "neighbor"
+        ],
+        "face": 38,
+        "prestige": 41,
+        "reputation": 40,
+        "communityId": "village",
+        "workplaceId": "farm",
+        "hobbies": [
+          "下棋"
+        ],
+        "habits": [
+          "节俭"
+        ]
+      },
+      "private": {
+        "bigFive": {
+          "O": 0.3,
+          "C": 0.3,
+          "E": 0.5,
+          "A": 0.8,
+          "N": 0.3
+        },
+        "emotion": {
+          "mood": 0.4,
+          "arousal": 0.3,
+          "stress": 0.5,
+          "energy": 0.5
+        }
+      },
+      "economy": {
+        "cash": 4304,
+        "deposit": 62341,
+        "debt": 5492,
+        "creditLimit": 10040,
+        "income": 3484,
+        "essentialExpenseRatio": 0.4,
+        "savingsRatio": 0.3
+      }
+    },
+    {
+      "public": {
+        "id": "a038",
+        "name": "朱静",
+        "age": 42,
+        "gender": "F",
+        "occupation": "司机",
+        "education": "大专",
+        "kinship": [
+          "a013",
+          "a063",
+          "a088"
+        ],
+        "socialTags": [
+          "neighbor"
+        ],
+        "face": 38,
+        "prestige": 43,
+        "reputation": 41,
+        "communityId": "village",
+        "workplaceId": "transport",
+        "hobbies": [
+          "种菜"
+        ],
+        "habits": [
+          "节俭"
+        ]
+      },
+      "private": {
+        "bigFive": {
+          "O": 0.8,
+          "C": 0.5,
+          "E": 0.7,
+          "A": 0.7,
+          "N": 0.4
+        },
+        "emotion": {
+          "mood": 0.5,
+          "arousal": 0.5,
+          "stress": 0.3,
+          "energy": 0.6
+        }
+      },
+      "economy": {
+        "cash": 4077,
+        "deposit": 70274,
+        "debt": 0,
+        "creditLimit": 13270,
+        "income": 4592,
+        "essentialExpenseRatio": 0.4,
+        "savingsRatio": 0.3
+      }
+    },
+    {
+      "public": {
+        "id": "a039",
+        "name": "孙建国",
+        "age": 52,
+        "gender": "M",
+        "occupation": "退休干部",
+        "education": "大专",
+        "kinship": [
+          "a014",
+          "a064",
+          "a089"
+        ],
+        "socialTags": [
+          "authority",
+          "elder"
+        ],
+        "face": 75,
+        "prestige": 73,
+        "reputation": 74,
+        "communityId": "village",
+        "workplaceId": "home",
+        "hobbies": [
+          "戏曲"
+        ],
+        "habits": [
+          "节俭"
+        ]
+      },
+      "private": {
+        "bigFive": {
+          "O": 0.5,
+          "C": 0.2,
+          "E": 0.3,
+          "A": 0.6,
+          "N": 0.4
+        },
+        "emotion": {
+          "mood": 0.5,
+          "arousal": 0.3,
+          "stress": 0.2,
+          "energy": 0.5
+        }
+      },
+      "economy": {
+        "cash": 6385,
+        "deposit": 6743,
+        "debt": 6191,
+        "creditLimit": 15801,
+        "income": 4979,
+        "essentialExpenseRatio": 0.4,
+        "savingsRatio": 0.1
+      }
+    },
+    {
+      "public": {
+        "id": "a040",
+        "name": "陈娟",
+        "age": 66,
+        "gender": "F",
+        "occupation": "电工",
+        "education": "初中",
+        "kinship": [
+          "a015",
+          "a065",
+          "a090"
+        ],
+        "socialTags": [
+          "crafts"
+        ],
+        "face": 55,
+        "prestige": 50,
+        "reputation": 53,
+        "communityId": "village",
+        "workplaceId": "utility",
+        "hobbies": [
+          "戏曲"
+        ],
+        "habits": [
+          "爱请客"
+        ]
+      },
+      "private": {
+        "bigFive": {
+          "O": 0.2,
+          "C": 0.4,
+          "E": 0.6,
+          "A": 0.8,
+          "N": 0.2
+        },
+        "emotion": {
+          "mood": 0.5,
+          "arousal": 0.5,
+          "stress": 0.1,
+          "energy": 0.8
+        }
+      },
+      "economy": {
+        "cash": 6069,
+        "deposit": 12282,
+        "debt": 4225,
+        "creditLimit": 17421,
+        "income": 4224,
+        "essentialExpenseRatio": 0.4,
+        "savingsRatio": 0.1
+      }
+    },
+    {
+      "public": {
+        "id": "a041",
+        "name": "华静",
+        "age": 38,
+        "gender": "F",
+        "occupation": "小卖部老板",
+        "education": "大专",
+        "kinship": [
+          "a016",
+          "a066",
+          "a091"
+        ],
+        "socialTags": [
+          "merchant",
+          "host"
+        ],
+        "face": 47,
+        "prestige": 54,
+        "reputation": 51,
+        "communityId": "village",
+        "workplaceId": "shop",
+        "hobbies": [
+          "打牌"
+        ],
+        "habits": [
+          "爱抽烟"
+        ]
+      },
+      "private": {
+        "bigFive": {
+          "O": 0.3,
+          "C": 0.5,
+          "E": 0.5,
+          "A": 0.5,
+          "N": 0.6
+        },
+        "emotion": {
+          "mood": 0.7,
+          "arousal": 0.6,
+          "stress": 0.2,
+          "energy": 0.5
+        }
+      },
+      "economy": {
+        "cash": 9324,
+        "deposit": 66828,
+        "debt": 0,
+        "creditLimit": 16603,
+        "income": 4031,
+        "essentialExpenseRatio": 0.5,
+        "savingsRatio": 0.1
+      }
+    },
+    {
+      "public": {
+        "id": "a042",
+        "name": "王红",
+        "age": 70,
+        "gender": "F",
+        "occupation": "小卖部老板",
+        "education": "高中",
+        "kinship": [
+          "a017",
+          "a067",
+          "a092"
+        ],
+        "socialTags": [
+          "merchant",
+          "host"
+        ],
+        "face": 56,
+        "prestige": 61,
+        "reputation": 59,
+        "communityId": "village",
+        "workplaceId": "shop",
+        "hobbies": [
+          "戏曲"
+        ],
+        "habits": [
+          "爱抽烟"
+        ]
+      },
+      "private": {
+        "bigFive": {
+          "O": 0.7,
+          "C": 0.6,
+          "E": 0.2,
+          "A": 0.6,
+          "N": 0.4
+        },
+        "emotion": {
+          "mood": 0.7,
+          "arousal": 0.5,
+          "stress": 0.5,
+          "energy": 0.8
+        }
+      },
+      "economy": {
+        "cash": 6694,
+        "deposit": 64869,
+        "debt": 0,
+        "creditLimit": 21211,
+        "income": 6567,
+        "essentialExpenseRatio": 0.5,
+        "savingsRatio": 0.2
+      }
+    },
+    {
+      "public": {
+        "id": "a043",
+        "name": "尤丽",
+        "age": 59,
+        "gender": "F",
+        "occupation": "养殖户",
+        "education": "初中",
+        "kinship": [
+          "a018",
+          "a068",
+          "a093"
+        ],
+        "socialTags": [
+          "merchant"
+        ],
+        "face": 47,
+        "prestige": 45,
+        "reputation": 46,
+        "communityId": "village",
+        "workplaceId": "farm",
+        "hobbies": [
+          "下棋"
+        ],
+        "habits": [
+          "节俭"
+        ]
+      },
+      "private": {
+        "bigFive": {
+          "O": 0.6,
+          "C": 0.7,
+          "E": 0.6,
+          "A": 0.3,
+          "N": 0.3
+        },
+        "emotion": {
+          "mood": 0.7,
+          "arousal": 0.5,
+          "stress": 0.3,
+          "energy": 0.5
+        }
+      },
+      "economy": {
+        "cash": 9313,
+        "deposit": 70132,
+        "debt": 6872,
+        "creditLimit": 16582,
+        "income": 5477,
+        "essentialExpenseRatio": 0.4,
+        "savingsRatio": 0.3
+      }
+    },
+    {
+      "public": {
+        "id": "a044",
+        "name": "周磊",
+        "age": 46,
+        "gender": "M",
+        "occupation": "医生",
+        "education": "高中",
+        "kinship": [
+          "a019",
+          "a069",
+          "a094"
+        ],
+        "socialTags": [
+          "professional"
+        ],
+        "face": 80,
+        "prestige": 74,
+        "reputation": 77,
+        "communityId": "village",
+        "workplaceId": "clinic",
+        "hobbies": [
+          "散步"
+        ],
+        "habits": [
+          "爱请客"
+        ]
+      },
+      "private": {
+        "bigFive": {
+          "O": 0.7,
+          "C": 0.7,
+          "E": 0.3,
+          "A": 0.5,
+          "N": 0.1
+        },
+        "emotion": {
+          "mood": 0.4,
+          "arousal": 0.3,
+          "stress": 0.1,
+          "energy": 0.7
+        }
+      },
+      "economy": {
+        "cash": 1328,
+        "deposit": 7908,
+        "debt": 0,
+        "creditLimit": 19572,
+        "income": 7153,
+        "essentialExpenseRatio": 0.5,
+        "savingsRatio": 0.2
+      }
+    },
+    {
+      "public": {
+        "id": "a045",
+        "name": "赵斌",
+        "age": 40,
+        "gender": "M",
+        "occupation": "会计",
+        "education": "小学",
+        "kinship": [
+          "a020",
+          "a070",
+          "a095"
+        ],
+        "socialTags": [
+          "educated",
+          "public_service"
+        ],
+        "face": 66,
+        "prestige": 63,
+        "reputation": 65,
+        "communityId": "village",
+        "workplaceId": "village_committee",
+        "hobbies": [
+          "种菜"
+        ],
+        "habits": [
+          "爱抽烟"
+        ]
+      },
+      "private": {
+        "bigFive": {
+          "O": 0.6,
+          "C": 0.8,
+          "E": 0.6,
+          "A": 0.4,
+          "N": 0.2
+        },
+        "emotion": {
+          "mood": 0.7,
+          "arousal": 0.3,
+          "stress": 0.4,
+          "energy": 0.8
+        }
+      },
+      "economy": {
+        "cash": 1690,
+        "deposit": 49172,
+        "debt": 0,
+        "creditLimit": 18282,
+        "income": 4735,
+        "essentialExpenseRatio": 0.6,
+        "savingsRatio": 0.2
+      }
+    },
+    {
+      "public": {
+        "id": "a046",
+        "name": "陈明",
+        "age": 51,
+        "gender": "M",
+        "occupation": "厨师",
+        "education": "中专",
+        "kinship": [
+          "a021",
+          "a071",
+          "a096"
+        ],
+        "socialTags": [
+          "service"
+        ],
+        "face": 49,
+        "prestige": 44,
+        "reputation": 47,
+        "communityId": "village",
+        "workplaceId": "canteen",
+        "hobbies": [
+          "戏曲"
+        ],
+        "habits": [
+          "爱抽烟"
+        ]
+      },
+      "private": {
+        "bigFive": {
+          "O": 0.8,
+          "C": 0.4,
+          "E": 0.2,
+          "A": 0.5,
+          "N": 0.5
+        },
+        "emotion": {
+          "mood": 0.7,
+          "arousal": 0.5,
+          "stress": 0.3,
+          "energy": 0.5
+        }
+      },
+      "economy": {
+        "cash": 1650,
+        "deposit": 65962,
+        "debt": 0,
+        "creditLimit": 19720,
+        "income": 4451,
+        "essentialExpenseRatio": 0.4,
+        "savingsRatio": 0.3
+      }
+    },
+    {
+      "public": {
+        "id": "a047",
+        "name": "卫强",
+        "age": 52,
+        "gender": "M",
+        "occupation": "务农",
+        "education": "中专",
+        "kinship": [
+          "a022",
+          "a072",
+          "a097"
+        ],
+        "socialTags": [
+          "neighbor"
+        ],
+        "face": 46,
+        "prestige": 43,
+        "reputation": 45,
+        "communityId": "village",
+        "workplaceId": "farm",
+        "hobbies": [
+          "戏曲"
+        ],
+        "habits": [
+          "少言"
+        ]
+      },
+      "private": {
+        "bigFive": {
+          "O": 0.2,
+          "C": 0.5,
+          "E": 0.4,
+          "A": 0.5,
+          "N": 0.5
+        },
+        "emotion": {
+          "mood": 0.7,
+          "arousal": 0.5,
+          "stress": 0.3,
+          "energy": 0.7
+        }
+      },
+      "economy": {
+        "cash": 7277,
+        "deposit": 60998,
+        "debt": 0,
+        "creditLimit": 5613,
+        "income": 2003,
+        "essentialExpenseRatio": 0.5,
+        "savingsRatio": 0.1
+      }
+    },
+    {
+      "public": {
+        "id": "a048",
+        "name": "李强",
+        "age": 63,
+        "gender": "M",
+        "occupation": "司机",
+        "education": "小学",
+        "kinship": [
+          "a023",
+          "a073",
+          "a098"
+        ],
+        "socialTags": [
+          "neighbor"
+        ],
+        "face": 32,
+        "prestige": 36,
+        "reputation": 34,
+        "communityId": "village",
+        "workplaceId": "transport",
+        "hobbies": [
+          "戏曲"
+        ],
+        "habits": [
+          "爱请客"
+        ]
+      },
+      "private": {
+        "bigFive": {
+          "O": 0.3,
+          "C": 0.8,
+          "E": 0.6,
+          "A": 0.7,
+          "N": 0.6
+        },
+        "emotion": {
+          "mood": 0.6,
+          "arousal": 0.4,
+          "stress": 0.4,
+          "energy": 0.5
+        }
+      },
+      "economy": {
+        "cash": 7166,
+        "deposit": 4936,
+        "debt": 0,
+        "creditLimit": 11853,
+        "income": 4135,
+        "essentialExpenseRatio": 0.4,
+        "savingsRatio": 0.2
+      }
+    },
+    {
+      "public": {
+        "id": "a049",
+        "name": "魏杰",
+        "age": 42,
+        "gender": "M",
+        "occupation": "养殖户",
+        "education": "初中",
+        "kinship": [
+          "a024",
+          "a074",
+          "a099"
+        ],
+        "socialTags": [
+          "merchant"
+        ],
+        "face": 52,
+        "prestige": 48,
+        "reputation": 50,
+        "communityId": "village",
+        "workplaceId": "farm",
+        "hobbies": [
+          "散步"
+        ],
+        "habits": [
+          "早起"
+        ]
+      },
+      "private": {
+        "bigFive": {
+          "O": 0.4,
+          "C": 0.8,
+          "E": 0.5,
+          "A": 0.4,
+          "N": 0.2
+        },
+        "emotion": {
+          "mood": 0.5,
+          "arousal": 0.2,
+          "stress": 0.3,
+          "energy": 0.7
+        }
+      },
+      "economy": {
+        "cash": 11663,
+        "deposit": 47654,
+        "debt": 0,
+        "creditLimit": 22705,
+        "income": 5585,
+        "essentialExpenseRatio": 0.4,
+        "savingsRatio": 0.3
+      }
+    },
+    {
+      "public": {
+        "id": "a050",
+        "name": "冯伟",
+        "age": 58,
+        "gender": "M",
+        "occupation": "厨师",
+        "education": "小学",
+        "kinship": [
+          "a025",
+          "a075",
+          "a100"
+        ],
+        "socialTags": [
+          "service"
+        ],
+        "face": 30,
+        "prestige": 35,
+        "reputation": 33,
+        "communityId": "village",
+        "workplaceId": "canteen",
+        "hobbies": [
+          "看电视"
+        ],
+        "habits": [
+          "爱抽烟"
+        ]
+      },
+      "private": {
+        "bigFive": {
+          "O": 0.8,
+          "C": 0.5,
+          "E": 0.6,
+          "A": 0.6,
+          "N": 0.6
+        },
+        "emotion": {
+          "mood": 0.6,
+          "arousal": 0.4,
+          "stress": 0.3,
+          "energy": 0.7
+        }
+      },
+      "economy": {
+        "cash": 11874,
+        "deposit": 4950,
+        "debt": 0,
+        "creditLimit": 19800,
+        "income": 4581,
+        "essentialExpenseRatio": 0.5,
+        "savingsRatio": 0.3
+      }
+    },
+    {
+      "public": {
+        "id": "a051",
+        "name": "褚娟1",
+        "age": 25,
+        "gender": "F",
+        "occupation": "保姆",
+        "education": "初中",
+        "kinship": [
+          "a001",
+          "a026",
+          "a076"
+        ],
+        "socialTags": [
+          "service"
+        ],
+        "face": 33,
+        "prestige": 31,
+        "reputation": 32,
+        "communityId": "village",
+        "workplaceId": "home",
+        "hobbies": [
+          "戏曲"
+        ],
+        "habits": [
+          "爱请客"
+        ]
+      },
+      "private": {
+        "bigFive": {
+          "O": 0.5,
+          "C": 0.3,
+          "E": 0.2,
+          "A": 0.8,
+          "N": 0.2
+        },
+        "emotion": {
+          "mood": 0.6,
+          "arousal": 0.2,
+          "stress": 0.3,
+          "energy": 0.4
+        }
+      },
+      "economy": {
+        "cash": 11217,
+        "deposit": 66509,
+        "debt": 0,
+        "creditLimit": 9375,
+        "income": 2674,
+        "essentialExpenseRatio": 0.4,
+        "savingsRatio": 0.3
+      }
+    },
+    {
+      "public": {
+        "id": "a052",
+        "name": "钱刚",
+        "age": 29,
+        "gender": "M",
+        "occupation": "司机",
+        "education": "中专",
+        "kinship": [
+          "a002",
+          "a027",
+          "a077"
+        ],
+        "socialTags": [
+          "neighbor"
+        ],
+        "face": 42,
+        "prestige": 47,
+        "reputation": 45,
+        "communityId": "village",
+        "workplaceId": "transport",
+        "hobbies": [
+          "打牌"
+        ],
+        "habits": [
+          "爱请客"
+        ]
+      },
+      "private": {
+        "bigFive": {
+          "O": 0.5,
+          "C": 0.2,
+          "E": 0.2,
+          "A": 0.7,
+          "N": 0.4
+        },
+        "emotion": {
+          "mood": 0.7,
+          "arousal": 0.5,
+          "stress": 0.5,
+          "energy": 0.8
+        }
+      },
+      "economy": {
+        "cash": 5558,
+        "deposit": 40231,
+        "debt": 0,
+        "creditLimit": 3628,
+        "income": 3770,
+        "essentialExpenseRatio": 0.4,
+        "savingsRatio": 0.1
+      }
+    },
+    {
+      "public": {
+        "id": "a053",
+        "name": "秦萍",
+        "age": 62,
+        "gender": "F",
+        "occupation": "建筑工",
+        "education": "小学",
+        "kinship": [
+          "a003",
+          "a028",
+          "a078"
+        ],
+        "socialTags": [
+          "migrant"
+        ],
+        "face": 45,
+        "prestige": 39,
+        "reputation": 42,
+        "communityId": "village",
+        "workplaceId": "construction",
+        "hobbies": [
+          "种菜"
+        ],
+        "habits": [
+          "爱抽烟"
+        ]
+      },
+      "private": {
+        "bigFive": {
+          "O": 0.8,
+          "C": 0.3,
+          "E": 0.5,
+          "A": 0.5,
+          "N": 0.2
+        },
+        "emotion": {
+          "mood": 0.5,
+          "arousal": 0.4,
+          "stress": 0.3,
+          "energy": 0.7
+        }
+      },
+      "economy": {
+        "cash": 11794,
+        "deposit": 79787,
+        "debt": 3655,
+        "creditLimit": 24452,
+        "income": 4550,
+        "essentialExpenseRatio": 0.5,
+        "savingsRatio": 0.1
+      }
+    },
+    {
+      "public": {
+        "id": "a054",
+        "name": "沈芳",
+        "age": 33,
+        "gender": "F",
+        "occupation": "会计",
+        "education": "初中",
+        "kinship": [
+          "a004",
+          "a029",
+          "a079"
+        ],
+        "socialTags": [
+          "educated",
+          "public_service"
+        ],
+        "face": 58,
+        "prestige": 53,
+        "reputation": 56,
+        "communityId": "village",
+        "workplaceId": "village_committee",
+        "hobbies": [
+          "散步"
+        ],
+        "habits": [
+          "节俭"
+        ]
+      },
+      "private": {
+        "bigFive": {
+          "O": 0.7,
+          "C": 0.6,
+          "E": 0.6,
+          "A": 0.4,
+          "N": 0.5
+        },
+        "emotion": {
+          "mood": 0.4,
+          "arousal": 0.2,
+          "stress": 0.5,
+          "energy": 0.5
+        }
+      },
+      "economy": {
+        "cash": 6949,
+        "deposit": 71879,
+        "debt": 0,
+        "creditLimit": 17717,
+        "income": 5420,
+        "essentialExpenseRatio": 0.5,
+        "savingsRatio": 0.1
+      }
+    },
+    {
+      "public": {
+        "id": "a055",
+        "name": "许军",
+        "age": 78,
+        "gender": "M",
+        "occupation": "会计",
+        "education": "中专",
+        "kinship": [
+          "a005",
+          "a030",
+          "a080"
+        ],
+        "socialTags": [
+          "educated",
+          "public_service"
+        ],
+        "face": 71,
+        "prestige": 63,
+        "reputation": 67,
+        "communityId": "village",
+        "workplaceId": "village_committee",
+        "hobbies": [
+          "散步"
+        ],
+        "habits": [
+          "早起"
+        ]
+      },
+      "private": {
+        "bigFive": {
+          "O": 0.3,
+          "C": 0.4,
+          "E": 0.6,
+          "A": 0.3,
+          "N": 0.7
+        },
+        "emotion": {
+          "mood": 0.5,
+          "arousal": 0.3,
+          "stress": 0.4,
+          "energy": 0.7
+        }
+      },
+      "economy": {
+        "cash": 7077,
+        "deposit": 10469,
+        "debt": 4456,
+        "creditLimit": 5467,
+        "income": 4493,
+        "essentialExpenseRatio": 0.6,
+        "savingsRatio": 0.1
+      }
+    },
+    {
+      "public": {
+        "id": "a056",
+        "name": "何红",
+        "age": 62,
+        "gender": "F",
+        "occupation": "厨师",
+        "education": "初中",
+        "kinship": [
+          "a006",
+          "a031",
+          "a081"
+        ],
+        "socialTags": [
+          "service"
+        ],
+        "face": 38,
+        "prestige": 42,
+        "reputation": 40,
+        "communityId": "village",
+        "workplaceId": "canteen",
+        "hobbies": [
+          "种菜"
+        ],
+        "habits": [
+          "早起"
+        ]
+      },
+      "private": {
+        "bigFive": {
+          "O": 0.6,
+          "C": 0.5,
+          "E": 0.7,
+          "A": 0.3,
+          "N": 0.3
+        },
+        "emotion": {
+          "mood": 0.6,
+          "arousal": 0.5,
+          "stress": 0.3,
+          "energy": 0.8
+        }
+      },
+      "economy": {
+        "cash": 6454,
+        "deposit": 8378,
+        "debt": 0,
+        "creditLimit": 16737,
+        "income": 3509,
+        "essentialExpenseRatio": 0.6,
+        "savingsRatio": 0.2
+      }
+    },
+    {
+      "public": {
+        "id": "a057",
+        "name": "张海",
+        "age": 38,
+        "gender": "M",
+        "occupation": "小卖部老板",
+        "education": "中专",
+        "kinship": [
+          "a007",
+          "a032",
+          "a082"
+        ],
+        "socialTags": [
+          "merchant",
+          "host"
+        ],
+        "face": 40,
+        "prestige": 45,
+        "reputation": 43,
+        "communityId": "village",
+        "workplaceId": "shop",
+        "hobbies": [
+          "戏曲"
+        ],
+        "habits": [
+          "节俭"
+        ]
+      },
+      "private": {
+        "bigFive": {
+          "O": 0.7,
+          "C": 0.3,
+          "E": 0.4,
+          "A": 0.5,
+          "N": 0.1
+        },
+        "emotion": {
+          "mood": 0.6,
+          "arousal": 0.3,
+          "stress": 0.3,
+          "energy": 0.4
+        }
+      },
+      "economy": {
+        "cash": 3343,
+        "deposit": 11665,
+        "debt": 0,
+        "creditLimit": 3392,
+        "income": 4757,
+        "essentialExpenseRatio": 0.5,
+        "savingsRatio": 0.2
+      }
+    },
+    {
+      "public": {
+        "id": "a058",
+        "name": "严丽",
+        "age": 71,
+        "gender": "F",
+        "occupation": "医生",
+        "education": "初中",
+        "kinship": [
+          "a008",
+          "a033",
+          "a083"
+        ],
+        "socialTags": [
+          "professional"
+        ],
+        "face": 72,
+        "prestige": 73,
+        "reputation": 73,
+        "communityId": "village",
+        "workplaceId": "clinic",
+        "hobbies": [
+          "散步"
+        ],
+        "habits": [
+          "爱抽烟"
+        ]
+      },
+      "private": {
+        "bigFive": {
+          "O": 0.3,
+          "C": 0.2,
+          "E": 0.4,
+          "A": 0.4,
+          "N": 0.7
+        },
+        "emotion": {
+          "mood": 0.4,
+          "arousal": 0.5,
+          "stress": 0.5,
+          "energy": 0.6
+        }
+      },
+      "economy": {
+        "cash": 3897,
+        "deposit": 46427,
+        "debt": 0,
+        "creditLimit": 18869,
+        "income": 6788,
+        "essentialExpenseRatio": 0.5,
+        "savingsRatio": 0.2
+      }
+    },
+    {
+      "public": {
+        "id": "a059",
+        "name": "吴华",
+        "age": 53,
+        "gender": "F",
+        "occupation": "务农",
+        "education": "高中",
+        "kinship": [
+          "a009",
+          "a034",
+          "a084"
+        ],
+        "socialTags": [
+          "neighbor"
+        ],
+        "face": 41,
+        "prestige": 35,
+        "reputation": 38,
+        "communityId": "village",
+        "workplaceId": "farm",
+        "hobbies": [
+          "打牌"
+        ],
+        "habits": [
+          "节俭"
+        ]
+      },
+      "private": {
+        "bigFive": {
+          "O": 0.5,
+          "C": 0.5,
+          "E": 0.8,
+          "A": 0.7,
+          "N": 0.4
+        },
+        "emotion": {
+          "mood": 0.5,
+          "arousal": 0.6,
+          "stress": 0.5,
+          "energy": 0.7
+        }
+      },
+      "economy": {
+        "cash": 9750,
+        "deposit": 75899,
+        "debt": 0,
+        "creditLimit": 16060,
+        "income": 3299,
+        "essentialExpenseRatio": 0.4,
+        "savingsRatio": 0.2
+      }
+    },
+    {
+      "public": {
+        "id": "a060",
+        "name": "何萍",
+        "age": 26,
+        "gender": "F",
+        "occupation": "退休干部",
+        "education": "高中",
+        "kinship": [
+          "a010",
+          "a035",
+          "a085"
+        ],
+        "socialTags": [
+          "authority",
+          "elder"
+        ],
+        "face": 71,
+        "prestige": 74,
+        "reputation": 73,
+        "communityId": "village",
+        "workplaceId": "home",
+        "hobbies": [
+          "戏曲"
+        ],
+        "habits": [
+          "爱请客"
+        ]
+      },
+      "private": {
+        "bigFive": {
+          "O": 0.5,
+          "C": 0.5,
+          "E": 0.3,
+          "A": 0.8,
+          "N": 0.6
+        },
+        "emotion": {
+          "mood": 0.6,
+          "arousal": 0.3,
+          "stress": 0.2,
+          "energy": 0.5
+        }
+      },
+      "economy": {
+        "cash": 5801,
+        "deposit": 66962,
+        "debt": 6410,
+        "creditLimit": 2518,
+        "income": 3864,
+        "essentialExpenseRatio": 0.4,
+        "savingsRatio": 0.2
+      }
+    },
+    {
+      "public": {
+        "id": "a061",
+        "name": "郑梅",
+        "age": 67,
+        "gender": "F",
+        "occupation": "村委会文书",
+        "education": "初中",
+        "kinship": [
+          "a011",
+          "a036",
+          "a086"
+        ],
+        "socialTags": [
+          "public_service",
+          "subordinate"
+        ],
+        "face": 64,
+        "prestige": 60,
+        "reputation": 62,
+        "communityId": "village",
+        "workplaceId": "village_committee",
+        "hobbies": [
+          "戏曲"
+        ],
+        "habits": [
+          "爱请客"
+        ]
+      },
+      "private": {
+        "bigFive": {
+          "O": 0.7,
+          "C": 0.6,
+          "E": 0.3,
+          "A": 0.7,
+          "N": 0.6
+        },
+        "emotion": {
+          "mood": 0.6,
+          "arousal": 0.3,
+          "stress": 0.2,
+          "energy": 0.4
+        }
+      },
+      "economy": {
+        "cash": 11836,
+        "deposit": 13316,
+        "debt": 1781,
+        "creditLimit": 23571,
+        "income": 4279,
+        "essentialExpenseRatio": 0.5,
+        "savingsRatio": 0.2
+      }
+    },
+    {
+      "public": {
+        "id": "a062",
+        "name": "褚敏",
+        "age": 44,
+        "gender": "F",
+        "occupation": "建筑工",
+        "education": "小学",
+        "kinship": [
+          "a012",
+          "a037",
+          "a087"
+        ],
+        "socialTags": [
+          "migrant"
+        ],
+        "face": 34,
+        "prestige": 32,
+        "reputation": 33,
+        "communityId": "village",
+        "workplaceId": "construction",
+        "hobbies": [
+          "打牌"
+        ],
+        "habits": [
+          "爱请客"
+        ]
+      },
+      "private": {
+        "bigFive": {
+          "O": 0.4,
+          "C": 0.3,
+          "E": 0.7,
+          "A": 0.5,
+          "N": 0.6
+        },
+        "emotion": {
+          "mood": 0.4,
+          "arousal": 0.3,
+          "stress": 0.5,
+          "energy": 0.5
+        }
+      },
+      "economy": {
+        "cash": 1883,
+        "deposit": 78537,
+        "debt": 0,
+        "creditLimit": 12285,
+        "income": 3934,
+        "essentialExpenseRatio": 0.4,
+        "savingsRatio": 0.2
+      }
+    },
+    {
+      "public": {
+        "id": "a063",
+        "name": "郑雪",
+        "age": 54,
+        "gender": "F",
+        "occupation": "村委会主任",
+        "education": "大专",
+        "kinship": [
+          "a013",
+          "a038",
+          "a088"
+        ],
+        "socialTags": [
+          "host",
+          "authority",
+          "community_leader"
+        ],
+        "face": 77,
+        "prestige": 81,
+        "reputation": 79,
+        "communityId": "village",
+        "workplaceId": "village_committee",
+        "hobbies": [
+          "下棋"
+        ],
+        "habits": [
+          "爱抽烟"
+        ]
+      },
+      "private": {
+        "bigFive": {
+          "O": 0.6,
+          "C": 0.4,
+          "E": 0.2,
+          "A": 0.2,
+          "N": 0.1
+        },
+        "emotion": {
+          "mood": 0.7,
+          "arousal": 0.4,
+          "stress": 0.4,
+          "energy": 0.5
+        }
+      },
+      "economy": {
+        "cash": 3824,
+        "deposit": 27725,
+        "debt": 0,
+        "creditLimit": 23024,
+        "income": 7107,
+        "essentialExpenseRatio": 0.6,
+        "savingsRatio": 0.2
+      }
+    },
+    {
+      "public": {
+        "id": "a064",
+        "name": "张德",
+        "age": 62,
+        "gender": "M",
+        "occupation": "厨师",
+        "education": "中专",
+        "kinship": [
+          "a014",
+          "a039",
+          "a089"
+        ],
+        "socialTags": [
+          "service"
+        ],
+        "face": 48,
+        "prestige": 40,
+        "reputation": 44,
+        "communityId": "village",
+        "workplaceId": "canteen",
+        "hobbies": [
+          "看电视"
+        ],
+        "habits": [
+          "早起"
+        ]
+      },
+      "private": {
+        "bigFive": {
+          "O": 0.3,
+          "C": 0.5,
+          "E": 0.3,
+          "A": 0.2,
+          "N": 0.4
+        },
+        "emotion": {
+          "mood": 0.7,
+          "arousal": 0.4,
+          "stress": 0.3,
+          "energy": 0.7
+        }
+      },
+      "economy": {
+        "cash": 4384,
+        "deposit": 52495,
+        "debt": 0,
+        "creditLimit": 5207,
+        "income": 4762,
+        "essentialExpenseRatio": 0.5,
+        "savingsRatio": 0.2
+      }
+    },
+    {
+      "public": {
+        "id": "a065",
+        "name": "冯明",
+        "age": 64,
+        "gender": "M",
+        "occupation": "会计",
+        "education": "大专",
+        "kinship": [
+          "a015",
+          "a040",
+          "a090"
+        ],
+        "socialTags": [
+          "educated",
+          "public_service"
+        ],
+        "face": 50,
+        "prestige": 51,
+        "reputation": 51,
+        "communityId": "village",
+        "workplaceId": "village_committee",
+        "hobbies": [
+          "下棋"
+        ],
+        "habits": [
+          "少言"
+        ]
+      },
+      "private": {
+        "bigFive": {
+          "O": 0.3,
+          "C": 0.5,
+          "E": 0.2,
+          "A": 0.4,
+          "N": 0.6
+        },
+        "emotion": {
+          "mood": 0.4,
+          "arousal": 0.2,
+          "stress": 0.4,
+          "energy": 0.8
+        }
+      },
+      "economy": {
+        "cash": 1576,
+        "deposit": 4960,
+        "debt": 0,
+        "creditLimit": 8193,
+        "income": 4248,
+        "essentialExpenseRatio": 0.5,
+        "savingsRatio": 0.2
+      }
+    },
+    {
+      "public": {
+        "id": "a066",
+        "name": "韩强",
+        "age": 37,
+        "gender": "M",
+        "occupation": "裁缝",
+        "education": "小学",
+        "kinship": [
+          "a016",
+          "a041",
+          "a091"
+        ],
+        "socialTags": [
+          "crafts"
+        ],
+        "face": 43,
+        "prestige": 50,
+        "reputation": 47,
+        "communityId": "village",
+        "workplaceId": "home",
+        "hobbies": [
+          "下棋"
+        ],
+        "habits": [
+          "节俭"
+        ]
+      },
+      "private": {
+        "bigFive": {
+          "O": 0.5,
+          "C": 0.4,
+          "E": 0.7,
+          "A": 0.7,
+          "N": 0.7
+        },
+        "emotion": {
+          "mood": 0.5,
+          "arousal": 0.6,
+          "stress": 0.4,
+          "energy": 0.6
+        }
+      },
+      "economy": {
+        "cash": 2760,
+        "deposit": 23525,
+        "debt": 0,
+        "creditLimit": 10411,
+        "income": 3113,
+        "essentialExpenseRatio": 0.5,
+        "savingsRatio": 0.2
+      }
+    },
+    {
+      "public": {
+        "id": "a067",
+        "name": "郑勇",
+        "age": 69,
+        "gender": "M",
+        "occupation": "电工",
+        "education": "小学",
+        "kinship": [
+          "a017",
+          "a042",
+          "a092"
+        ],
+        "socialTags": [
+          "crafts"
+        ],
+        "face": 50,
+        "prestige": 47,
+        "reputation": 49,
+        "communityId": "village",
+        "workplaceId": "utility",
+        "hobbies": [
+          "戏曲"
+        ],
+        "habits": [
+          "节俭"
+        ]
+      },
+      "private": {
+        "bigFive": {
+          "O": 0.4,
+          "C": 0.7,
+          "E": 0.2,
+          "A": 0.5,
+          "N": 0.1
+        },
+        "emotion": {
+          "mood": 0.7,
+          "arousal": 0.3,
+          "stress": 0.3,
+          "energy": 0.5
+        }
+      },
+      "economy": {
+        "cash": 5114,
+        "deposit": 19507,
+        "debt": 0,
+        "creditLimit": 13679,
+        "income": 5093,
+        "essentialExpenseRatio": 0.6,
+        "savingsRatio": 0.1
+      }
+    },
+    {
+      "public": {
+        "id": "a068",
+        "name": "褚丽",
+        "age": 23,
+        "gender": "F",
+        "occupation": "村委会主任",
+        "education": "高中",
+        "kinship": [
+          "a018",
+          "a043",
+          "a093"
+        ],
+        "socialTags": [
+          "host",
+          "authority",
+          "community_leader"
+        ],
+        "face": 88,
+        "prestige": 82,
+        "reputation": 85,
+        "communityId": "village",
+        "workplaceId": "village_committee",
+        "hobbies": [
+          "种菜"
+        ],
+        "habits": [
+          "少言"
+        ]
+      },
+      "private": {
+        "bigFive": {
+          "O": 0.5,
+          "C": 0.3,
+          "E": 0.7,
+          "A": 0.8,
+          "N": 0.3
+        },
+        "emotion": {
+          "mood": 0.6,
+          "arousal": 0.4,
+          "stress": 0.3,
+          "energy": 0.6
+        }
+      },
+      "economy": {
+        "cash": 11330,
+        "deposit": 65945,
+        "debt": 0,
+        "creditLimit": 7856,
+        "income": 6418,
+        "essentialExpenseRatio": 0.5,
+        "savingsRatio": 0.2
+      }
+    },
+    {
+      "public": {
+        "id": "a069",
+        "name": "孙斌",
+        "age": 72,
+        "gender": "M",
+        "occupation": "司机",
+        "education": "大专",
+        "kinship": [
+          "a019",
+          "a044",
+          "a094"
+        ],
+        "socialTags": [
+          "neighbor"
+        ],
+        "face": 45,
+        "prestige": 37,
+        "reputation": 41,
+        "communityId": "village",
+        "workplaceId": "transport",
+        "hobbies": [
+          "打牌"
+        ],
+        "habits": [
+          "爱抽烟"
+        ]
+      },
+      "private": {
+        "bigFive": {
+          "O": 0.7,
+          "C": 0.8,
+          "E": 0.7,
+          "A": 0.4,
+          "N": 0.4
+        },
+        "emotion": {
+          "mood": 0.5,
+          "arousal": 0.3,
+          "stress": 0.2,
+          "energy": 0.6
+        }
+      },
+      "economy": {
+        "cash": 1463,
+        "deposit": 66573,
+        "debt": 0,
+        "creditLimit": 20420,
+        "income": 3860,
+        "essentialExpenseRatio": 0.6,
+        "savingsRatio": 0.1
+      }
+    },
+    {
+      "public": {
+        "id": "a070",
+        "name": "严鹏1",
+        "age": 38,
+        "gender": "M",
+        "occupation": "村委会主任",
+        "education": "小学",
+        "kinship": [
+          "a020",
+          "a045",
+          "a095"
+        ],
+        "socialTags": [
+          "host",
+          "authority",
+          "community_leader"
+        ],
+        "face": 69,
+        "prestige": 66,
+        "reputation": 68,
+        "communityId": "village",
+        "workplaceId": "village_committee",
+        "hobbies": [
+          "看电视"
+        ],
+        "habits": [
+          "早起"
+        ]
+      },
+      "private": {
+        "bigFive": {
+          "O": 0.5,
+          "C": 0.7,
+          "E": 0.7,
+          "A": 0.5,
+          "N": 0.6
+        },
+        "emotion": {
+          "mood": 0.7,
+          "arousal": 0.6,
+          "stress": 0.2,
+          "energy": 0.7
+        }
+      },
+      "economy": {
+        "cash": 6151,
+        "deposit": 77619,
+        "debt": 0,
+        "creditLimit": 23256,
+        "income": 6808,
+        "essentialExpenseRatio": 0.4,
+        "savingsRatio": 0.3
+      }
+    },
+    {
+      "public": {
+        "id": "a071",
+        "name": "周海",
+        "age": 63,
+        "gender": "M",
+        "occupation": "建筑工",
+        "education": "中专",
+        "kinship": [
+          "a021",
+          "a046",
+          "a096"
+        ],
+        "socialTags": [
+          "migrant"
+        ],
+        "face": 44,
+        "prestige": 46,
+        "reputation": 45,
+        "communityId": "village",
+        "workplaceId": "construction",
+        "hobbies": [
+          "打牌"
+        ],
+        "habits": [
+          "节俭"
+        ]
+      },
+      "private": {
+        "bigFive": {
+          "O": 0.8,
+          "C": 0.8,
+          "E": 0.7,
+          "A": 0.4,
+          "N": 0.6
+        },
+        "emotion": {
+          "mood": 0.5,
+          "arousal": 0.4,
+          "stress": 0.3,
+          "energy": 0.5
+        }
+      },
+      "economy": {
+        "cash": 1579,
+        "deposit": 25539,
+        "debt": 2174,
+        "creditLimit": 5619,
+        "income": 3569,
+        "essentialExpenseRatio": 0.5,
+        "savingsRatio": 0.2
+      }
+    },
+    {
+      "public": {
+        "id": "a072",
+        "name": "王辉",
+        "age": 23,
+        "gender": "M",
+        "occupation": "裁缝",
+        "education": "高中",
+        "kinship": [
+          "a022",
+          "a047",
+          "a097"
+        ],
+        "socialTags": [
+          "crafts"
+        ],
+        "face": 39,
+        "prestige": 38,
+        "reputation": 39,
+        "communityId": "village",
+        "workplaceId": "home",
+        "hobbies": [
+          "打牌"
+        ],
+        "habits": [
+          "节俭"
+        ]
+      },
+      "private": {
+        "bigFive": {
+          "O": 0.8,
+          "C": 0.8,
+          "E": 0.8,
+          "A": 0.4,
+          "N": 0.4
+        },
+        "emotion": {
+          "mood": 0.6,
+          "arousal": 0.3,
+          "stress": 0.2,
+          "energy": 0.7
+        }
+      },
+      "economy": {
+        "cash": 6358,
+        "deposit": 57413,
+        "debt": 0,
+        "creditLimit": 13375,
+        "income": 4022,
+        "essentialExpenseRatio": 0.4,
+        "savingsRatio": 0.1
+      }
+    },
+    {
+      "public": {
+        "id": "a073",
+        "name": "吕强",
+        "age": 59,
+        "gender": "M",
+        "occupation": "电工",
+        "education": "大专",
+        "kinship": [
+          "a023",
+          "a048",
+          "a098"
+        ],
+        "socialTags": [
+          "crafts"
+        ],
+        "face": 38,
+        "prestige": 42,
+        "reputation": 40,
+        "communityId": "village",
+        "workplaceId": "utility",
+        "hobbies": [
+          "打牌"
+        ],
+        "habits": [
+          "爱请客"
+        ]
+      },
+      "private": {
+        "bigFive": {
+          "O": 0.8,
+          "C": 0.3,
+          "E": 0.3,
+          "A": 0.7,
+          "N": 0.3
+        },
+        "emotion": {
+          "mood": 0.6,
+          "arousal": 0.3,
+          "stress": 0.5,
+          "energy": 0.4
+        }
+      },
+      "economy": {
+        "cash": 6879,
+        "deposit": 16294,
+        "debt": 0,
+        "creditLimit": 4281,
+        "income": 3857,
+        "essentialExpenseRatio": 0.5,
+        "savingsRatio": 0.1
+      }
+    },
+    {
+      "public": {
+        "id": "a074",
+        "name": "吕杰",
+        "age": 36,
+        "gender": "M",
+        "occupation": "务农",
+        "education": "中专",
+        "kinship": [
+          "a024",
+          "a049",
+          "a099"
+        ],
+        "socialTags": [
+          "neighbor"
+        ],
+        "face": 57,
+        "prestige": 55,
+        "reputation": 56,
+        "communityId": "village",
+        "workplaceId": "farm",
+        "hobbies": [
+          "打牌"
+        ],
+        "habits": [
+          "早起"
+        ]
+      },
+      "private": {
+        "bigFive": {
+          "O": 0.6,
+          "C": 0.7,
+          "E": 0.3,
+          "A": 0.7,
+          "N": 0.4
+        },
+        "emotion": {
+          "mood": 0.7,
+          "arousal": 0.6,
+          "stress": 0.4,
+          "energy": 0.8
+        }
+      },
+      "economy": {
+        "cash": 896,
+        "deposit": 58245,
+        "debt": 0,
+        "creditLimit": 12351,
+        "income": 3425,
+        "essentialExpenseRatio": 0.5,
+        "savingsRatio": 0.3
+      }
+    },
+    {
+      "public": {
+        "id": "a075",
+        "name": "杨辉",
+        "age": 63,
+        "gender": "M",
+        "occupation": "村委会文书",
+        "education": "中专",
+        "kinship": [
+          "a025",
+          "a050",
+          "a100"
+        ],
+        "socialTags": [
+          "public_service",
+          "subordinate"
+        ],
+        "face": 46,
+        "prestige": 51,
+        "reputation": 49,
+        "communityId": "village",
+        "workplaceId": "village_committee",
+        "hobbies": [
+          "下棋"
+        ],
+        "habits": [
+          "爱抽烟"
+        ]
+      },
+      "private": {
+        "bigFive": {
+          "O": 0.8,
+          "C": 0.2,
+          "E": 0.7,
+          "A": 0.4,
+          "N": 0.3
+        },
+        "emotion": {
+          "mood": 0.4,
+          "arousal": 0.4,
+          "stress": 0.4,
+          "energy": 0.8
+        }
+      },
+      "economy": {
+        "cash": 11492,
+        "deposit": 64782,
+        "debt": 0,
+        "creditLimit": 24877,
+        "income": 5000,
+        "essentialExpenseRatio": 0.6,
+        "savingsRatio": 0.1
+      }
+    },
+    {
+      "public": {
+        "id": "a076",
+        "name": "赵斌1",
+        "age": 56,
+        "gender": "M",
+        "occupation": "村委会主任",
+        "education": "初中",
+        "kinship": [
+          "a001",
+          "a026",
+          "a051"
+        ],
+        "socialTags": [
+          "host",
+          "authority",
+          "community_leader"
+        ],
+        "face": 86,
+        "prestige": 81,
+        "reputation": 84,
+        "communityId": "village",
+        "workplaceId": "village_committee",
+        "hobbies": [
+          "打牌"
+        ],
+        "habits": [
+          "爱请客"
+        ]
+      },
+      "private": {
+        "bigFive": {
+          "O": 0.3,
+          "C": 0.7,
+          "E": 0.3,
+          "A": 0.4,
+          "N": 0.6
+        },
+        "emotion": {
+          "mood": 0.6,
+          "arousal": 0.3,
+          "stress": 0.4,
+          "energy": 0.7
+        }
+      },
+      "economy": {
+        "cash": 3381,
+        "deposit": 46361,
+        "debt": 0,
+        "creditLimit": 13719,
+        "income": 6949,
+        "essentialExpenseRatio": 0.5,
+        "savingsRatio": 0.3
+      }
+    },
+    {
+      "public": {
+        "id": "a077",
+        "name": "蒋玲",
+        "age": 68,
+        "gender": "F",
+        "occupation": "厨师",
+        "education": "高中",
+        "kinship": [
+          "a002",
+          "a027",
+          "a052"
+        ],
+        "socialTags": [
+          "service"
+        ],
+        "face": 31,
+        "prestige": 33,
+        "reputation": 32,
+        "communityId": "village",
+        "workplaceId": "canteen",
+        "hobbies": [
+          "看电视"
+        ],
+        "habits": [
+          "爱请客"
+        ]
+      },
+      "private": {
+        "bigFive": {
+          "O": 0.6,
+          "C": 0.4,
+          "E": 0.5,
+          "A": 0.5,
+          "N": 0.4
+        },
+        "emotion": {
+          "mood": 0.5,
+          "arousal": 0.2,
+          "stress": 0.3,
+          "energy": 0.4
+        }
+      },
+      "economy": {
+        "cash": 9552,
+        "deposit": 69806,
+        "debt": 0,
+        "creditLimit": 11560,
+        "income": 3619,
+        "essentialExpenseRatio": 0.4,
+        "savingsRatio": 0.2
+      }
+    },
+    {
+      "public": {
+        "id": "a078",
+        "name": "曹霞",
+        "age": 44,
+        "gender": "F",
+        "occupation": "建筑工",
+        "education": "初中",
+        "kinship": [
+          "a003",
+          "a028",
+          "a053"
+        ],
+        "socialTags": [
+          "migrant"
+        ],
+        "face": 50,
+        "prestige": 44,
+        "reputation": 47,
+        "communityId": "village",
+        "workplaceId": "construction",
+        "hobbies": [
+          "戏曲"
+        ],
+        "habits": [
+          "早起"
+        ]
+      },
+      "private": {
+        "bigFive": {
+          "O": 0.4,
+          "C": 0.6,
+          "E": 0.3,
+          "A": 0.5,
+          "N": 0.6
+        },
+        "emotion": {
+          "mood": 0.6,
+          "arousal": 0.3,
+          "stress": 0.4,
+          "energy": 0.5
+        }
+      },
+      "economy": {
+        "cash": 1874,
+        "deposit": 72087,
+        "debt": 5642,
+        "creditLimit": 4562,
+        "income": 4977,
+        "essentialExpenseRatio": 0.6,
+        "savingsRatio": 0.2
+      }
+    },
+    {
+      "public": {
+        "id": "a079",
+        "name": "卫华",
+        "age": 52,
+        "gender": "F",
+        "occupation": "会计",
+        "education": "小学",
+        "kinship": [
+          "a004",
+          "a029",
+          "a054"
+        ],
+        "socialTags": [
+          "educated",
+          "public_service"
+        ],
+        "face": 60,
+        "prestige": 55,
+        "reputation": 58,
+        "communityId": "village",
+        "workplaceId": "village_committee",
+        "hobbies": [
+          "下棋"
+        ],
+        "habits": [
+          "爱抽烟"
+        ]
+      },
+      "private": {
+        "bigFive": {
+          "O": 0.3,
+          "C": 0.7,
+          "E": 0.2,
+          "A": 0.2,
+          "N": 0.5
+        },
+        "emotion": {
+          "mood": 0.4,
+          "arousal": 0.4,
+          "stress": 0.5,
+          "energy": 0.5
+        }
+      },
+      "economy": {
+        "cash": 9215,
+        "deposit": 10449,
+        "debt": 1319,
+        "creditLimit": 23502,
+        "income": 5295,
+        "essentialExpenseRatio": 0.5,
+        "savingsRatio": 0.2
+      }
+    },
+    {
+      "public": {
+        "id": "a080",
+        "name": "施玲",
+        "age": 60,
+        "gender": "F",
+        "occupation": "裁缝",
+        "education": "初中",
+        "kinship": [
+          "a005",
+          "a030",
+          "a055"
+        ],
+        "socialTags": [
+          "crafts"
+        ],
+        "face": 45,
+        "prestige": 42,
+        "reputation": 44,
+        "communityId": "village",
+        "workplaceId": "home",
+        "hobbies": [
+          "下棋"
+        ],
+        "habits": [
+          "早起"
+        ]
+      },
+      "private": {
+        "bigFive": {
+          "O": 0.6,
+          "C": 0.6,
+          "E": 0.7,
+          "A": 0.3,
+          "N": 0.4
+        },
+        "emotion": {
+          "mood": 0.5,
+          "arousal": 0.5,
+          "stress": 0.2,
+          "energy": 0.7
+        }
+      },
+      "economy": {
+        "cash": 7283,
+        "deposit": 44457,
+        "debt": 5138,
+        "creditLimit": 10428,
+        "income": 2918,
+        "essentialExpenseRatio": 0.4,
+        "savingsRatio": 0.2
+      }
+    },
+    {
+      "public": {
+        "id": "a081",
+        "name": "王霞",
+        "age": 56,
+        "gender": "F",
+        "occupation": "村委会主任",
+        "education": "初中",
+        "kinship": [
+          "a006",
+          "a031",
+          "a056"
+        ],
+        "socialTags": [
+          "host",
+          "authority",
+          "community_leader"
+        ],
+        "face": 74,
+        "prestige": 67,
+        "reputation": 71,
+        "communityId": "village",
+        "workplaceId": "village_committee",
+        "hobbies": [
+          "下棋"
+        ],
+        "habits": [
+          "少言"
+        ]
+      },
+      "private": {
+        "bigFive": {
+          "O": 0.7,
+          "C": 0.6,
+          "E": 0.6,
+          "A": 0.2,
+          "N": 0.3
+        },
+        "emotion": {
+          "mood": 0.6,
+          "arousal": 0.5,
+          "stress": 0.3,
+          "energy": 0.6
+        }
+      },
+      "economy": {
+        "cash": 11083,
+        "deposit": 52705,
+        "debt": 0,
+        "creditLimit": 12651,
+        "income": 6627,
+        "essentialExpenseRatio": 0.5,
+        "savingsRatio": 0.2
+      }
+    },
+    {
+      "public": {
+        "id": "a082",
+        "name": "韩华",
+        "age": 65,
+        "gender": "F",
+        "occupation": "村委会文书",
+        "education": "大专",
+        "kinship": [
+          "a007",
+          "a032",
+          "a057"
+        ],
+        "socialTags": [
+          "public_service",
+          "subordinate"
+        ],
+        "face": 58,
+        "prestige": 58,
+        "reputation": 58,
+        "communityId": "village",
+        "workplaceId": "village_committee",
+        "hobbies": [
+          "打牌"
+        ],
+        "habits": [
+          "早起"
+        ]
+      },
+      "private": {
+        "bigFive": {
+          "O": 0.7,
+          "C": 0.3,
+          "E": 0.7,
+          "A": 0.5,
+          "N": 0.4
+        },
+        "emotion": {
+          "mood": 0.6,
+          "arousal": 0.5,
+          "stress": 0.5,
+          "energy": 0.7
+        }
+      },
+      "economy": {
+        "cash": 3774,
+        "deposit": 3287,
+        "debt": 0,
+        "creditLimit": 21289,
+        "income": 4620,
+        "essentialExpenseRatio": 0.4,
+        "savingsRatio": 0.1
+      }
+    },
+    {
+      "public": {
+        "id": "a083",
+        "name": "许辉",
+        "age": 72,
+        "gender": "M",
+        "occupation": "退休干部",
+        "education": "中专",
+        "kinship": [
+          "a008",
+          "a033",
+          "a058"
+        ],
+        "socialTags": [
+          "authority",
+          "elder"
+        ],
+        "face": 80,
+        "prestige": 78,
+        "reputation": 79,
+        "communityId": "village",
+        "workplaceId": "home",
+        "hobbies": [
+          "打牌"
+        ],
+        "habits": [
+          "爱抽烟"
+        ]
+      },
+      "private": {
+        "bigFive": {
+          "O": 0.7,
+          "C": 0.5,
+          "E": 0.6,
+          "A": 0.8,
+          "N": 0.2
+        },
+        "emotion": {
+          "mood": 0.5,
+          "arousal": 0.6,
+          "stress": 0.3,
+          "energy": 0.6
+        }
+      },
+      "economy": {
+        "cash": 9021,
+        "deposit": 39509,
+        "debt": 0,
+        "creditLimit": 21694,
+        "income": 4503,
+        "essentialExpenseRatio": 0.4,
+        "savingsRatio": 0.2
+      }
+    },
+    {
+      "public": {
+        "id": "a084",
+        "name": "朱霞",
+        "age": 24,
+        "gender": "F",
+        "occupation": "电工",
+        "education": "初中",
+        "kinship": [
+          "a009",
+          "a034",
+          "a059"
+        ],
+        "socialTags": [
+          "crafts"
+        ],
+        "face": 47,
+        "prestige": 53,
+        "reputation": 50,
+        "communityId": "village",
+        "workplaceId": "utility",
+        "hobbies": [
+          "种菜"
+        ],
+        "habits": [
+          "节俭"
+        ]
+      },
+      "private": {
+        "bigFive": {
+          "O": 0.6,
+          "C": 0.7,
+          "E": 0.4,
+          "A": 0.5,
+          "N": 0.4
+        },
+        "emotion": {
+          "mood": 0.7,
+          "arousal": 0.4,
+          "stress": 0.1,
+          "energy": 0.8
+        }
+      },
+      "economy": {
+        "cash": 4028,
+        "deposit": 41774,
+        "debt": 0,
+        "creditLimit": 20918,
+        "income": 4375,
+        "essentialExpenseRatio": 0.6,
+        "savingsRatio": 0.2
+      }
+    },
+    {
+      "public": {
+        "id": "a085",
+        "name": "严磊",
+        "age": 26,
+        "gender": "M",
+        "occupation": "保姆",
+        "education": "高中",
+        "kinship": [
+          "a010",
+          "a035",
+          "a060"
+        ],
+        "socialTags": [
+          "service"
+        ],
+        "face": 28,
+        "prestige": 36,
+        "reputation": 32,
+        "communityId": "village",
+        "workplaceId": "home",
+        "hobbies": [
+          "看电视"
+        ],
+        "habits": [
+          "爱请客"
+        ]
+      },
+      "private": {
+        "bigFive": {
+          "O": 0.4,
+          "C": 0.7,
+          "E": 0.8,
+          "A": 0.3,
+          "N": 0.3
+        },
+        "emotion": {
+          "mood": 0.7,
+          "arousal": 0.6,
+          "stress": 0.5,
+          "energy": 0.8
+        }
+      },
+      "economy": {
+        "cash": 5812,
+        "deposit": 52595,
+        "debt": 0,
+        "creditLimit": 11504,
+        "income": 2651,
+        "essentialExpenseRatio": 0.5,
+        "savingsRatio": 0.1
+      }
+    },
+    {
+      "public": {
+        "id": "a086",
+        "name": "严雪",
+        "age": 57,
+        "gender": "F",
+        "occupation": "务农",
+        "education": "中专",
+        "kinship": [
+          "a011",
+          "a036",
+          "a061"
+        ],
+        "socialTags": [
+          "neighbor"
+        ],
+        "face": 51,
+        "prestige": 47,
+        "reputation": 49,
+        "communityId": "village",
+        "workplaceId": "farm",
+        "hobbies": [
+          "打牌"
+        ],
+        "habits": [
+          "爱请客"
+        ]
+      },
+      "private": {
+        "bigFive": {
+          "O": 0.3,
+          "C": 0.6,
+          "E": 0.5,
+          "A": 0.5,
+          "N": 0.4
+        },
+        "emotion": {
+          "mood": 0.7,
+          "arousal": 0.4,
+          "stress": 0.4,
+          "energy": 0.5
+        }
+      },
+      "economy": {
+        "cash": 10141,
+        "deposit": 52028,
+        "debt": 3714,
+        "creditLimit": 17694,
+        "income": 2707,
+        "essentialExpenseRatio": 0.6,
+        "savingsRatio": 0.3
+      }
+    },
+    {
+      "public": {
+        "id": "a087",
+        "name": "杨德",
+        "age": 41,
+        "gender": "M",
+        "occupation": "电工",
+        "education": "高中",
+        "kinship": [
+          "a012",
+          "a037",
+          "a062"
+        ],
+        "socialTags": [
+          "crafts"
+        ],
+        "face": 43,
+        "prestige": 44,
+        "reputation": 44,
+        "communityId": "village",
+        "workplaceId": "utility",
+        "hobbies": [
+          "种菜"
+        ],
+        "habits": [
+          "早起"
+        ]
+      },
+      "private": {
+        "bigFive": {
+          "O": 0.6,
+          "C": 0.4,
+          "E": 0.7,
+          "A": 0.3,
+          "N": 0.6
+        },
+        "emotion": {
+          "mood": 0.5,
+          "arousal": 0.4,
+          "stress": 0.3,
+          "energy": 0.8
+        }
+      },
+      "economy": {
+        "cash": 2582,
+        "deposit": 24759,
+        "debt": 0,
+        "creditLimit": 8998,
+        "income": 5059,
+        "essentialExpenseRatio": 0.6,
+        "savingsRatio": 0.3
+      }
+    },
+    {
+      "public": {
+        "id": "a088",
+        "name": "金建国1",
+        "age": 65,
+        "gender": "M",
+        "occupation": "村委会主任",
+        "education": "小学",
+        "kinship": [
+          "a013",
+          "a038",
+          "a063"
+        ],
+        "socialTags": [
+          "host",
+          "authority",
+          "community_leader"
+        ],
+        "face": 70,
+        "prestige": 67,
+        "reputation": 69,
+        "communityId": "village",
+        "workplaceId": "village_committee",
+        "hobbies": [
+          "看电视"
+        ],
+        "habits": [
+          "早起"
+        ]
+      },
+      "private": {
+        "bigFive": {
+          "O": 0.4,
+          "C": 0.4,
+          "E": 0.7,
+          "A": 0.6,
+          "N": 0.5
+        },
+        "emotion": {
+          "mood": 0.6,
+          "arousal": 0.5,
+          "stress": 0.2,
+          "energy": 0.6
+        }
+      },
+      "economy": {
+        "cash": 2202,
+        "deposit": 25062,
+        "debt": 0,
+        "creditLimit": 22472,
+        "income": 6065,
+        "essentialExpenseRatio": 0.5,
+        "savingsRatio": 0.2
+      }
+    },
+    {
+      "public": {
+        "id": "a089",
+        "name": "孙辉",
+        "age": 56,
+        "gender": "M",
+        "occupation": "务农",
+        "education": "初中",
+        "kinship": [
+          "a014",
+          "a039",
+          "a064"
+        ],
+        "socialTags": [
+          "neighbor"
+        ],
+        "face": 52,
+        "prestige": 55,
+        "reputation": 54,
+        "communityId": "village",
+        "workplaceId": "farm",
+        "hobbies": [
+          "打牌"
+        ],
+        "habits": [
+          "早起"
+        ]
+      },
+      "private": {
+        "bigFive": {
+          "O": 0.4,
+          "C": 0.4,
+          "E": 0.4,
+          "A": 0.3,
+          "N": 0.6
+        },
+        "emotion": {
+          "mood": 0.6,
+          "arousal": 0.4,
+          "stress": 0.5,
+          "energy": 0.7
+        }
+      },
+      "economy": {
+        "cash": 8561,
+        "deposit": 57192,
+        "debt": 815,
+        "creditLimit": 14210,
+        "income": 2978,
+        "essentialExpenseRatio": 0.4,
+        "savingsRatio": 0.1
+      }
+    },
+    {
+      "public": {
+        "id": "a090",
+        "name": "华霞",
+        "age": 22,
+        "gender": "F",
+        "occupation": "村委会主任",
+        "education": "初中",
+        "kinship": [
+          "a015",
+          "a040",
+          "a065"
+        ],
+        "socialTags": [
+          "host",
+          "authority",
+          "community_leader"
+        ],
+        "face": 72,
+        "prestige": 67,
+        "reputation": 70,
+        "communityId": "village",
+        "workplaceId": "village_committee",
+        "hobbies": [
+          "打牌"
+        ],
+        "habits": [
+          "爱抽烟"
+        ]
+      },
+      "private": {
+        "bigFive": {
+          "O": 0.6,
+          "C": 0.5,
+          "E": 0.7,
+          "A": 0.6,
+          "N": 0.6
+        },
+        "emotion": {
+          "mood": 0.4,
+          "arousal": 0.2,
+          "stress": 0.3,
+          "energy": 0.6
+        }
+      },
+      "economy": {
+        "cash": 10014,
+        "deposit": 35033,
+        "debt": 0,
+        "creditLimit": 21159,
+        "income": 6397,
+        "essentialExpenseRatio": 0.5,
+        "savingsRatio": 0.3
+      }
+    },
+    {
+      "public": {
+        "id": "a091",
+        "name": "杨明",
+        "age": 24,
+        "gender": "M",
+        "occupation": "村委会文书",
+        "education": "中专",
+        "kinship": [
+          "a016",
+          "a041",
+          "a066"
+        ],
+        "socialTags": [
+          "public_service",
+          "subordinate"
+        ],
+        "face": 52,
+        "prestige": 60,
+        "reputation": 56,
+        "communityId": "village",
+        "workplaceId": "village_committee",
+        "hobbies": [
+          "下棋"
+        ],
+        "habits": [
+          "早起"
+        ]
+      },
+      "private": {
+        "bigFive": {
+          "O": 0.6,
+          "C": 0.7,
+          "E": 0.4,
+          "A": 0.3,
+          "N": 0.4
+        },
+        "emotion": {
+          "mood": 0.6,
+          "arousal": 0.5,
+          "stress": 0.1,
+          "energy": 0.4
+        }
+      },
+      "economy": {
+        "cash": 9058,
+        "deposit": 28151,
+        "debt": 0,
+        "creditLimit": 4725,
+        "income": 4199,
+        "essentialExpenseRatio": 0.6,
+        "savingsRatio": 0.3
+      }
+    },
+    {
+      "public": {
+        "id": "a092",
+        "name": "褚磊",
+        "age": 38,
+        "gender": "M",
+        "occupation": "电工",
+        "education": "初中",
+        "kinship": [
+          "a017",
+          "a042",
+          "a067"
+        ],
+        "socialTags": [
+          "crafts"
+        ],
+        "face": 52,
+        "prestige": 54,
+        "reputation": 53,
+        "communityId": "village",
+        "workplaceId": "utility",
+        "hobbies": [
+          "种菜"
+        ],
+        "habits": [
+          "爱抽烟"
+        ]
+      },
+      "private": {
+        "bigFive": {
+          "O": 0.3,
+          "C": 0.4,
+          "E": 0.8,
+          "A": 0.2,
+          "N": 0.4
+        },
+        "emotion": {
+          "mood": 0.6,
+          "arousal": 0.5,
+          "stress": 0.2,
+          "energy": 0.4
+        }
+      },
+      "economy": {
+        "cash": 3116,
+        "deposit": 35658,
+        "debt": 0,
+        "creditLimit": 5784,
+        "income": 4388,
+        "essentialExpenseRatio": 0.6,
+        "savingsRatio": 0.2
+      }
+    },
+    {
+      "public": {
+        "id": "a093",
+        "name": "金海",
+        "age": 29,
+        "gender": "M",
+        "occupation": "建筑工",
+        "education": "高中",
+        "kinship": [
+          "a018",
+          "a043",
+          "a068"
+        ],
+        "socialTags": [
+          "migrant"
+        ],
+        "face": 36,
+        "prestige": 41,
+        "reputation": 39,
+        "communityId": "village",
+        "workplaceId": "construction",
+        "hobbies": [
+          "戏曲"
+        ],
+        "habits": [
+          "早起"
+        ]
+      },
+      "private": {
+        "bigFive": {
+          "O": 0.5,
+          "C": 0.6,
+          "E": 0.2,
+          "A": 0.2,
+          "N": 0.6
+        },
+        "emotion": {
+          "mood": 0.5,
+          "arousal": 0.6,
+          "stress": 0.5,
+          "energy": 0.6
+        }
+      },
+      "economy": {
+        "cash": 6146,
+        "deposit": 66448,
+        "debt": 0,
+        "creditLimit": 3364,
+        "income": 4182,
+        "essentialExpenseRatio": 0.6,
+        "savingsRatio": 0.2
+      }
+    },
+    {
+      "public": {
+        "id": "a094",
+        "name": "卫华1",
+        "age": 58,
+        "gender": "F",
+        "occupation": "保姆",
+        "education": "中专",
+        "kinship": [
+          "a019",
+          "a044",
+          "a069"
+        ],
+        "socialTags": [
+          "service"
+        ],
+        "face": 36,
+        "prestige": 41,
+        "reputation": 39,
+        "communityId": "village",
+        "workplaceId": "home",
+        "hobbies": [
+          "散步"
+        ],
+        "habits": [
+          "早起"
+        ]
+      },
+      "private": {
+        "bigFive": {
+          "O": 0.5,
+          "C": 0.5,
+          "E": 0.4,
+          "A": 0.6,
+          "N": 0.5
+        },
+        "emotion": {
+          "mood": 0.6,
+          "arousal": 0.4,
+          "stress": 0.4,
+          "energy": 0.5
+        }
+      },
+      "economy": {
+        "cash": 11829,
+        "deposit": 27919,
+        "debt": 0,
+        "creditLimit": 22894,
+        "income": 2810,
+        "essentialExpenseRatio": 0.4,
+        "savingsRatio": 0.2
+      }
+    },
+    {
+      "public": {
+        "id": "a095",
+        "name": "朱磊",
+        "age": 32,
+        "gender": "M",
+        "occupation": "小卖部老板",
+        "education": "高中",
+        "kinship": [
+          "a020",
+          "a045",
+          "a070"
+        ],
+        "socialTags": [
+          "merchant",
+          "host"
+        ],
+        "face": 48,
+        "prestige": 42,
+        "reputation": 45,
+        "communityId": "village",
+        "workplaceId": "shop",
+        "hobbies": [
+          "下棋"
+        ],
+        "habits": [
+          "少言"
+        ]
+      },
+      "private": {
+        "bigFive": {
+          "O": 0.4,
+          "C": 0.5,
+          "E": 0.7,
+          "A": 0.5,
+          "N": 0.3
+        },
+        "emotion": {
+          "mood": 0.4,
+          "arousal": 0.3,
+          "stress": 0.2,
+          "energy": 0.7
+        }
+      },
+      "economy": {
+        "cash": 3528,
+        "deposit": 52924,
+        "debt": 4370,
+        "creditLimit": 10957,
+        "income": 4501,
+        "essentialExpenseRatio": 0.4,
+        "savingsRatio": 0.3
+      }
+    },
+    {
+      "public": {
+        "id": "a096",
+        "name": "朱勇",
+        "age": 61,
+        "gender": "M",
+        "occupation": "医生",
+        "education": "大专",
+        "kinship": [
+          "a021",
+          "a046",
+          "a071"
+        ],
+        "socialTags": [
+          "professional"
+        ],
+        "face": 76,
+        "prestige": 74,
+        "reputation": 75,
+        "communityId": "village",
+        "workplaceId": "clinic",
+        "hobbies": [
+          "种菜"
+        ],
+        "habits": [
+          "少言"
+        ]
+      },
+      "private": {
+        "bigFive": {
+          "O": 0.5,
+          "C": 0.4,
+          "E": 0.6,
+          "A": 0.7,
+          "N": 0.1
+        },
+        "emotion": {
+          "mood": 0.6,
+          "arousal": 0.5,
+          "stress": 0.4,
+          "energy": 0.5
+        }
+      },
+      "economy": {
+        "cash": 10917,
+        "deposit": 33244,
+        "debt": 0,
+        "creditLimit": 7902,
+        "income": 7743,
+        "essentialExpenseRatio": 0.6,
+        "savingsRatio": 0.2
+      }
+    },
+    {
+      "public": {
+        "id": "a097",
+        "name": "吕磊",
+        "age": 32,
+        "gender": "M",
+        "occupation": "司机",
+        "education": "初中",
+        "kinship": [
+          "a022",
+          "a047",
+          "a072"
+        ],
+        "socialTags": [
+          "neighbor"
+        ],
+        "face": 36,
+        "prestige": 41,
+        "reputation": 39,
+        "communityId": "village",
+        "workplaceId": "transport",
+        "hobbies": [
+          "种菜"
+        ],
+        "habits": [
+          "爱抽烟"
+        ]
+      },
+      "private": {
+        "bigFive": {
+          "O": 0.8,
+          "C": 0.7,
+          "E": 0.7,
+          "A": 0.8,
+          "N": 0.3
+        },
+        "emotion": {
+          "mood": 0.4,
+          "arousal": 0.4,
+          "stress": 0.4,
+          "energy": 0.5
+        }
+      },
+      "economy": {
+        "cash": 1047,
+        "deposit": 76019,
+        "debt": 0,
+        "creditLimit": 17203,
+        "income": 4195,
+        "essentialExpenseRatio": 0.6,
+        "savingsRatio": 0.2
+      }
+    },
+    {
+      "public": {
+        "id": "a098",
+        "name": "蒋华",
+        "age": 56,
+        "gender": "F",
+        "occupation": "退休干部",
+        "education": "中专",
+        "kinship": [
+          "a023",
+          "a048",
+          "a073"
+        ],
+        "socialTags": [
+          "authority",
+          "elder"
+        ],
+        "face": 77,
+        "prestige": 75,
+        "reputation": 76,
+        "communityId": "village",
+        "workplaceId": "home",
+        "hobbies": [
+          "下棋"
+        ],
+        "habits": [
+          "少言"
+        ]
+      },
+      "private": {
+        "bigFive": {
+          "O": 0.3,
+          "C": 0.4,
+          "E": 0.5,
+          "A": 0.2,
+          "N": 0.6
+        },
+        "emotion": {
+          "mood": 0.7,
+          "arousal": 0.2,
+          "stress": 0.3,
+          "energy": 0.6
+        }
+      },
+      "economy": {
+        "cash": 3957,
+        "deposit": 9553,
+        "debt": 7916,
+        "creditLimit": 13286,
+        "income": 4049,
+        "essentialExpenseRatio": 0.4,
+        "savingsRatio": 0.3
+      }
+    },
+    {
+      "public": {
+        "id": "a099",
+        "name": "尤磊",
+        "age": 53,
+        "gender": "M",
+        "occupation": "务农",
+        "education": "小学",
+        "kinship": [
+          "a024",
+          "a049",
+          "a074"
+        ],
+        "socialTags": [
+          "neighbor"
+        ],
+        "face": 57,
+        "prestige": 50,
+        "reputation": 54,
+        "communityId": "village",
+        "workplaceId": "farm",
+        "hobbies": [
+          "散步"
+        ],
+        "habits": [
+          "早起"
+        ]
+      },
+      "private": {
+        "bigFive": {
+          "O": 0.5,
+          "C": 0.3,
+          "E": 0.7,
+          "A": 0.8,
+          "N": 0.1
+        },
+        "emotion": {
+          "mood": 0.6,
+          "arousal": 0.3,
+          "stress": 0.2,
+          "energy": 0.8
+        }
+      },
+      "economy": {
+        "cash": 10891,
+        "deposit": 20734,
+        "debt": 0,
+        "creditLimit": 15821,
+        "income": 2485,
+        "essentialExpenseRatio": 0.4,
+        "savingsRatio": 0.3
+      }
+    },
+    {
+      "public": {
+        "id": "a100",
+        "name": "吕丽",
+        "age": 66,
+        "gender": "F",
+        "occupation": "退休干部",
+        "education": "小学",
+        "kinship": [
+          "a025",
+          "a050",
+          "a075"
+        ],
+        "socialTags": [
+          "authority",
+          "elder"
+        ],
+        "face": 55,
+        "prestige": 63,
+        "reputation": 59,
+        "communityId": "village",
+        "workplaceId": "home",
+        "hobbies": [
+          "散步"
+        ],
+        "habits": [
+          "爱抽烟"
+        ]
+      },
+      "private": {
+        "bigFive": {
+          "O": 0.5,
+          "C": 0.6,
+          "E": 0.3,
+          "A": 0.3,
+          "N": 0.4
+        },
+        "emotion": {
+          "mood": 0.6,
+          "arousal": 0.4,
+          "stress": 0.5,
+          "energy": 0.6
+        }
+      },
+      "economy": {
+        "cash": 3908,
+        "deposit": 55356,
+        "debt": 0,
+        "creditLimit": 8106,
+        "income": 4565,
+        "essentialExpenseRatio": 0.6,
+        "savingsRatio": 0.2
+      }
+    }
+  ]
+}

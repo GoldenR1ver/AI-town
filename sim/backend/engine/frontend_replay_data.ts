@@ -631,20 +631,84 @@ function loadConversations(
   runDir: string,
   checkpoints: ReplayCheckpoint[],
   engine: ReplayEngine,
+  lite = false,
 ): ConversationRecord[] {
   const fromTable = readJsonLines<ConversationRecord>(
     join(runDir, "conversation_table.jsonl"),
   );
-  if (fromTable.length) return fromTable;
-  if (!checkpoints.length) return [];
-  const last = checkpoints[checkpoints.length - 1]!;
-  return engine.seekTo(last.simTime).conversations ?? [];
+  const raw =
+    fromTable.length > 0
+      ? fromTable
+      : checkpoints.length
+        ? engine.seekTo(checkpoints[checkpoints.length - 1]!.simTime).conversations ?? []
+        : [];
+  if (!lite) return raw;
+  // Keep transcript text; drop bulky BDIE/relationship bags for frontend size.
+  return raw.map((conv) => ({
+    ...conv,
+    bdieImpact: {},
+    relationshipDeltas: [],
+  }));
 }
 
 export interface BuildReplayDataOptions {
   runId: string;
   runsRoot: string;
   dataDir: string;
+  /**
+   * Lite export for 50–100 agent runs: subsample checkpoints, drop bulky logs,
+   * slim agent private bags so JSON stays under V8 string limits.
+   */
+  lite?: boolean;
+  /** Keep every Nth snapshot (by sorted key order). Default 1; lite default 7. */
+  checkpointStride?: number;
+}
+
+const ESSENTIAL_LOG_TYPES = new Set([
+  "gift.given",
+  "gift.replied",
+  "gift.defaulted",
+  "relationship.delta",
+  "economy.monthly",
+  "dialogue.start",
+  "dialogue.message",
+  "dialogue.end",
+  "experiment.start",
+  "experiment.end",
+]);
+
+function slimAgentForExport(agent: AgentState): AgentState {
+  const beliefs = agent.private.beliefs ?? {};
+  const desires = agent.private.desires ?? {};
+  const beliefKeys = Object.keys(beliefs);
+  const desireEntries = Object.entries(desires);
+  // Keep lightweight count/sum stubs for focus-mode trajectory charts.
+  return {
+    ...agent,
+    private: {
+      ...agent.private,
+      beliefs: beliefKeys.length
+        ? ({ __count: beliefKeys.length } as AgentState["private"]["beliefs"])
+        : {},
+      desires: desireEntries.length
+        ? ({
+            __count: desireEntries.length,
+            __sum: desireEntries.reduce((sum, [, value]) => sum + value, 0),
+          } as AgentState["private"]["desires"])
+        : {},
+      intentions: Object.fromEntries(
+        Object.entries(agent.private.intentions ?? {}).slice(0, 12),
+      ),
+    },
+  };
+}
+
+function slimCheckpoint(cp: ReplayCheckpoint): ReplayCheckpoint {
+  const agents: ReplayCheckpoint["agents"] = {};
+  for (const [id, agent] of Object.entries(cp.agents)) {
+    agents[id] = slimAgentForExport(agent);
+  }
+  return { ...cp, agents };
 }
 
 export function buildFrontendReplayData(
@@ -652,27 +716,101 @@ export function buildFrontendReplayData(
 ): ReplayData {
   const engine = new ReplayEngine();
   engine.loadExperiment(options.runId, options.runsRoot);
-  const logs = engine.allLogs().sort((a, b) => a.seq - b.seq);
-  if (!logs.length) throw new Error(`run ${options.runId} has no event_log.jsonl entries`);
+  const allLogs = engine.allLogs().sort((a, b) => a.seq - b.seq);
+  if (!allLogs.length) throw new Error(`run ${options.runId} has no event_log.jsonl entries`);
 
-  const checkpoints = engine.listSnapshotKeys().map((key) => {
-    const [dayText, slot] = key.slice(1).split("-") as [
-      string,
-      SimTime["slot"],
-    ];
-    return snapshotToReplayCheckpoint(
-      engine.seekTo({ day: Number(dayText), slot }),
-    );
+  const keys = engine.listSnapshotKeys().sort((a, b) => {
+    const pa = a.match(/D(\d+)-(AM|PM|EVE)/);
+    const pb = b.match(/D(\d+)-(AM|PM|EVE)/);
+    if (!pa || !pb) return a.localeCompare(b);
+    const sa = { AM: 0, PM: 1, EVE: 2 }[pa[2] as "AM" | "PM" | "EVE"] ?? 0;
+    const sb = { AM: 0, PM: 1, EVE: 2 }[pb[2] as "AM" | "PM" | "EVE"] ?? 0;
+    return Number(pa[1]) - Number(pb[1]) || sa - sb;
   });
+
+  // Probe agent count from first snapshot
+  const firstKey = keys[0]!;
+  const [fd, fs] = firstKey.slice(1).split("-") as [string, SimTime["slot"]];
+  const firstSnap = engine.seekTo({ day: Number(fd), slot: fs });
+  const agentCount = Object.keys(firstSnap.agents ?? {}).length;
+  const lite =
+    options.lite ??
+    (process.env.EXPORT_LITE === "1" ||
+      process.env.EXPORT_LITE === "true" ||
+      agentCount >= 50);
+  const stride = Math.max(
+    1,
+    options.checkpointStride ??
+      (process.env.CHECKPOINT_STRIDE
+        ? Number(process.env.CHECKPOINT_STRIDE)
+        : lite
+          ? 7
+          : 1),
+  );
+
+  const keepIdx = new Set<number>();
+  keepIdx.add(0);
+  keepIdx.add(keys.length - 1);
+  for (let i = 0; i < keys.length; i += stride) keepIdx.add(i);
+  // Prefer EVE samples when striding
+  if (lite) {
+    for (let i = 0; i < keys.length; i++) {
+      if (keys[i]!.endsWith("-EVE") && i % stride === 0) keepIdx.add(i);
+    }
+  }
+
+  const checkpoints = [...keepIdx]
+    .sort((a, b) => a - b)
+    .map((i) => {
+      const key = keys[i]!;
+      const [dayText, slot] = key.slice(1).split("-") as [
+        string,
+        SimTime["slot"],
+      ];
+      const cp = snapshotToReplayCheckpoint(
+        engine.seekTo({ day: Number(dayText), slot }),
+      );
+      return lite ? slimCheckpoint(cp) : cp;
+    });
+
   const story = normalizeStory(
     readJsonIfExists(join(options.runsRoot, options.runId, "demo_report.json")),
   );
   const initialState = initialReplayState(
     options.dataDir,
-    logs[0]!.simTime,
+    allLogs[0]!.simTime,
     checkpoints[0] ? Object.keys(checkpoints[0].agents) : undefined,
   );
-  const steps = buildSemanticSteps(logs, initialState.agents, story);
+  if (lite) {
+    for (const id of Object.keys(initialState.agents)) {
+      initialState.agents[id] = slimAgentForExport(initialState.agents[id]!);
+    }
+  }
+
+  const stepsFull = buildSemanticSteps(allLogs, initialState.agents, story);
+  // Lite: keep narrative/gift/dialogue steps; drop high-volume PET/system noise.
+  const steps = lite
+    ? stepsFull.filter((step) =>
+        [
+          "intro",
+          "time",
+          "event",
+          "dialogue_start",
+          "dialogue_message",
+          "dialogue_result",
+          "gift",
+          "event_result",
+          "checkpoint",
+          "intent",
+        ].includes(step.kind),
+      )
+    : stepsFull;
+
+  // Lite: only embed gift/relation/dialogue/economy logs (not full 80k-line PET stream).
+  const logs = lite
+    ? allLogs.filter((log) => ESSENTIAL_LOG_TYPES.has(log.type))
+    : allLogs;
+
   const metricsValue = readJsonIfExists(
     join(options.runsRoot, options.runId, "metrics.json"),
   );
@@ -693,6 +831,7 @@ export function buildFrontendReplayData(
       join(options.runsRoot, options.runId),
       checkpoints,
       engine,
+      lite,
     ),
     story,
     metrics,

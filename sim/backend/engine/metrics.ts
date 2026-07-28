@@ -22,6 +22,14 @@ export interface ExperimentMetrics {
   dialogues_completed: number;
   events_completed: number;
   agent_count: number;
+  /** Share of gift inflow value received by top-10% prestige agents. */
+  gift_inflow_top10_prestige_share: number;
+  /** Share of gift inflow value received by top-10% wealth agents. */
+  gift_inflow_top10_wealth_share: number;
+  /** Pearson-like correlation between prestige and gift inflow value. */
+  gift_prestige_corr: number;
+  /** Correlation between wealth (cash+deposit) and gift inflow. */
+  gift_wealth_corr: number;
   runId?: string;
   variant?: string;
   label?: string;
@@ -44,6 +52,37 @@ function gini(values: number[]): number {
   return sum / (2 * n * n * mean);
 }
 
+function pearson(xs: number[], ys: number[]): number {
+  const n = xs.length;
+  if (n < 2) return 0;
+  const mx = xs.reduce((s, v) => s + v, 0) / n;
+  const my = ys.reduce((s, v) => s + v, 0) / n;
+  let num = 0;
+  let dx = 0;
+  let dy = 0;
+  for (let i = 0; i < n; i++) {
+    const a = xs[i]! - mx;
+    const b = ys[i]! - my;
+    num += a * b;
+    dx += a * a;
+    dy += b * b;
+  }
+  const den = Math.sqrt(dx * dy);
+  return den === 0 ? 0 : num / den;
+}
+
+function topShare(values: number[], scores: number[], fraction = 0.1): number {
+  const n = values.length;
+  if (n === 0) return 0;
+  const total = values.reduce((s, v) => s + v, 0);
+  if (total <= 0) return 0;
+  const idx = [...Array(n).keys()].sort((i, j) => scores[j]! - scores[i]!);
+  const k = Math.max(1, Math.ceil(n * fraction));
+  let sum = 0;
+  for (let i = 0; i < k; i++) sum += values[idx[i]!]!;
+  return sum / total;
+}
+
 function metricsFromLedger(
   snap: Pick<WorldSnapshot, "giftLedger" | "relationships" | "agents" | "metrics">,
 ): ExperimentMetrics {
@@ -62,6 +101,13 @@ function metricsFromLedger(
     edges.length === 0 ? 0 : edges.reduce((s, e) => s + e.intimacy, 0) / edges.length;
   const density = n <= 1 ? 0 : edges.length / (n * (n - 1));
   const prestiges = agents.map((id) => snap.agents[id]?.public.prestige ?? 50);
+  const wealths = agents.map((id) => {
+    const e = snap.agents[id]?.economy;
+    return (e?.cash ?? 0) + (e?.deposit ?? 0);
+  });
+  const inflow = agents.map((id) =>
+    gifts.filter((g) => g.to === id).reduce((s, g) => s + g.adjustedValue, 0),
+  );
   const directedPairs = new Set(edges.map((e) => `${e.from}->${e.to}`));
   let asymmetric = 0;
   for (const e of edges) {
@@ -84,6 +130,10 @@ function metricsFromLedger(
     dialogues_completed: snap.metrics.dialoguesCompleted,
     events_completed: snap.metrics.eventsCompleted,
     agent_count: n,
+    gift_inflow_top10_prestige_share: topShare(inflow, prestiges, 0.1),
+    gift_inflow_top10_wealth_share: topShare(inflow, wealths, 0.1),
+    gift_prestige_corr: pearson(prestiges, inflow),
+    gift_wealth_corr: pearson(wealths, inflow),
   };
 }
 

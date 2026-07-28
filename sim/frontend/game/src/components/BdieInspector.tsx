@@ -33,7 +33,19 @@ function changedNumericKeys(
 }
 
 function uniqueKeys(...records: Array<Record<string, unknown>>): string[] {
-  return [...new Set(records.flatMap((record) => Object.keys(record)))];
+  return [
+    ...new Set(
+      records
+        .flatMap((record) => Object.keys(record))
+        .filter((key) => !key.startsWith("__")),
+    ),
+  ];
+}
+
+function bagSize(record: Record<string, unknown>): number {
+  const meta = record.__count;
+  if (typeof meta === "number") return meta;
+  return Object.keys(record).filter((key) => !key.startsWith("__")).length;
 }
 
 function deltaLabel(current: number, previous: number): string {
@@ -53,12 +65,19 @@ function NumericStateList({
 }) {
   const changed = changedNumericKeys(values, previous);
   const entries = Object.entries(values)
+    .filter(([key]) => !key.startsWith("__"))
     .sort((left, right) => {
       const changedOrder = Number(changed.has(right[0])) - Number(changed.has(left[0]));
       return changedOrder || right[1] - left[1];
     })
     .slice(0, 7);
-  if (!entries.length) return <p className="empty-state">{emptyText}</p>;
+  if (!entries.length) {
+    const size = bagSize(values);
+    if (size > 0) {
+      return <p className="empty-state">详情已精简（共 {size} 项）</p>;
+    }
+    return <p className="empty-state">{emptyText}</p>;
+  }
   return (
     <div className="state-bars">
       {entries.map(([key, value]) => {
@@ -274,7 +293,7 @@ export function BdieInspector({
         <div className="bdie-section">
           <div className="section-title">
             <h3>B · Beliefs</h3>
-            <span>{Object.keys(agent.private.beliefs).length}</span>
+            <span>{bagSize(agent.private.beliefs)}</span>
           </div>
           <NumericStateList
             values={agent.private.beliefs}
@@ -285,7 +304,7 @@ export function BdieInspector({
         <div className="bdie-section">
           <div className="section-title">
             <h3>D · Desires</h3>
-            <span>{Object.keys(agent.private.desires).length}</span>
+            <span>{bagSize(agent.private.desires)}</span>
           </div>
           <NumericStateList
             values={agent.private.desires}

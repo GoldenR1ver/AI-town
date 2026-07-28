@@ -1,0 +1,14 @@
+{
+  "presetId": "contrast_cell",
+  "label": "对照实验单格默认（由 run_contrast 覆盖 variant/seed/runId）",
+  "variant": "baseline",
+  "endDay": 30,
+  "seed": 42,
+  "agentScale": 16,
+  "llmPreference": "mock",
+  "enableDialogue": true,
+  "dialogueMaxTurns": 4,
+  "enableScheduledEvents": true,
+  "enableRandomSocialEvents": true,
+  "demoStory": false
+}

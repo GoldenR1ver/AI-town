@@ -10,6 +10,7 @@ import type { LogWriter } from "../../log/log_writer.js";
 import type { RuleEngine, RuleResult } from "../../rules/rule_engine.js";
 import type { WorldState } from "../../store/world_state.js";
 import { CognitiveTreeManager } from "../../cognition/cognitive_tree.js";
+import { derivePersonality } from "../../cognition/personality.js";
 import { RelationshipGraph } from "../relationship/graph.js";
 import { RelationshipSummarizer } from "../relationship/summarizer.js";
 import { PersonalEventTableManager } from "../event/pet.js";
@@ -113,10 +114,25 @@ export class DialogueController {
         speakerId,
         text,
       );
+      const speaker = args.world.agents[speakerId];
       this.log?.append(
         args.time,
         "dialogue.message",
-        { cid, ...message, style: built.style },
+        {
+          cid,
+          ...message,
+          style: built.style,
+          // Discourse-alignment snapshot for offline checks.
+          speakerEmotion: speaker?.private.emotion
+            ? { ...speaker.private.emotion }
+            : undefined,
+          speakerPersonality: speaker
+            ? {
+                introversion: derivePersonality(speaker).introversion,
+                spitefulness: derivePersonality(speaker).spitefulness,
+              }
+            : undefined,
+        },
         {
           affectedAgents: participants,
           affectedEids: parsed.mentionedEids,
@@ -157,22 +173,25 @@ export class DialogueController {
     }
 
     // P3-05: archive dialogue → relation cognitive tree; update edge interactionSummary.
+    const cognitionEnabled = args.world.config.enableCognitiveTree !== false;
     const cognition = new CognitiveTreeManager(args.world.cognitiveTrees, this.log);
     let promotions = 0;
     for (const from of participants) {
       for (const to of participants) {
         if (from === to) continue;
-        const impact = summary.bdieImpact[from];
-        const result = cognition.archiveDialogue({
-          agentId: from,
-          scope: to,
-          cid,
-          summary: summary.summary,
-          keyFacts: summary.keyFacts,
-          influenceScore: impact?.influenceScore ?? messages.length,
-          time: args.time,
-        });
-        if (result.promoted) promotions += 1;
+        if (cognitionEnabled) {
+          const impact = summary.bdieImpact[from];
+          const result = cognition.archiveDialogue({
+            agentId: from,
+            scope: to,
+            cid,
+            summary: summary.summary,
+            keyFacts: summary.keyFacts,
+            influenceScore: impact?.influenceScore ?? messages.length,
+            time: args.time,
+          });
+          if (result.promoted) promotions += 1;
+        }
 
         const graph = new RelationshipGraph(args.world.relationships);
         const edge = graph.getEdge(from, to);
@@ -189,8 +208,10 @@ export class DialogueController {
         }
       }
     }
-    args.world.cognitiveTrees = cognition.all();
-    args.world.metrics.cognitivePromotions += promotions;
+    if (cognitionEnabled) {
+      args.world.cognitiveTrees = cognition.all();
+      args.world.metrics.cognitivePromotions += promotions;
+    }
 
     const record: ConversationRecord = {
       cid,

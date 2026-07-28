@@ -4,7 +4,8 @@ import { useEffect, useRef } from "react";
 interface EventTimelineProps {
   steps: ReplayStep[];
   currentIndex: number;
-  onJump: (index: number) => void;
+  onJump: (stepIndex: number) => void;
+  focusName?: string;
 }
 
 const kindLabels: Record<ReplayStepKind, string> = {
@@ -25,11 +26,15 @@ export function EventTimeline({
   steps,
   currentIndex,
   onJump,
+  focusName,
 }: EventTimelineProps) {
   const activeRef = useRef<HTMLButtonElement>(null);
   useEffect(() => {
     activeRef.current?.scrollIntoView({ block: "center", behavior: "smooth" });
   }, [currentIndex]);
+
+  const position = steps.findIndex((step) => step.index === currentIndex);
+  const displayPos = position >= 0 ? position + 1 : "—";
 
   let previousAct: number | undefined;
   return (
@@ -38,12 +43,18 @@ export function EventTimeline({
         <div>
           <span className="eyebrow">CHRONICLE</span>
           <h2>事件时间轴</h2>
+          {focusName ? (
+            <p className="timeline-focus-hint">聚焦 · {focusName}</p>
+          ) : null}
         </div>
         <span className="counter-badge">
-          {currentIndex + 1}/{steps.length}
+          {displayPos}/{steps.length}
         </span>
       </div>
       <div className="timeline-scroll" role="list" aria-label="回放步骤">
+        {!steps.length ? (
+          <p className="empty-state">没有与此人相关的事件</p>
+        ) : null}
         {steps.map((step) => {
           const showAct = step.act != null && step.act !== previousAct;
           previousAct = step.act;

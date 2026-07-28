@@ -10,6 +10,11 @@ import { GiftLedgerManager } from "./ledger.js";
 import { AgentDecisionEngine } from "../../cognition/decision.js";
 import { round2 } from "../../../shared/format.js";
 import { DEFAULT_MIN_GIFT_NORMS, resolveMinGiftNorm } from "./norms.js";
+import {
+  shouldPreferRepay,
+  windowProximityUrgency,
+} from "../../cognition/gift_debt_align.js";
+import { slotDistance } from "./flow_effects.js";
 
 export interface GiftStrategyProposal {
   targetAgentId: string;
@@ -43,7 +48,11 @@ export interface DebtActionBias {
 }
 
 /** R6: giftDebt / open ledger modulate action tendency. */
-export function computeDebtActionBias(world: WorldState, agentId: string): DebtActionBias {
+export function computeDebtActionBias(
+  world: WorldState,
+  agentId: string,
+  now: SimTime = { day: 1, slot: "AM" },
+): DebtActionBias {
   const ledger = new GiftLedgerManager(world.giftLedger);
   const openDebts = ledger.getOpenDebts(agentId);
   const openDebtTotal = openDebts.reduce((s, g) => s + g.adjustedValue, 0);
@@ -58,15 +67,27 @@ export function computeDebtActionBias(world: WorldState, agentId: string): DebtA
     .reduce((s, e) => s + Math.max(0, e.giftDebt), 0);
 
   const income = world.agents[agentId]?.economy.income ?? 1;
-  const repayUrgency = Math.min(1, openDebtTotal / Math.max(200, income * 0.15));
+  const maxProx = openDebts.reduce(
+    (m, g) => Math.max(m, windowProximityUrgency(g, now)),
+    0,
+  );
+  const amountUrgency = Math.min(1, openDebtTotal / Math.max(200, income * 0.15));
+  // Alignment: window proximity dominates over raw amount.
+  let repayUrgency = Math.min(1, Math.max(amountUrgency, maxProx * 0.95));
+  if (shouldPreferRepay(world, agentId, now)) {
+    repayUrgency = Math.max(repayUrgency, 0.72);
+  }
   const giftWillingness = Math.max(
-    0.15,
-    1 - 0.5 * repayUrgency - 0.2 * Math.min(1, outgoingDebt / Math.max(400, income * 0.2)),
+    0.08,
+    1 -
+      0.55 * repayUrgency -
+      0.2 * Math.min(1, outgoingDebt / Math.max(400, income * 0.2)) -
+      (maxProx >= 0.85 ? 0.2 : 0),
   );
 
   const preferredRepayTargets = openDebts
     .slice()
-    .sort((a, b) => a.replyWindowEnd.day - b.replyWindowEnd.day)
+    .sort((a, b) => slotDistance(now, a.replyWindowEnd) - slotDistance(now, b.replyWindowEnd))
     .map((g) => g.from);
 
   const preferredGiftTargets = [
@@ -87,7 +108,7 @@ export function computeDebtActionBias(world: WorldState, agentId: string): DebtA
     openDebtTotal,
     owedToUsTotal,
     formula:
-      "repayUrgency=min(1,openDebt/income*0.15); giftWillingness=1-0.5*repayUrgency-0.2*edgeDebtPressure",
+      "repayUrgency=max(amount,windowProx); giftWillingness↓ when 欠情临窗",
   };
 }
 
@@ -117,9 +138,13 @@ export class GiftStrategyLLM {
     const agent = world.agents[fromAgentId];
     if (!agent) return null;
 
-    const bias = computeDebtActionBias(world, fromAgentId);
-    if (bias.giftWillingness < 0.2 && !opts.preferredTarget && !opts.occasion) {
-      // High debt pressure: skip voluntary gifts (R6).
+    const bias = computeDebtActionBias(world, fromAgentId, time);
+    // Alignment: near-window 欠情 → skip voluntary (non-occasion) gifts.
+    if (
+      (bias.giftWillingness < 0.2 || shouldPreferRepay(world, fromAgentId, time)) &&
+      !opts.preferredTarget &&
+      !opts.occasion
+    ) {
       return null;
     }
 
@@ -263,7 +288,7 @@ export class GiftStrategyLLM {
     opts: { occasion?: string; minGiftNorm?: number },
   ): Promise<GiftStrategyProposal | null> {
     const self = world.agents[fromAgentId]!;
-    const bias = computeDebtActionBias(world, fromAgentId);
+    const bias = computeDebtActionBias(world, fromAgentId, time);
     const brief = this.decisions.buildBrief(world, fromAgentId, {
       occasion: opts.occasion,
       preferredTarget: base.targetAgentId,

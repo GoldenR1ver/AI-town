@@ -1,0 +1,61 @@
+{
+  "templateId": "private.social_visit",
+  "category": "private",
+  "subType": "social_visit_home",
+  "visibility": "private",
+  "trigger": { "method": "agent_driven" },
+  "roleSlots": [
+    {
+      "slotId": "initiator",
+      "label": "串门人",
+      "cardinality": 1,
+      "required": true,
+      "resolver": { "type": "self" },
+      "occupancy": "required"
+    },
+    {
+      "slotId": "partner",
+      "label": "主人",
+      "cardinality": 1,
+      "required": true,
+      "resolver": { "type": "relationship", "ofSlot": "initiator", "metric": "affection", "topK": 6 },
+      "occupancy": "required"
+    }
+  ],
+  "goalTemplates": [
+    {
+      "goalTemplateId": "attend_init",
+      "assignedToSlot": "initiator",
+      "goalType": "attend",
+      "params": {},
+      "priority": 40,
+      "optional": false,
+      "descriptionTemplate": "去串门"
+    },
+    {
+      "goalTemplateId": "attend_partner",
+      "assignedToSlot": "partner",
+      "goalType": "attend",
+      "params": {},
+      "priority": 40,
+      "optional": false,
+      "descriptionTemplate": "接待串门"
+    }
+  ],
+  "dialogue": { "mode": "dialogue", "minParticipants": 2, "maxParticipants": 2, "maxTurns": 4, "forced": false },
+  "locationType": "home",
+  "durationSlots": 1,
+  "contentSummaryTemplate": "{{initiator.name}}去{{partner.name}}家串门",
+  "params": {
+    "randomSocial": true,
+    "socialLabel": "串门",
+    "socialEffects": {
+      "moodDelta": 0.05,
+      "stressDelta": -0.03,
+      "affectionDelta": 2,
+      "intimacyDelta": 1.5,
+      "trustDelta": 1
+    }
+  },
+  "basePriority": 35
+}

@@ -21,11 +21,15 @@ export class RelationshipSummarizer {
         ? `对${otherName}尚有礼债约¥${round2(edge.giftDebt).toFixed(2)}`
         : "无礼债";
     const warmth =
-      edge.affection >= 60
-        ? "关系较热络"
-        : edge.affection >= 35
-          ? "关系平常"
-          : "关系偏冷";
+      (edge.dislike ?? 0) >= 55
+        ? "明显讨厌对方"
+        : (edge.dislike ?? 0) >= 35
+          ? "对对方有些反感"
+          : edge.affection >= 60
+            ? "关系较热络"
+            : edge.affection >= 35
+              ? "关系平常"
+              : "关系偏冷";
     const trustWord =
       edge.trust >= 70 ? "高度信任" : edge.trust >= 40 ? "基本信任" : "信任不足";
     const basis = edge.socialBasis;
@@ -35,7 +39,7 @@ export class RelationshipSummarizer {
     return [
       `${selfName}→${otherName}（${basis}/${axisLabel}）`,
       `${trustWord} trust=${round2(edge.trust).toFixed(2)}`,
-      `亲密=${round2(edge.intimacy).toFixed(2)} 好感=${round2(edge.affection).toFixed(2)}`,
+      `亲密=${round2(edge.intimacy).toFixed(2)} 好感=${round2(edge.affection).toFixed(2)} 讨厌=${round2(edge.dislike ?? 0).toFixed(2)}`,
       `互惠分=${round2(edge.reciprocityScore).toFixed(2)}；${debt}`,
       warmth,
       tip,

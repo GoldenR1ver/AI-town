@@ -213,15 +213,20 @@ function main(): void {
     } else fail("P3.snapshot.cognition", `nodes=${allNodes.length}, relation=0`);
   } else fail("P3.snapshot.cognition", "cognitiveTrees missing");
 
-  // Receiver (host a01) owes repay Intentions after guests gift.
-  const a01 = snap.agents.a01;
-  const repayKeys = Object.keys(a01?.private.intentions ?? {}).filter((k) =>
-    k.startsWith("repay:"),
-  );
-  if (repayKeys.length >= 1) {
-    pass("P3-07.intention", `host repay intentions=${repayKeys.length}`);
-  } else fail("P3-07.intention", "no repay intention on gift receiver");
-
+  // Receiver of reciprocal probe gift (a07) should hold repay Intention before window ends.
+  const snapPmPath = join(runDir, "snapshots", "D1-PM.json");
+  if (existsSync(snapPmPath)) {
+    const snapPm = JSON.parse(readFileSync(snapPmPath, "utf8")) as WorldSnapshot;
+    const a07 = snapPm.agents.a07;
+    const repayKeys = Object.keys(a07?.private.intentions ?? {}).filter((k) =>
+      k.startsWith("repay:"),
+    );
+    if (repayKeys.length >= 1) {
+      pass("P3-07.intention", `a07 repay intentions=${repayKeys.length} (probe gift)`);
+    } else fail("P3-07.intention", "no repay intention on probe-gift receiver a07");
+  } else {
+    fail("P3-07.intention", "D1-PM snapshot missing");
+  }
   const finalSnapPath = join(runDir, "snapshots", "D2-AM.json");
   if (typesHas(logs, "gift.defaulted") && existsSync(finalSnapPath)) {
     const finalSnap = JSON.parse(readFileSync(finalSnapPath, "utf8")) as WorldSnapshot;

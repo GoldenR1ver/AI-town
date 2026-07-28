@@ -1,5 +1,5 @@
 /**
- * P5 experiment variant presets (E1–E4 contrast + baseline).
+ * P5 experiment variant presets (E1–E4 contrast + baseline + ablation A0–A3).
  */
 import type { ExperimentConfig, ExperimentVariant, RelationshipEdge } from "../../shared/types/index.js";
 
@@ -10,6 +10,13 @@ export interface VariantSpec {
   enableReciprocityRules: boolean;
   enableOccasionNorms: boolean;
   stripVertical?: boolean;
+  /** Ablation: personal attributes + B/D/I/E drive. */
+  enableBdieDrive?: boolean;
+  /** Ablation: cognitive tree. */
+  enableCognitiveTree?: boolean;
+  /** Ablation: unbounded cash → inflated gift expectations. */
+  infiniteEconomy?: boolean;
+  enableRandomSocialEvents?: boolean;
 }
 
 export const VARIANT_SPECS: Record<ExperimentVariant, VariantSpec> = {
@@ -77,7 +84,58 @@ export const VARIANT_SPECS: Record<ExperimentVariant, VariantSpec> = {
     enableReciprocityRules: true,
     enableOccasionNorms: true,
   },
+  A0_full: {
+    id: "A0_full",
+    label: "消融对照·全开",
+    enableGiftMemory: true,
+    enableReciprocityRules: true,
+    enableOccasionNorms: true,
+    enableBdieDrive: true,
+    enableCognitiveTree: true,
+    infiniteEconomy: false,
+    enableRandomSocialEvents: true,
+  },
+  A1_no_bdie: {
+    id: "A1_no_bdie",
+    label: "消融·无个人属性/BDIE",
+    enableGiftMemory: true,
+    enableReciprocityRules: true,
+    enableOccasionNorms: true,
+    enableBdieDrive: false,
+    enableCognitiveTree: true,
+    infiniteEconomy: false,
+    enableRandomSocialEvents: true,
+  },
+  A2_no_cognitive: {
+    id: "A2_no_cognitive",
+    label: "消融·无认知树",
+    enableGiftMemory: true,
+    enableReciprocityRules: true,
+    enableOccasionNorms: true,
+    enableBdieDrive: true,
+    enableCognitiveTree: false,
+    infiniteEconomy: false,
+    enableRandomSocialEvents: true,
+  },
+  A3_infinite_economy: {
+    id: "A3_infinite_economy",
+    label: "消融·无限资金",
+    enableGiftMemory: true,
+    enableReciprocityRules: true,
+    enableOccasionNorms: true,
+    enableBdieDrive: true,
+    enableCognitiveTree: true,
+    infiniteEconomy: true,
+    enableRandomSocialEvents: true,
+  },
 };
+
+export const ABLATION_VARIANTS: ExperimentVariant[] = [
+  "A0_full",
+  "A1_no_bdie",
+  "A2_no_cognitive",
+  "A3_infinite_economy",
+];
 
 export function resolveVariant(raw?: string): ExperimentVariant {
   const v = (raw ?? "baseline") as ExperimentVariant;
@@ -95,6 +153,8 @@ export function buildConfig(opts: {
   enableScheduledEvents?: boolean;
   enableDialogue?: boolean;
   dialogueMaxTurns?: number;
+  enableRandomSocialEvents?: boolean;
+  maxRandomSocialPerSlot?: number;
 }): ExperimentConfig {
   const spec = VARIANT_SPECS[opts.variant];
   return {
@@ -111,6 +171,13 @@ export function buildConfig(opts: {
     enableDialogue: opts.enableDialogue,
     dialogueMaxTurns: opts.dialogueMaxTurns,
     llmMode: opts.llmMode,
+    variant: opts.variant,
+    enableBdieDrive: spec.enableBdieDrive ?? true,
+    enableCognitiveTree: spec.enableCognitiveTree ?? true,
+    infiniteEconomy: spec.infiniteEconomy ?? false,
+    enableRandomSocialEvents:
+      opts.enableRandomSocialEvents ?? spec.enableRandomSocialEvents ?? true,
+    maxRandomSocialPerSlot: opts.maxRandomSocialPerSlot,
   };
 }
 

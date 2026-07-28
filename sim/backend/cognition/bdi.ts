@@ -6,6 +6,8 @@ import type {
   PrivateState,
   SimTime,
 } from "../../shared/types/index.js";
+import { slotDistance } from "../systems/gift/flow_effects.js";
+import { windowProximityUrgency } from "./gift_debt_align.js";
 
 /** Sync Belief from a PET row (B ← PET). */
 export function syncBeliefFromPet(
@@ -88,11 +90,15 @@ export function syncRepayIntentionsFromLedger(
 ): { next: PrivateState; added: string[]; removed: string[] } {
   const intentions = { ...privateState.intentions };
   const desires = { ...privateState.desires };
+  const beliefs = { ...privateState.beliefs };
   const added: string[] = [];
   const removed: string[] = [];
 
   const pendingOwed = ledger.filter(
-    (g) => g.to === agentId && g.status === "pending_reply",
+    (g) =>
+      g.to === agentId &&
+      g.status === "pending_reply" &&
+      g.replyRequired !== false,
   );
   const liveKeys = new Set(pendingOwed.map((g) => `repay:${g.gid}`));
 
@@ -107,7 +113,16 @@ export function syncRepayIntentionsFromLedger(
   for (const g of pendingOwed) {
     const key = `repay:${g.gid}`;
     const due = isDue(now, g.replyWindowEnd);
-    const priority = due ? 95 : 80;
+    const slotsLeft = slotDistance(now, g.replyWindowEnd);
+    const prox = windowProximityUrgency(g, now);
+    // Alignment: near-window debts become top intentions (95–99).
+    const priority = due
+      ? 99
+      : slotsLeft <= 3
+        ? 96
+        : slotsLeft <= 6
+          ? 90
+          : Math.round(78 + prox * 12);
     if (!intentions[key]) added.push(key);
     intentions[key] = {
       slotDue: { ...g.replyWindowEnd },
@@ -116,14 +131,21 @@ export function syncRepayIntentionsFromLedger(
         originalGid: g.gid,
         to: g.from,
         minValue: g.adjustedValue,
+        slotsLeft,
+        urgent: slotsLeft <= 3,
       },
       priority,
       eid: g.eid,
     };
     desires[`desire:${key}`] = priority / 100;
+    // Explicit belief for prompt / discourse alignment.
+    beliefs[`欠情未还:${g.from}`] = Math.max(
+      beliefs[`欠情未还:${g.from}`] ?? 0,
+      Math.min(1, 0.55 + prox * 0.4),
+    );
   }
 
-  return { next: { ...privateState, intentions, desires }, added, removed };
+  return { next: { ...privateState, beliefs, intentions, desires }, added, removed };
 }
 
 /**

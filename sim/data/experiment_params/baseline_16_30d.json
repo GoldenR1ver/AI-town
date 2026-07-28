@@ -1,0 +1,20 @@
+{
+  "presetId": "baseline_16_30d",
+  "label": "16人村庄 · 30天 · mock",
+  "description": "经典 16 人基线，适合快速回归与前端 demo。",
+  "variant": "baseline",
+  "endDay": 30,
+  "seed": 42,
+  "agentScale": 16,
+  "llmPreference": "mock",
+  "enableDialogue": true,
+  "dialogueMaxTurns": 4,
+  "enableScheduledEvents": true,
+  "enableRandomSocialEvents": true,
+  "maxRandomSocialPerSlot": 6,
+  "maxDialoguePerSlot": 8,
+  "snapshotEverySlots": 1,
+  "snapshotPretty": true,
+  "demoStory": "auto",
+  "queueDemoManuals": true
+}

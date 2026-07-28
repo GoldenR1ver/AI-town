@@ -312,7 +312,17 @@ export function applyDefaultSocialEffects(input: {
       severity.severity < 0.3 ? "lapse" : severity.severity < 0.6 ? "moderate" : "severe";
   }
 
-  const socialPenalty = computeSocialPenalty(severity, input.gift);
+  const socialPenalty = computeSocialPenalty(severity, input.gift, {
+    debtorOpenDebtCount: input.world.giftLedger.filter(
+      (g) =>
+        g.to === debtorId &&
+        (g.status === "pending_reply" || g.status === "defaulted") &&
+        g.replyRequired !== false,
+    ).length,
+    debtorPrestige: giver.public.prestige,
+    debtorSocialTags: giver.public.socialTags,
+    debtorOccupation: giver.public.occupation,
+  });
 
   // R28 vertical_down: mainly prestige, light trust handled in relation penalty
   if (edge.relationAxis === "vertical_down") {

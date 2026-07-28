@@ -1,0 +1,78 @@
+{
+  "templateId": "private.social_gossip",
+  "category": "private",
+  "subType": "social_gossip",
+  "visibility": "semi",
+  "trigger": { "method": "agent_driven" },
+  "roleSlots": [
+    {
+      "slotId": "initiator",
+      "label": "说坏话者",
+      "cardinality": 1,
+      "required": true,
+      "resolver": { "type": "self" },
+      "occupancy": "required"
+    },
+    {
+      "slotId": "partner",
+      "label": "听闲话者",
+      "cardinality": 1,
+      "required": true,
+      "resolver": { "type": "relationship", "ofSlot": "initiator", "metric": "affection", "topK": 5 },
+      "occupancy": "required"
+    },
+    {
+      "slotId": "target",
+      "label": "被说坏话对象",
+      "cardinality": 1,
+      "required": true,
+      "resolver": { "type": "neighbor", "ofSlot": "initiator", "topK": 8 },
+      "occupancy": "none"
+    }
+  ],
+  "goalTemplates": [
+    {
+      "goalTemplateId": "gossip_speak",
+      "assignedToSlot": "initiator",
+      "goalType": "spread_info",
+      "params": { "kind": "gossip" },
+      "priority": 40,
+      "optional": false
+    },
+    {
+      "goalTemplateId": "gossip_listen",
+      "assignedToSlot": "partner",
+      "goalType": "attend",
+      "params": {},
+      "priority": 30,
+      "optional": true
+    }
+  ],
+  "dialogue": {
+    "mode": "dialogue",
+    "minParticipants": 2,
+    "maxParticipants": 2,
+    "maxTurns": 3,
+    "forced": false
+  },
+  "locationType": "community",
+  "durationSlots": 1,
+  "contentSummaryTemplate": "{{initiator.name}}在{{partner.name}}面前提及对某人的不满",
+  "params": {
+    "randomSocial": true,
+    "socialLabel": "背后说坏话",
+    "gossip": true,
+    "socialEffects": {
+      "moodDelta": 0.02,
+      "stressDelta": -0.02,
+      "arousalDelta": 0.03,
+      "trustDelta": 0.4,
+      "affectionDelta": 0.9,
+      "intimacyDelta": 0.7,
+      "targetTrustDelta": -3.5,
+      "targetAffectionDelta": -4.5,
+      "targetDislikeDelta": 4
+    }
+  },
+  "basePriority": 28
+}
